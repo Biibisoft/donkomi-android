@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".LoginPage">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:padding="20dp">
+
+    <RelativeLayout
+        android:layout_marginTop="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+      <ImageView
+          android:id="@+id/dokomi_logo"
+          android:layout_width="70dp"
+          android:layout_height="70dp"
+          android:layout_centerInParent="true"
+          android:src="@drawable/donkomi_logo_ori" />
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/dokomi_logo"
+          android:padding="15dp"
+          android:text="Sign Into Your Account"
+          android:textAlignment="center"
+          android:textColor="@color/app_blue" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:textColorHint="@color/app_blue"
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/stroke_rectangle"
+        android:hint="Email"
+        android:padding="13dp"
+        android:textSize="15sp" />
+
+    <EditText
+        android:textColorHint="@color/app_blue"
+        android:id="@+id/passwords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/stroke_rectangle"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="13dp"
+        android:textSize="15sp" />
+    <!--  <Spinner-->
+    <!--      android:layout_marginTop="7dp"-->
+    <!--      android:background="@drawable/stroke_rectangle"-->
+    <!--      android:layout_width="match_parent"-->
+    <!--      android:layout_height="wrap_content" />-->
+    <!--  <EditText-->
+    <!--      android:inputType="number"-->
+    <!--      android:layout_marginTop="7dp"-->
+    <!--      android:id="@+id/phone_box"-->
+    <!--      android:background="@drawable/stroke_rectangle"-->
+    <!--      android:hint="Phone Number"-->
+    <!--      android:padding="13dp"-->
+    <!--      android:textSize="15sp"-->
+    <!--      android:layout_width="match_parent"-->
+    <!--      android:layout_height="wrap_content" />-->
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:orientation="vertical">
+
+    <Button
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_blue"
+        android:text="LOGIN" />
+
+    <Button
+        android:backgroundTint="@color/app_red"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/solid_rectangle"
+        android:text="USE GOOGLE" />
+
+
+  </LinearLayout>
+
+
+</RelativeLayout>
