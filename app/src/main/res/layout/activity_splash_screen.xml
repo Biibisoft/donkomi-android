@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashScreen">
+
+  <ImageView
+      android:id="@+id/dokomi_logo"
+      android:layout_width="150dp"
+      android:layout_height="100dp"
+      android:layout_centerInParent="true"
+      android:contentDescription="Donkomi Logo"
+      android:src="@drawable/donkomi_logo_ori"
+      tools:ignore="HardcodedText" />
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/dokomi_logo"
+      android:layout_marginTop="15dp"
+      android:text="DONKOMI"
+      android:textAlignment="center"
+      android:textColor="@color/app_blue"
+      android:textFontWeight="600"
+      android:textSize="18sp" />
+
+  <TextView
+      android:textFontWeight="500"
+      android:textColor="@color/app_blue"
+      android:layout_alignParentBottom="true"
+      android:padding="15dp"
+      android:textAlignment="center"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="14sp"
+      android:text="Place Your Orders Like The African Boss That You Are" />
+
+</RelativeLayout>
