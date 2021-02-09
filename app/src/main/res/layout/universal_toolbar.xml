@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+      <ImageView
+          android:layout_width="25dp"
+          android:layout_height="25dp"
+          android:layout_marginRight="10dp"
+          android:src="@drawable/ic_baseline_arrow_back_24"
+          app:tint="@color/app_blue" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Page Name"
+          android:textColor="@color/app_blue"
+          android:textSize="17sp" />
+
+
+
+
+    </LinearLayout>
+
+    <View
+        android:backgroundTint="@color/grey_shade_1"
+        android:background="@drawable/stroke_rectangle"
+        android:layout_width="match_parent"
+        android:layout_height="2dp" />
+  </LinearLayout>
+
+</merge>
