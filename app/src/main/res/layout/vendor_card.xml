@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <ImageView
+      android:id="@+id/product_icon"
+      android:adjustViewBounds="true"
+      android:scaleType="centerCrop"
+      android:src="@drawable/burger"
+      android:layout_width="70dp"
+      android:layout_height="70dp" />
+
+  <TextView
+      android:layout_centerVertical="true"
+      android:layout_marginLeft="10dp"
+      android:textSize="18sp"
+      android:layout_toRightOf="@id/product_icon"
+      android:text="McDonalds"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"  />
+
+  <ImageView
+      app:tint="@color/app_green"
+      android:layout_alignParentRight="true"
+      android:layout_centerVertical="true"
+      android:layout_marginRight="15dp"
+      android:src="@drawable/edit_icon"
+      android:layout_width="30dp"
+      android:layout_height="30dp" />
+  <View android:layout_width="match_parent"
+      android:backgroundTint = "@color/grey_shade_1"
+      android:background="@drawable/stroke_rectangle"
+      android:layout_below="@id/product_icon"
+      android:layout_height="2dp" />
+  <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      >
+
+  </LinearLayout>
+
+</RelativeLayout>

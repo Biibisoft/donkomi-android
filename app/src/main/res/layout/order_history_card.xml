@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+  <ImageView
+      android:id="@+id/product_icon"
+      android:layout_width="93dp"
+      android:layout_height="93dp"
+      android:adjustViewBounds="true"
+      android:scaleType="centerCrop"
+      android:src="@drawable/burger" />
+
+  <LinearLayout
+      android:id="@+id/inside_container"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_centerVertical="true"
+      android:layout_marginLeft="10dp"
+      android:layout_toRightOf="@id/product_icon"
+      android:orientation="vertical"
+      android:paddingTop="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order #4354"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="For Trip #1897"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Athena's Thrift Shop"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+
+
+          android:layout_centerVertical="true"
+          android:layout_marginRight="20dp"
+          android:layout_marginBottom="10dp"
+          android:text="Complete"
+          android:textColor="@color/app_green"
+          android:textSize="13sp"
+
+          />
+
+
+      <TextView
+          android:id="@+id/price"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:layout_marginRight="20dp"
+          android:layout_marginBottom="10dp"
+          android:fontFamily="@font/futura"
+          android:text="Rs 7,4659"
+          android:textColor="@color/app_red"
+          android:textFontWeight="700"
+          android:textSize="16sp"
+
+          />
+
+
+    </RelativeLayout>
+  </LinearLayout>
+
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="2dp"
+      android:layout_below="@id/inside_container"
+      android:background="@drawable/stroke_rectangle"
+      android:backgroundTint="@color/grey_shade_1" />
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+  </LinearLayout>
+
+</RelativeLayout>
