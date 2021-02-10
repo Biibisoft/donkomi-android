@@ -85,7 +85,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_green"
+        android:background="@color/app_blue"
         android:text="FINISH"
         android:textColor="@color/white" />
 
