@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item
-      android:id="@+id/live_trips"
+      android:id="@+id/live_trips_menu_item"
       android:icon="@drawable/campaign_icon"
       android:title="Live Trips" />
   <item
-      android:id="@+id/orders"
+      android:id="@+id/orders_menu_item"
       android:icon="@drawable/bag_icon"
       android:title="Orders" />
   <item
-      android:id="@+id/settings"
+      android:id="@+id/settings_menu_item"
       android:icon="@drawable/settings_icon"
       android:title="Settings" />
 

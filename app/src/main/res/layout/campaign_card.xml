@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:orientation="vertical"
-     >
+      android:orientation="vertical">
 
     <RelativeLayout
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp">
 
       <LinearLayout
 
@@ -99,10 +101,10 @@
 
 
     <RelativeLayout
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
       <ImageView
           android:layout_width="40dp"
@@ -139,23 +141,24 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="@color/app_blue"
         android:padding="15dp">
+
       <ImageView
-          android:layout_alignParentRight="true"
-          app:tint="@color/white"
-          android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
           android:layout_width="30dp"
-          android:layout_height="30dp" />
+          android:layout_height="30dp"
+          android:layout_alignParentRight="true"
+          android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+          app:tint="@color/white" />
 
       <TextView
-          android:layout_centerVertical="true"
-          android:layout_alignParentLeft="true"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+          android:layout_centerVertical="true"
           android:fontFamily="@font/futura"
           android:text="PLACE ORDER"
           android:textColor="@color/white"
@@ -163,4 +166,4 @@
     </RelativeLayout>
   </LinearLayout>
 
-</merge>
+</LinearLayout>

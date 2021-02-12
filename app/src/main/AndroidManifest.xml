@@ -11,7 +11,7 @@
       android:supportsRtl="true"
       android:theme="@style/Theme.DonkomiAndroid"
       app:font="@font/futura">
-    <activity android:name=".ClientLandingPage">
+    <activity android:name=".HomeContainerPage">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 

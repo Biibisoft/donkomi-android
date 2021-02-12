@@ -5,6 +5,8 @@
     android:layout_height="match_parent">
 
   <LinearLayout
+      android:paddingTop="5dp"
+      android:paddingBottom="5dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical">
@@ -17,7 +19,7 @@
         android:padding="10dp">
 
       <ImageView
-          android:id="@+id/icon"
+          android:id="@+id/back_icon"
           android:layout_width="25dp"
           android:layout_height="25dp"
           android:layout_marginRight="10dp"
@@ -27,7 +29,7 @@
 
       <TextView
           android:layout_centerVertical="true"
-          android:layout_toRightOf="@id/icon"
+          android:layout_toRightOf="@id/back_icon"
           android:id="@+id/page_name"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
