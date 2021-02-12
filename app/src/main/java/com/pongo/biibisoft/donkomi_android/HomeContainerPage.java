@@ -47,16 +47,13 @@ public class HomeContainerPage extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
           currentFragment = null;
-          switch (item.getItemId()) {
-            case R.id.live_trips_menu_item:
-              currentFragment = new ClientHomeFragment();
-              break;
-            case R.id.shops_menu_item:
-              currentFragment = new ClientShopsPageFragment();
-              break;
-            case R.id.settings_menu_item:
-              currentFragment = new ClientHomeFragment();
-              break;
+          int menuID = item.getItemId();
+          if (menuID == R.id.live_trips_menu_item) {
+            currentFragment = new ClientHomeFragment();
+          } else if (menuID == R.id.shops_menu_item) {
+            currentFragment = new ClientShopsPageFragment();
+          } else if (menuID == R.id.settings_menu_item) {
+            currentFragment = new SettingsFragmentPage();
           }
           getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
           return true;
