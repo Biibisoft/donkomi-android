@@ -1,50 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    app:cardElevation="2dp"
+
+
+    >
 
   <LinearLayout
-      android:paddingTop="5dp"
-      android:paddingBottom="5dp"
+
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:orientation="vertical">
 
-      <ImageView
-          android:id="@+id/back_icon"
-          android:layout_width="25dp"
-          android:layout_height="25dp"
-          android:layout_marginRight="10dp"
-          android:layout_centerVertical="true"
-          android:src="@drawable/ic_baseline_arrow_back_24"
-          app:tint="@color/app_blue" />
+      <!--  <LinearLayout-->
+      <!--      android:paddingTop="5dp"-->
+      <!--      android:paddingBottom="5dp"-->
+      <!--      android:layout_width="match_parent"-->
+      <!--      android:layout_height="wrap_content"-->
+      <!--      android:orientation="vertical">-->
 
-      <TextView
-          android:layout_centerVertical="true"
-          android:layout_toRightOf="@id/back_icon"
-          android:id="@+id/page_name"
-          android:layout_width="wrap_content"
+      <RelativeLayout
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="Page Name"
-          android:textColor="@color/app_blue"
-          android:textSize="15sp" />
+          android:elevation="10dp"
+          android:orientation="horizontal"
+          android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            app:tint="@color/app_blue" />
+
+        <TextView
+            android:id="@+id/page_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/back_icon"
+            android:text="Page Name"
+            android:textColor="@color/app_blue"
+            android:textSize="18sp" />
 
 
-    </RelativeLayout>
+      </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@drawable/stroke_rectangle"
-        android:backgroundTint="@color/grey_shade_1" />
+        android:backgroundTint="@color/app_blue" />
+
+    <!--  </LinearLayout>-->
   </LinearLayout>
 
-</merge>
+</androidx.cardview.widget.CardView>

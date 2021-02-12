@@ -7,9 +7,9 @@
       android:icon="@drawable/campaign_icon"
       android:title="Live Trips" />
   <item
-      android:id="@+id/orders_menu_item"
+      android:id="@+id/shops_menu_item"
       android:icon="@drawable/bag_icon"
-      android:title="Orders" />
+      android:title="Shops" />
   <item
       android:id="@+id/settings_menu_item"
       android:icon="@drawable/settings_icon"

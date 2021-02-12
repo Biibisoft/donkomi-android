@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+  <ImageView
+      android:id="@+id/le_bag_icon"
+      android:layout_width="60dp"
+      android:layout_height="60dp"
+      android:layout_centerInParent="true"
+      android:src="@drawable/bag_icon"
+      app:tint="@color/app_blue" />
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/le_bag_icon"
+      android:layout_centerHorizontal="true"
+      android:text="Coming Soon..."
+      android:textColor="@color/app_blue"
+      android:textSize="17sp" />
+</RelativeLayout>

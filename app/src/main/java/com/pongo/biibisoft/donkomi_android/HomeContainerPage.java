@@ -33,12 +33,7 @@ public class HomeContainerPage extends AppCompatActivity {
   public void initialize() {
     navigation = findViewById(R.id.bottom_nav);
     navigation.setOnNavigationItemSelectedListener(navItemSelected);
-//    recyclerView = findViewById(R.id.live_trips_recycler);
-//    LinearLayoutManager manager = new LinearLayoutManager(this);
-//    LiveTripsRecyclerAdapter adapter = new LiveTripsRecyclerAdapter();
-//    recyclerView.setLayoutManager(manager);
-//    recyclerView.setAdapter(adapter);
-//    recyclerView.hasFixedSize();
+    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ClientHomeFragment()).commit();
     backBtn = findViewById(R.id.back_icon);
     backBtn.setVisibility(View.GONE);
     pageName = findViewById(R.id.page_name);
@@ -54,6 +49,12 @@ public class HomeContainerPage extends AppCompatActivity {
           currentFragment = null;
           switch (item.getItemId()) {
             case R.id.live_trips_menu_item:
+              currentFragment = new ClientHomeFragment();
+              break;
+            case R.id.shops_menu_item:
+              currentFragment = new ClientShopsPageFragment();
+              break;
+            case R.id.settings_menu_item:
               currentFragment = new ClientHomeFragment();
               break;
           }
