@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="30dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -26,7 +28,7 @@
         android:padding="3dp"
         android:text="mrfimpong@gmail.com"
         android:textAlignment="center"
-        android:textColor="@color/app_blue" />
+        android:textColor="@color/black" />
 
     <TextView
         android:layout_width="match_parent"
@@ -42,7 +44,10 @@
       android:layout_height="wrap_content"
       android:layout_below="@id/profile_information"
       android:orientation="vertical"
-      android:padding="10dp">
+      android:paddingTop="5dp"
+      android:paddingStart="20dp"
+      android:paddingEnd="20dp"
+      >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -50,21 +55,122 @@
         android:orientation="horizontal">
 
       <ImageView
+          android:layout_marginBottom="10dp"
           android:id="@+id/profile_icon"
           android:layout_width="25dp"
           android:layout_height="25dp"
           android:layout_centerVertical="true"
-          android:src="@drawable/user_icon" />
+          android:src="@drawable/user_icon"
+          app:tint="@color/app_red" />
 
       <TextView
+          android:textColor="@color/black"
+          android:textSize="16sp"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerVertical="true"
           android:layout_marginLeft="10dp"
           android:layout_toRightOf="@id/profile_icon"
           android:text="Profile Edits" />
+
+      <ImageView
+          android:layout_centerVertical="true"
+          android:layout_width="30dp"
+          android:layout_height="30dp"
+          android:layout_alignParentRight="true"
+          android:src="@drawable/chevron_right_icon"
+          app:tint="@color/grey_shade_2" />
+
+      <View
+          android:layout_marginTop="10dp"
+          android:backgroundTint="@color/grey_shade_1"
+          android:background="@drawable/stroke_rectangle"
+          android:layout_below="@id/profile_icon"
+          android:layout_width="match_parent"
+          android:layout_height="2dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+      <ImageView
+          android:layout_marginBottom="10dp"
+          android:id="@+id/apply_icon"
+          android:layout_width="25dp"
+          android:layout_height="25dp"
+          android:layout_centerVertical="true"
+          android:src="@drawable/apply_icon"
+          app:tint="@color/app_red" />
+
+      <TextView
+          android:textColor="@color/black"
+          android:textSize="16sp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:layout_marginLeft="10dp"
+          android:layout_toRightOf="@id/apply_icon"
+          android:text="Apply To Earn On Donkomi" />
+
+      <ImageView
+          android:layout_centerVertical="true"
+          android:layout_width="30dp"
+          android:layout_height="30dp"
+          android:layout_alignParentRight="true"
+          android:src="@drawable/chevron_right_icon"
+          app:tint="@color/grey_shade_2" />
+
+      <View
+          android:layout_marginTop="10dp"
+          android:backgroundTint="@color/grey_shade_1"
+          android:background="@drawable/stroke_rectangle"
+          android:layout_below="@id/apply_icon"
+          android:layout_width="match_parent"
+          android:layout_height="2dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+      <ImageView
+          android:layout_marginBottom="10dp"
+          android:id="@+id/sign_out_icon"
+          android:layout_width="25dp"
+          android:layout_height="25dp"
+          android:layout_centerVertical="true"
+          android:src="@drawable/signout_icon"
+          app:tint="@color/app_red" />
+
+      <TextView
+          android:textColor="@color/black"
+          android:textSize="16sp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:layout_marginLeft="10dp"
+          android:layout_toRightOf="@id/sign_out_icon"
+          android:text="Sign Out" />
+
+      <ImageView
+          android:layout_centerVertical="true"
+          android:layout_width="30dp"
+          android:layout_height="30dp"
+          android:layout_alignParentRight="true"
+          android:src="@drawable/chevron_right_icon"
+          app:tint="@color/grey_shade_2" />
+
+      <View
+          android:layout_marginTop="10dp"
+          android:backgroundTint="@color/grey_shade_1"
+          android:background="@drawable/stroke_rectangle"
+          android:layout_below="@id/sign_out_icon"
+          android:layout_width="match_parent"
+          android:layout_height="2dp" />
     </RelativeLayout>
   </LinearLayout>
+
 
 
 </RelativeLayout>

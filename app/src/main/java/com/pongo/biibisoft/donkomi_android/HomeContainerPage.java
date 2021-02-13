@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,20 +19,24 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class HomeContainerPage extends AppCompatActivity {
 
   TextView pageName;
-  ImageView backBtn;
+  ImageView backBtn, rightIcon;
   RecyclerView recyclerView;
   BottomNavigationView navigation;
   Fragment currentFragment;
+  Context thisActivity;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home_container_page);
+    thisActivity = this;
     initialize();
   }
 
 
   public void initialize() {
+    rightIcon = findViewById(R.id.right_icon);
+    rightIcon.setOnClickListener(goToCartPage);
     navigation = findViewById(R.id.bottom_nav);
     navigation.setOnNavigationItemSelectedListener(navItemSelected);
     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ClientHomeFragment()).commit();
@@ -42,6 +48,13 @@ public class HomeContainerPage extends AppCompatActivity {
 
   }
 
+  private View.OnClickListener goToCartPage = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      Intent page = new Intent(thisActivity, ClientPlaceOrderPage.class);
+      startActivity(page);
+    }
+  };
   private BottomNavigationView.OnNavigationItemSelectedListener navItemSelected =
       new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
