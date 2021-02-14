@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 public class ClientPlaceOrderPage extends AppCompatActivity {
 
-  RecyclerView recyclerView;
+  RecyclerView recyclerView, productsRecyclerView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +23,11 @@ public class ClientPlaceOrderPage extends AppCompatActivity {
     LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
     recyclerView.setLayoutManager(manager);
     recyclerView.setAdapter(adapter);
-
-
+    productsRecyclerView = findViewById(R.id.product_list_recycler);
+    ProductListRecyclerAdapter productsAdapter = new ProductListRecyclerAdapter();
+    LinearLayoutManager productsManager = new LinearLayoutManager(this);
+    productsRecyclerView.setLayoutManager(productsManager);
+    productsRecyclerView.setAdapter(productsAdapter);
 
 
 

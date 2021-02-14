@@ -11,30 +11,45 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content" />
 
-  <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/shops_recycler"
+  <ScrollView
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/title_bar"
-      android:padding="10dp" />
+      android:layout_height="match_parent"
+      android:layout_below="@id/title_bar">
 
-  <EditText
-      android:textColorHint="@color/app_blue"
-      android:id="@+id/seach_box"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/shops_recycler"
-      android:background="@drawable/stroke_rectangle"
-      android:hint="Search"
-      android:padding="15dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-  <Button
-      android:background="@color/white"
-      android:padding="12dp"
-      android:text="ADD CUSTOM ORDER"
-      android:layout_below="@id/seach_box"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-    />
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/shops_recycler"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+
+          android:padding="10dp" />
+
+      <EditText
+          android:id="@+id/seach_box"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="Search"
+          android:padding="12dp"
+          android:textColorHint="@color/app_blue" />
+
+      <Button
+          android:id="@+id/add_custom_order"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@color/white"
+          android:padding="12dp"
+          android:text="ADD CUSTOM ORDER" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/product_list_recycler"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent" />
+    </LinearLayout>
+  </ScrollView>
 
 </RelativeLayout>
