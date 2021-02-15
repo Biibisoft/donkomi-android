@@ -37,6 +37,9 @@ public class GuruLandingPage extends AppCompatActivity {
       if (item.getItemId() == R.id.orders_menu_item){
         page = new GuruOrdersFragment();
       }
+      if (item.getItemId() == R.id.management_menu_item){
+        page = new GuruManagementFragment();
+      }
 
       if (page != null) {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, page).commit();
