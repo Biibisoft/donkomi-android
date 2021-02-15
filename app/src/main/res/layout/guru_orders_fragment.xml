@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+  <TextView
+      android:paddingTop="10dp"
+      android:paddingLeft="10dp"
+      android:paddingRight="10dp"
+      android:text="Manage orders from shops"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+    />
+  <Spinner
+      android:layout_margin="10dp"
+      android:id="@+id/shops_spinner"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+    android:background="@drawable/stroke_rectangle"
+    />
+  <androidx.recyclerview.widget.RecyclerView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/guru_orders_recycler"
+    />
+
+</LinearLayout>
