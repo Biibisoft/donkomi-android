@@ -1,4 +1,5 @@
 <resources>
   <string name="app_name">Donkomi-Android</string>
   <string name="delivery_guru">~Delivery Guru</string>
+  <string name="learn_about_donkomi"><u> Learn more about earning on Donkomi</u></string>
 </resources>

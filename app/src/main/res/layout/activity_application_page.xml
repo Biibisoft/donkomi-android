@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ApplicationPage">
+
+  <include layout="@layout/universal_toolbar" />
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@+id/title_bar">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+      <EditText
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="First Name"
+          android:padding="10dp"
+          android:textColorHint="@color/app_blue" />
+
+      <EditText
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="Last Name"
+          android:padding="10dp"
+          android:textColorHint="@color/app_blue" />
+
+      <EditText
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="Room Number"
+          android:padding="10dp"
+          android:textColorHint="@color/app_blue" />
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="10dp"
+          android:text="I would like to be a " />
+      <Spinner
+          android:id="@+id/earning_options_dropdown"
+          android:background="@drawable/stroke_rectangle"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+        />
+
+
+      <TextView
+          android:textColor="@color/app_red"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="10dp"
+          android:text="@string/learn_about_donkomi" />
+
+
+
+
+    </LinearLayout>
+
+  </ScrollView>
+
+  <LinearLayout
+      android:layout_alignParentBottom="true"
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+    >
+    <Button
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@color/app_blue"
+        android:text="Read The Donkomi Policies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+      />
+    <Button
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@color/app_green"
+        android:text="Submit Application"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
+  </LinearLayout>
+
+
+</RelativeLayout>

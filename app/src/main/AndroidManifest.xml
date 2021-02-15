@@ -12,6 +12,20 @@
       android:supportsRtl="true"
       android:theme="@style/Theme.DonkomiAndroid"
       app:font="@font/futura">
+    <activity android:name=".GuruLandingPage">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <activity android:name=".ApplicationPage">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
     <activity android:name=".CompleteOrderPage">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
