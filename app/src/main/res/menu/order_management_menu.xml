@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item
-      android:id="@+id/cart"
+      android:id="@+id/cart_menu_item"
       android:icon="@drawable/campaign_icon"
       android:title="Cart" />
   <item
-      android:id="@+id/finished"
+      android:id="@+id/finished_menu_item"
       android:icon="@drawable/check_done_icon"
       android:title="Finished" />
   <item
-      android:id="@+id/history"
+      android:id="@+id/history_menu_item"
       android:icon="@drawable/history_icon"
       android:title="History" />
 
