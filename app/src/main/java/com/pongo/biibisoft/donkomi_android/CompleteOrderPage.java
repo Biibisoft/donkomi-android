@@ -37,6 +37,10 @@ public class CompleteOrderPage extends AppCompatActivity {
       Fragment page = null;
       if (item.getItemId() == R.id.cart_menu_item) {
         page = new ClientCartFragment();
+      }else if (item.getItemId() == R.id.finished_menu_item){
+        page = new ClientFinishedOrdersFragment();
+      }else if (item.getItemId() == R.id.history_menu_item){
+        page = new ClientOrderHistoryFragment();
       }
       if (page != null) {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, page).commit();

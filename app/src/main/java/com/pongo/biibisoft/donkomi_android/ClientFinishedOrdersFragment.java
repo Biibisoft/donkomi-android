@@ -17,14 +17,17 @@ public class ClientFinishedOrdersFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.client_finished_order_fragment, container, false);
-
-
+    initialize(v);
     return v;
   }
 
 
   public void initialize(View v){
-
+    RecyclerView recyclerView = v.findViewById(R.id.finished_recycler);
+    OrderListRecyclerAdapter adapter = new OrderListRecyclerAdapter();
+    LinearLayoutManager manager = new LinearLayoutManager(getContext());
+    recyclerView.setLayoutManager(manager);
+    recyclerView.setAdapter(adapter);
 
   }
 }
