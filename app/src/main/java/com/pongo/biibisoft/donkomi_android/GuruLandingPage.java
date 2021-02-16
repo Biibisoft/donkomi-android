@@ -18,9 +18,7 @@ public class GuruLandingPage extends AppCompatActivity {
     initialize();
   }
 
-
   public void initialize() {
-
     BottomNavigationView bottomNav = findViewById(R.id.guru_bottom_nav);
     bottomNav.setOnNavigationItemSelectedListener(itemSelected);
     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new GuruRoutineFragment()).commit();
