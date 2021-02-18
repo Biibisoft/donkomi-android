@@ -8,6 +8,11 @@
       android:background="@color/app_blue"
       android:orientation="vertical"
       android:visibility="gone">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/guru_stock_tab_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+      />
 
   </LinearLayout>
 
