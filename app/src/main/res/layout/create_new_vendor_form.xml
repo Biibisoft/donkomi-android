@@ -2,6 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
   <RelativeLayout
+      android:visibility="gone"
       android:id="@+id/create_new_vendor_form"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
@@ -14,7 +15,6 @@
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-
           android:orientation="vertical"
           android:padding="20dp">
 
@@ -23,6 +23,26 @@
             android:layout_height="wrap_content"
             android:text="Enter information about the new vendor"
             android:textColor="@color/app_blue" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="Image of vendor"
+            android:focusable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/mcdonalds_building" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tap to change image"
+            android:textColor="@color/grey_shade_2"
+            android:textSize="12sp" />
 
         <EditText
             android:layout_width="match_parent"
