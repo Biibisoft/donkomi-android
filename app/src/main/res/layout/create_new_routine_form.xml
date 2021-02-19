@@ -2,9 +2,11 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
   <LinearLayout
+      android:visibility="gone"
+
       android:id="@+id/create_new_routine_form"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
       android:orientation="vertical">
 
   </LinearLayout>
