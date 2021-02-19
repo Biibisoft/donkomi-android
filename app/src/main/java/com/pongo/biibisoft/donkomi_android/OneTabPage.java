@@ -1,12 +1,14 @@
 package com.pongo.biibisoft.donkomi_android;
 
+import android.util.Log;
 import android.view.View;
 
 public class OneTabPage {
   String tabTitle = "Default Tab";
   int tabHeaderID = 0;
   int tabLayoutID = 0;
-  View view;
+  View mainContainer, view, tabHeaderView;
+
 
   public OneTabPage(String tabTitle, int tabHeaderID, int tabLayoutID, View v, InitialSetup setup) {
     this.tabTitle = tabTitle;
@@ -16,14 +18,23 @@ public class OneTabPage {
     setup.createView(v);
   }
 
-  public View getHeaderView(){
-    return view.findViewById(this.tabHeaderID);
-  }
-  public View getMainContainerView(){
-    return view.findViewById(this.tabLayoutID);
+  public OneTabPage() {
   }
 
-  public OneTabPage() {
+  public View getMainContainer() {
+    return mainContainer;
+  }
+
+  public View getTabHeaderView() {
+    return tabHeaderView;
+  }
+
+  public void setTabHeaderView(View tabHeaderView) {
+    this.tabHeaderView = tabHeaderView;
+  }
+
+  public void setMainContainer(View mainContainer) {
+    this.mainContainer = mainContainer;
   }
 
   public String getTabTitle() {
@@ -53,6 +64,7 @@ public class OneTabPage {
 
   interface InitialSetup {
     public void createView(View v);
+//    public void setContainerView(View v);
   }
 }
 

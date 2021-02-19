@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,7 @@ public class GuruManagementFragment extends Fragment {
 
 
   OneTabPage currentTab, vendorsTab, stocksTab, routinesTab;
+  View vue;
 
   @Nullable
   @Override
@@ -28,11 +31,21 @@ public class GuruManagementFragment extends Fragment {
 
 
   public void goToPage(OneTabPage newPage) {
+
+//    LinearLayout vendorsMain = vue.findViewById(R.id.vendors_tab_fragment);
+//    TextView vendorsHeader = vue.findViewById(R.id.vendors_tab_header);
+//    LinearLayout stocksMain = vue.findViewById(R.id.stocks_tab_fragment);
+//    TextView stocksHeader = vue.findViewById(R.id.stocks_tab_header);
+//
+//    vendorsHeader.setBackgroundResource(R.drawable.plain_ripple_background);
+//    vendorsMain.setVisibility(GONE);
+//    stocksHeader.setBackgroundResource(R.drawable.plain_ripple_background);
+//    stocksMain.setVisibility(View.VISIBLE);
     if (currentTab != null) {
-      currentTab.getMainContainerView().setVisibility(GONE);
-      currentTab.getHeaderView().setBackgroundResource(R.drawable.plain_ripple_background);
-      newPage.getMainContainerView().setVisibility(View.VISIBLE);
-      newPage.getHeaderView().setBackgroundResource(R.drawable.bottom_border_line);
+      currentTab.getMainContainer().setVisibility(GONE);
+      currentTab.getTabHeaderView().setBackgroundResource(R.drawable.plain_ripple_background);
+      newPage.getMainContainer().setVisibility(View.VISIBLE);
+      newPage.getTabHeaderView().setBackgroundResource(R.drawable.bottom_border_line);
       currentTab = newPage;
     }
   }
@@ -48,7 +61,16 @@ public class GuruManagementFragment extends Fragment {
         vendorsRec.setLayoutManager(manager);
       }
     });
-
+    TextView vendorHeader = v.findViewById(R.id.vendors_tab_header);
+    LinearLayout vendorMainContainer = v.findViewById(R.id.vendors_tab_fragment);
+    vendorsTab.setMainContainer(vendorMainContainer);
+    vendorsTab.setTabHeaderView(vendorHeader);
+    vendorsTab.getTabHeaderView().setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        goToPage(vendorsTab);
+      }
+    });
     currentTab = vendorsTab;
     stocksTab = new OneTabPage("Vendors", R.id.stocks_tab_header, R.layout.stocks_tab_fragment, v, new OneTabPage.InitialSetup() {
       @Override
@@ -62,15 +84,29 @@ public class GuruManagementFragment extends Fragment {
 
       }
     });
+    TextView stocksHeader = v.findViewById(R.id.stocks_tab_header);
+    LinearLayout stocksMainContainer = v.findViewById(R.id.stocks_tab_fragment);
+    stocksTab.setMainContainer(stocksMainContainer);
+    stocksTab.setTabHeaderView(stocksHeader);
+    stocksTab.getTabHeaderView().setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        goToPage(stocksTab);
+      }
+    });
+
+
     routinesTab = new OneTabPage("Vendors", R.id.routines_tab_header, R.layout.routines_tab_fragment, v, new OneTabPage.InitialSetup() {
       @Override
       public void createView(View v) {
 
       }
     });
-
-    goToPage(stocksTab);
+    this.vue = v;
+//    goToPage(stocksTab);
 
 
   }
+
+
 }
