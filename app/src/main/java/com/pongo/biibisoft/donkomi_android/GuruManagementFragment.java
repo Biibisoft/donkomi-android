@@ -72,6 +72,8 @@ public class GuruManagementFragment extends Fragment {
       }
     });
     currentTab = vendorsTab;
+
+//    ------------ STOCKS TAB SETUP ---------------
     stocksTab = new OneTabPage("Vendors", R.id.stocks_tab_header, R.layout.stocks_tab_fragment, v, new OneTabPage.InitialSetup() {
       @Override
       public void createView(View v) {
@@ -95,15 +97,24 @@ public class GuruManagementFragment extends Fragment {
       }
     });
 
-
+//   --------------- ROUTINES TAB SETUP ------------------
     routinesTab = new OneTabPage("Vendors", R.id.routines_tab_header, R.layout.routines_tab_fragment, v, new OneTabPage.InitialSetup() {
       @Override
       public void createView(View v) {
 
       }
     });
+    TextView routinesHeader = v.findViewById(R.id.routines_tab_header);
+    LinearLayout routinesMainContainer = v.findViewById(R.id.routines_tab_fragment);
+    routinesTab.setMainContainer(routinesMainContainer);
+    routinesTab.setTabHeaderView(routinesHeader);
+    routinesTab.getTabHeaderView().setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        goToPage(routinesTab);
+      }
+    });
     this.vue = v;
-//    goToPage(stocksTab);
 
 
   }
