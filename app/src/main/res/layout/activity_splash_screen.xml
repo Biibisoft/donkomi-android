@@ -7,7 +7,8 @@
     tools:context=".SplashScreen">
 
   <ImageView
-      android:id="@+id/dokomi_logo"
+      android:background="?attr/selectableItemBackgroundBorderless"
+      android:id="@+id/donkomi_logo"
       android:layout_width="150dp"
       android:layout_height="100dp"
       android:layout_centerInParent="true"
@@ -18,7 +19,7 @@
   <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_below="@+id/dokomi_logo"
+      android:layout_below="@+id/donkomi_logo"
       android:layout_marginTop="15dp"
       android:text="DONKOMI"
       android:textAlignment="center"

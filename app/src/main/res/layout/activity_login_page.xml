@@ -15,9 +15,9 @@
       android:padding="20dp">
 
     <RelativeLayout
-        android:layout_marginTop="120dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp">
 
       <ImageView
           android:id="@+id/dokomi_logo"
@@ -38,17 +38,16 @@
     </RelativeLayout>
 
     <EditText
-        android:textColorHint="@color/app_blue"
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/stroke_rectangle"
         android:hint="Email"
         android:padding="13dp"
+        android:textColorHint="@color/app_blue"
         android:textSize="15sp" />
 
     <EditText
-        android:textColorHint="@color/app_blue"
         android:id="@+id/passwords"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,7 +56,41 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="13dp"
+        android:textColorHint="@color/app_blue"
         android:textSize="15sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+      <TextView
+          android:id="@+id/new_account_label"
+          android:clickable="true"
+          android:focusable="true"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+          android:background="?attr/selectableItemBackground"
+
+          android:padding="5dp"
+          android:text="Create New Account"
+          android:textColor="@color/app_blue" />
+
+
+      <TextView
+          android:clickable="true"
+          android:focusable="true"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:background="?attr/selectableItemBackground"
+          android:padding="5dp"
+          android:text="Forgot Password"
+          android:textColor="@color/app_blue" />
+
+
+    </RelativeLayout>
+
     <!--  <Spinner-->
     <!--      android:layout_marginTop="7dp"-->
     <!--      android:background="@drawable/stroke_rectangle"-->
@@ -83,20 +116,20 @@
       android:orientation="vertical">
 
     <Button
-        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/app_blue"
-        android:text="LOGIN" />
+        android:text="LOGIN"
+        android:textColor="@color/white" />
 
     <Button
-        android:backgroundTint="@color/app_red"
-        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/solid_rectangle"
-        android:text="USE GOOGLE" />
+        android:backgroundTint="@color/app_red"
+        android:text="USE GOOGLE"
+        android:textColor="@color/white" />
 
 
   </LinearLayout>
