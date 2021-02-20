@@ -15,5 +15,10 @@
       android:icon="@drawable/add_icon"
       android:title="Management" />
 
+  <item
+      android:id="@+id/guru_side_client_menu_item"
+      android:icon="@drawable/ic_baseline_shopping_basket_24"
+      android:title="Shop As User" />
+
 
 </menu>

@@ -14,6 +14,10 @@
       android:id="@+id/settings_menu_item"
       android:icon="@drawable/settings_icon"
       android:title="Settings" />
+  <item
+      android:id="@+id/client_side_guru_management_menu_item"
+      android:icon="@drawable/ic_baseline_delivery_dining_24"
+      android:title="Delivery Management" />
 
 
 </menu>

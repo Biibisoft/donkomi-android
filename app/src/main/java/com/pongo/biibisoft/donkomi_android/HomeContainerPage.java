@@ -25,6 +25,7 @@ public class HomeContainerPage extends AppCompatActivity {
   Fragment currentFragment;
   Context thisActivity;
 
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -67,9 +68,16 @@ public class HomeContainerPage extends AppCompatActivity {
             currentFragment = new ClientShopsPageFragment();
           } else if (menuID == R.id.settings_menu_item) {
             currentFragment = new SettingsFragmentPage();
+          } else if (menuID == R.id.client_side_guru_management_menu_item) {
+            Intent page = new Intent(thisActivity, GuruLandingPage.class);
+            startActivity(page);
           }
-          getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
-          return true;
+
+          if (currentFragment != null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+            return true;
+          }
+          return false;
         }
       };
 }

@@ -32,8 +32,11 @@
           android:id="@+id/seach_box"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:layout_marginLeft="15dp"
+          android:layout_marginRight="15dp"
           android:background="@drawable/stroke_rectangle"
           android:hint="Search"
+          android:layout_marginBottom="10dp"
           android:padding="12dp"
           android:textColorHint="@color/app_blue" />
 

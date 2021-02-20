@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/white">
+
+  <item>
+    <shape android:shape="oval">
+      <solid android:color="@color/app_green" />
+    </shape>
+  </item>
+  <item
+
+      android:bottom="10dp"
+      android:drawable="@drawable/custom_order"
+      android:left="10dp"
+      android:right="10dp"
+      android:top="10dp">
+
+  </item>
+</ripple>

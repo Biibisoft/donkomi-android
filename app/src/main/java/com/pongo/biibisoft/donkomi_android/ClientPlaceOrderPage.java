@@ -5,11 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ClientPlaceOrderPage extends AppCompatActivity {
 
   RecyclerView recyclerView, productsRecyclerView;
-
+  ImageView backBtn;
+  TextView pageName;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -18,6 +22,10 @@ public class ClientPlaceOrderPage extends AppCompatActivity {
   }
 
   public void initialize(){
+    pageName = findViewById(R.id.page_name);
+    pageName.setText("Place Your Order ");
+    backBtn = findViewById(R.id.back_icon);
+    backBtn.setOnClickListener(goBack);
     recyclerView = findViewById(R.id.shops_recycler);
     HorizontalShopsRecyclerAdapter adapter = new HorizontalShopsRecyclerAdapter();
     LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
@@ -32,4 +40,11 @@ public class ClientPlaceOrderPage extends AppCompatActivity {
 
 
   }
+
+  private View.OnClickListener goBack = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      finish();
+    }
+  };
 }

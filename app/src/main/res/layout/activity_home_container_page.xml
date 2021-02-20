@@ -6,15 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".HomeContainerPage">
 
-  <LinearLayout
-      android:id="@+id/title_bar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentTop="true"
-      android:orientation="vertical">
+<!--  <LinearLayout-->
+<!--      android:id="@+id/title_bar"-->
+<!--      android:layout_width="match_parent"-->
+<!--      android:layout_height="wrap_content"-->
+<!--      android:layout_alignParentTop="true"-->
+<!--      android:orientation="vertical">-->
 
     <include layout="@layout/universal_toolbar" />
-  </LinearLayout>
+<!--  </LinearLayout>-->
 
   <FrameLayout
       android:id="@+id/frame_layout"
@@ -31,6 +31,7 @@
       android:layout_alignParentBottom="true"
       android:background="@color/white"
       app:menu="@menu/client_bottom_nav"
+     app:labelVisibilityMode="labeled"
 
       />
 </RelativeLayout>

@@ -6,11 +6,17 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class GuruLandingPage extends AppCompatActivity {
 
+
+  ImageView backBtn;
+  TextView pageName;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -19,10 +25,21 @@ public class GuruLandingPage extends AppCompatActivity {
   }
 
   public void initialize() {
+    pageName = findViewById(R.id.page_name);
+    pageName.setText("Delivery Guru");
+    backBtn = findViewById(R.id.back_icon);
+    backBtn.setOnClickListener(goBack);
     BottomNavigationView bottomNav = findViewById(R.id.guru_bottom_nav);
     bottomNav.setOnNavigationItemSelectedListener(itemSelected);
     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new GuruRoutineFragment()).commit();
   }
+
+  private View.OnClickListener goBack = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      finish();
+    }
+  };
 
   private BottomNavigationView.OnNavigationItemSelectedListener itemSelected = new BottomNavigationView.OnNavigationItemSelectedListener() {
     @Override
@@ -32,11 +49,14 @@ public class GuruLandingPage extends AppCompatActivity {
       if (item.getItemId() == R.id.routines_menu_item) {
         page = new GuruRoutineFragment();
       }
-      if (item.getItemId() == R.id.orders_menu_item){
+      if (item.getItemId() == R.id.orders_menu_item) {
         page = new GuruOrdersFragment();
       }
-      if (item.getItemId() == R.id.management_menu_item){
+      if (item.getItemId() == R.id.management_menu_item) {
         page = new GuruManagementFragment();
+      }
+      if (item.getItemId() == R.id.guru_side_client_menu_item) {
+        finish();
       }
 
       if (page != null) {

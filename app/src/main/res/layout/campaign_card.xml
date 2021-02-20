@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical">
 
   <LinearLayout
@@ -14,12 +16,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
+        android:paddingLeft="15dp"
         android:paddingTop="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="15dp">
 
       <LinearLayout
-
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:orientation="vertical">
@@ -29,9 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:fontFamily="@font/futura"
             android:text="TRIP TO GRAND BAIE"
-            android:textColor="@color/app_blue" />
+            android:textColor="@color/app_blue"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,9 +40,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/futura"
             android:text="Shops to order from"
-            android:textColor="@color/grey_shade_3" />
+            android:textColor="@color/grey_shade_3"
+            android:textSize="13sp" />
 
         <TextView
 
@@ -49,7 +50,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:fontFamily="@font/futura"
             android:text="LA CROISETTE SUPER U JUMBO"
             android:textColor="@color/app_blue"
 
@@ -62,16 +62,16 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/futura"
             android:text="You can order the following"
-            android:textColor="@color/grey_shade_3" />
+            android:textColor="@color/grey_shade_3"
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:fontFamily="@font/futura"
+
             android:text="GROCERIES FOOD CHIPS"
             android:textColor="@color/app_blue"
             android:textSize="11sp" />
@@ -160,7 +160,6 @@
           android:layout_height="wrap_content"
           android:layout_alignParentLeft="true"
           android:layout_centerVertical="true"
-          android:fontFamily="@font/futura"
           android:text="PLACE ORDER"
           android:textColor="@color/white"
           android:textFontWeight="700" />
