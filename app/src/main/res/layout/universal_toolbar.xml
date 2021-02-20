@@ -33,6 +33,7 @@
           android:orientation="horizontal">
 
         <ImageView
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:id="@+id/back_icon"
             android:layout_width="25dp"
             android:layout_height="25dp"
