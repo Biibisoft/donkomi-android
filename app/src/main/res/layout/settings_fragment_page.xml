@@ -50,6 +50,9 @@
       >
 
     <RelativeLayout
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -90,6 +93,10 @@
           android:layout_height="2dp" />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/apply_btn"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -130,6 +137,9 @@
           android:layout_height="2dp" />
     </RelativeLayout>
     <RelativeLayout
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
