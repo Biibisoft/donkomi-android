@@ -25,7 +25,7 @@
           android:layout_marginTop="5dp"
           android:background="@drawable/stroke_rectangle"
           android:hint="First Name"
-          android:padding="10dp"
+          android:padding="15dp"
           android:textColorHint="@color/app_blue" />
 
       <EditText
@@ -34,7 +34,7 @@
           android:layout_marginTop="5dp"
           android:background="@drawable/stroke_rectangle"
           android:hint="Last Name"
-          android:padding="10dp"
+          android:padding="15dp"
           android:textColorHint="@color/app_blue" />
 
       <EditText
@@ -43,7 +43,7 @@
           android:layout_marginTop="5dp"
           android:background="@drawable/stroke_rectangle"
           android:hint="Room Number"
-          android:padding="10dp"
+          android:padding="15dp"
           android:textColorHint="@color/app_blue" />
 
       <TextView
@@ -80,9 +80,10 @@
       android:layout_height="wrap_content"
     >
     <Button
+        android:backgroundTint="@color/app_blue"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:background="@color/app_blue"
+        android:background="@drawable/rounded_solid_rectangle"
         android:text="Read The Donkomi Policies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,7 +91,7 @@
     <Button
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:background="@color/app_green"
+        android:background="@drawable/rounded_solid_rectangle"
         android:text="Submit Application"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

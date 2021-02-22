@@ -23,6 +23,13 @@ public class ApplicationPage extends AppCompatActivity {
   }
 
   public void initialize() {
+    backBtn = findViewById(R.id.back_icon);
+    backBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        finish();
+      }
+    });
     rightIcon = findViewById(R.id.right_icon);
     rightIcon.setVisibility(View.GONE);
     pageName = findViewById(R.id.page_name);

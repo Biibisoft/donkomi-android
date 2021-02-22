@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingTop="30dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="30dp">
 
   <de.hdodenhof.circleimageview.CircleImageView
       android:id="@+id/profile_picture"
@@ -44,143 +44,146 @@
       android:layout_height="wrap_content"
       android:layout_below="@id/profile_information"
       android:orientation="vertical"
-      android:paddingTop="5dp"
       android:paddingStart="20dp"
-      android:paddingEnd="20dp"
-      >
+      android:paddingTop="5dp"
+      android:paddingEnd="20dp">
 
     <RelativeLayout
+        android:id="@+id/go_to_profile_edits_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
       <ImageView
-          android:layout_marginBottom="10dp"
           android:id="@+id/profile_icon"
           android:layout_width="25dp"
           android:layout_height="25dp"
           android:layout_centerVertical="true"
+          android:layout_marginBottom="10dp"
           android:src="@drawable/user_icon"
           app:tint="@color/app_red" />
 
       <TextView
-          android:textColor="@color/black"
-          android:textSize="16sp"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerVertical="true"
           android:layout_marginLeft="10dp"
           android:layout_toRightOf="@id/profile_icon"
-          android:text="Profile Edits" />
+          android:text="Profile Edits"
+          android:textColor="@color/black"
+          android:textSize="16sp" />
 
       <ImageView
-          android:layout_centerVertical="true"
           android:layout_width="30dp"
           android:layout_height="30dp"
           android:layout_alignParentRight="true"
+          android:layout_centerVertical="true"
           android:src="@drawable/chevron_right_icon"
           app:tint="@color/grey_shade_2" />
 
       <View
-          android:layout_marginTop="10dp"
-          android:backgroundTint="@color/grey_shade_1"
-          android:background="@drawable/stroke_rectangle"
-          android:layout_below="@id/profile_icon"
           android:layout_width="match_parent"
-          android:layout_height="2dp" />
+          android:layout_height="2dp"
+          android:layout_below="@id/profile_icon"
+          android:layout_marginTop="10dp"
+          android:background="@drawable/stroke_rectangle"
+          android:backgroundTint="@color/grey_shade_1" />
     </RelativeLayout>
+
     <RelativeLayout
+
         android:id="@+id/apply_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
       <ImageView
-          android:layout_marginBottom="10dp"
           android:id="@+id/apply_icon"
           android:layout_width="25dp"
           android:layout_height="25dp"
           android:layout_centerVertical="true"
+          android:layout_marginBottom="10dp"
           android:src="@drawable/apply_icon"
           app:tint="@color/app_red" />
 
       <TextView
-          android:textColor="@color/black"
-          android:textSize="16sp"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerVertical="true"
           android:layout_marginLeft="10dp"
           android:layout_toRightOf="@id/apply_icon"
-          android:text="Apply To Earn On Donkomi" />
+          android:text="Apply To Earn On Donkomi"
+          android:textColor="@color/black"
+          android:textSize="16sp" />
 
       <ImageView
-          android:layout_centerVertical="true"
           android:layout_width="30dp"
           android:layout_height="30dp"
           android:layout_alignParentRight="true"
+          android:layout_centerVertical="true"
           android:src="@drawable/chevron_right_icon"
           app:tint="@color/grey_shade_2" />
 
       <View
-          android:layout_marginTop="10dp"
-          android:backgroundTint="@color/grey_shade_1"
-          android:background="@drawable/stroke_rectangle"
-          android:layout_below="@id/apply_icon"
           android:layout_width="match_parent"
-          android:layout_height="2dp" />
+          android:layout_height="2dp"
+          android:layout_below="@id/apply_icon"
+          android:layout_marginTop="10dp"
+          android:background="@drawable/stroke_rectangle"
+          android:backgroundTint="@color/grey_shade_1" />
     </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/sign_out_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
       <ImageView
-          android:layout_marginBottom="10dp"
           android:id="@+id/sign_out_icon"
           android:layout_width="25dp"
           android:layout_height="25dp"
           android:layout_centerVertical="true"
+          android:layout_marginBottom="10dp"
           android:src="@drawable/signout_icon"
           app:tint="@color/app_red" />
 
       <TextView
-          android:textColor="@color/black"
-          android:textSize="16sp"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerVertical="true"
           android:layout_marginLeft="10dp"
           android:layout_toRightOf="@id/sign_out_icon"
-          android:text="Sign Out" />
+          android:text="Sign Out"
+          android:textColor="@color/black"
+          android:textSize="16sp" />
 
       <ImageView
-          android:layout_centerVertical="true"
           android:layout_width="30dp"
           android:layout_height="30dp"
           android:layout_alignParentRight="true"
+          android:layout_centerVertical="true"
           android:src="@drawable/chevron_right_icon"
           app:tint="@color/grey_shade_2" />
 
       <View
-          android:layout_marginTop="10dp"
-          android:backgroundTint="@color/grey_shade_1"
-          android:background="@drawable/stroke_rectangle"
-          android:layout_below="@id/sign_out_icon"
           android:layout_width="match_parent"
-          android:layout_height="2dp" />
+          android:layout_height="2dp"
+          android:layout_below="@id/sign_out_icon"
+          android:layout_marginTop="10dp"
+          android:background="@drawable/stroke_rectangle"
+          android:backgroundTint="@color/grey_shade_1" />
     </RelativeLayout>
   </LinearLayout>
-
 
 
 </RelativeLayout>

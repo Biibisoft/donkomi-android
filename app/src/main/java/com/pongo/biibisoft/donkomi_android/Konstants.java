@@ -13,6 +13,6 @@ public class Konstants {
   public static final String NEW_ROUTINE  = "NEW_ROUTINE";
   public static final String FORM_FOR = "FORM_TO_SHOW";
 
-  public static final String EDIT_PROFILE_FORM = "EDIT_PROFILE_FORM";
+  public static final String EDIT_PROFILE_FORM = "EDIT_PROFILE";
 
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ClientAllPagesContainer">
+
   <include layout="@layout/universal_toolbar" />
 
   <LinearLayout
@@ -12,6 +13,8 @@
       android:layout_height="match_parent"
       android:layout_below="@+id/title_bar"
       android:orientation="vertical">
+
+    <include layout="@layout/edit_profile_form" />
 
   </LinearLayout>
 

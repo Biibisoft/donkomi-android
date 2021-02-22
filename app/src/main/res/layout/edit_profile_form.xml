@@ -1,58 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-  <LinearLayout
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <RelativeLayout
+      android:id="@+id/edit_profile_form"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:orientation="vertical"
-      android:padding="15dp">
+      android:visibility="gone">
 
-    <RelativeLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="20dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/yellow_woman" />
+      </RelativeLayout>
+
+
+      <EditText
+          android:id="@+id/edit_name"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="Name"
+          android:padding="15dp"
+          android:textColor="@color/app_blue"
+          android:textColorHint="@color/app_blue" />
+
+      <EditText
+          android:id="@+id/edit_mobile_number"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="Phone Number"
+          android:padding="15dp"
+          android:textColor="@color/app_blue"
+          android:textColorHint="@color/app_blue" />
+    </LinearLayout>
+
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp">
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rounded_solid_rectangle"
+        android:text="SAVE CHANGES"
+        android:textColor="@color/white" />
 
-      <de.hdodenhof.circleimageview.CircleImageView
-          android:id="@+id/profile_pic"
-          android:layout_width="100dp"
-          android:layout_height="100dp"
-          android:layout_centerHorizontal="true"
-          android:src="@drawable/yellow_woman" />
-    </RelativeLayout>
+  </RelativeLayout>
 
-
-    <EditText
-        android:id="@+id/edit_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/stroke_rectangle"
-        android:hint="Name"
-        android:padding="15dp"
-        android:textColor="@color/app_blue"
-        android:textColorHint="@color/app_blue" />
-
-    <EditText
-        android:id="@+id/edit_mobile_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/stroke_rectangle"
-        android:hint="Phone Number"
-        android:padding="15dp"
-        android:textColor="@color/app_blue"
-        android:textColorHint="@color/app_blue" />
-  </LinearLayout>
-
-
-  <Button
-      android:textColor="@color/white"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:background="@drawable/rounded_solid_rectangle"
-      android:text="SAVE CHANGES" />
-
-</RelativeLayout>
+</merge>
