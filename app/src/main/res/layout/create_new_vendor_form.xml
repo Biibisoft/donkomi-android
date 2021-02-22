@@ -78,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/solid_rectangle"
+        android:background="@drawable/rounded_solid_rectangle"
         android:backgroundTint="@color/app_green"
         android:text="Create Vendor"
         android:textColor="@color/white" />

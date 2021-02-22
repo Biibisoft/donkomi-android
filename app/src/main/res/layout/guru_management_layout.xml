@@ -31,6 +31,7 @@
           android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
+
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_margin="10dp"
@@ -38,6 +39,7 @@
             app:cardElevation="10dp">
 
           <RelativeLayout
+              android:id="@+id/create_new_vendor_btn"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="?attr/selectableItemBackgroundBorderless"
@@ -64,6 +66,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_margin="10dp"
@@ -71,6 +74,7 @@
             app:cardElevation="10dp">
 
           <RelativeLayout
+              android:id="@+id/create_new_stock_btn"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="?attr/selectableItemBackgroundBorderless"
@@ -97,6 +101,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_margin="10dp"
@@ -105,6 +110,7 @@
             app:cardElevation="10dp">
 
           <RelativeLayout
+              android:id="@+id/create_new_routine_btn"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="?attr/selectableItemBackgroundBorderless"

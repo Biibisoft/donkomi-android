@@ -16,7 +16,7 @@ public class AllFormsContainerPage extends AppCompatActivity {
   String FORM_FOR = Konstants.NEW_STOCK;
   TextView pageName;
   ImageView backBtn, rightIcon;
-//  LinearLayout routineForm;
+  //  LinearLayout routineForm;
   RelativeLayout vendorForm, stockForm, routineForm;
 
   @Override
@@ -31,6 +31,12 @@ public class AllFormsContainerPage extends AppCompatActivity {
     String _for = getIntent().getStringExtra(Konstants.FORM_FOR);
     FORM_FOR = _for != null ? _for : Konstants.NEW_ROUTINE;
     backBtn = findViewById(R.id.back_icon);
+    backBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        finish();
+      }
+    });
     pageName = findViewById(R.id.page_name);
     vendorForm = findViewById(R.id.create_new_vendor_form);
     routineForm = findViewById(R.id.create_new_routine_form);

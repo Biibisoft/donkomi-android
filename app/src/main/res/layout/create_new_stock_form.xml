@@ -2,11 +2,11 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
   <RelativeLayout
-      android:visibility="gone"
       android:id="@+id/create_new_stock_form"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_below="@+id/title_bar">
+      android:layout_below="@+id/title_bar"
+      android:visibility="gone">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -84,8 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/stroke_rectangle"
-             />
+            android:background="@drawable/stroke_rectangle" />
 
         <EditText
             android:layout_width="match_parent"
@@ -106,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/solid_rectangle"
+        android:background="@drawable/rounded_solid_rectangle"
         android:backgroundTint="@color/app_green"
         android:text="DONE, ADD STOCK"
         android:textColor="@color/white" />

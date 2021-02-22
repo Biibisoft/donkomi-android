@@ -1,14 +1,17 @@
 package com.pongo.biibisoft.donkomi_android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +21,10 @@ import static android.view.View.GONE;
 public class GuruManagementFragment extends Fragment {
 
 
+
   OneTabPage currentTab, vendorsTab, stocksTab, routinesTab;
   View vue;
+  RelativeLayout vendorBtn, stockBtn, routineBtn;
 
   @Nullable
   @Override
@@ -31,16 +36,6 @@ public class GuruManagementFragment extends Fragment {
 
 
   public void goToPage(OneTabPage newPage) {
-
-//    LinearLayout vendorsMain = vue.findViewById(R.id.vendors_tab_fragment);
-//    TextView vendorsHeader = vue.findViewById(R.id.vendors_tab_header);
-//    LinearLayout stocksMain = vue.findViewById(R.id.stocks_tab_fragment);
-//    TextView stocksHeader = vue.findViewById(R.id.stocks_tab_header);
-//
-//    vendorsHeader.setBackgroundResource(R.drawable.plain_ripple_background);
-//    vendorsMain.setVisibility(GONE);
-//    stocksHeader.setBackgroundResource(R.drawable.plain_ripple_background);
-//    stocksMain.setVisibility(View.VISIBLE);
     if (currentTab != null) {
       currentTab.getMainContainer().setVisibility(GONE);
       currentTab.getTabHeaderView().setBackgroundResource(R.drawable.plain_ripple_background);
@@ -51,6 +46,38 @@ public class GuruManagementFragment extends Fragment {
   }
 
   public void initialize(View v) {
+    vendorBtn = v.findViewById(R.id.create_new_vendor_btn);
+    stockBtn = v.findViewById(R.id.create_new_stock_btn);
+    routineBtn = v.findViewById(R.id.create_new_routine_btn);
+
+    vendorBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent page = new Intent(getContext(), AllFormsContainerPage.class);
+        page.putExtra(Konstants.FORM_FOR, Konstants.NEW_VENDOR);
+        startActivity(page);
+      }
+    });
+
+    stockBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent page = new Intent(getContext(), AllFormsContainerPage.class);
+        page.putExtra(Konstants.FORM_FOR, Konstants.NEW_STOCK);
+        startActivity(page);
+      }
+    });
+
+    routineBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent page = new Intent(getContext(), AllFormsContainerPage.class);
+        page.putExtra(Konstants.FORM_FOR, Konstants.NEW_ROUTINE);
+        startActivity(page);
+      }
+    });
+
+    // ----------------- VENDORS TAB SETUP  ---------------------
     vendorsTab = new OneTabPage("Vendors", R.id.vendors_tab_header, R.layout.vendors_tab_fragment, v, new OneTabPage.InitialSetup() {
       @Override
       public void createView(View v) {
