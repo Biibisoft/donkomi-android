@@ -54,17 +54,21 @@
 
 
       <ImageView
-
+          android:clickable="true"
+          android:focusable="true"
+          android:background="?attr/selectableItemBackgroundBorderless"
           android:layout_marginRight="15dp"
           android:id="@+id/remove_from_cart"
           app:tint="@color/app_red"
           android:layout_toLeftOf="@id/add_to_cart"
-
           android:layout_width="25dp"
           android:layout_height="25dp"
           android:src="@drawable/delete_icon"
           />
       <ImageView
+          android:clickable="true"
+          android:focusable="true"
+          android:background="?attr/selectableItemBackgroundBorderless"
           android:id="@+id/add_to_cart"
           app:tint="@color/app_green"
           android:layout_marginRight="20dp"

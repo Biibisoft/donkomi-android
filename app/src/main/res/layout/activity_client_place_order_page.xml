@@ -47,6 +47,8 @@
           android:layout_weight="9"
           android:background="@drawable/stroke_rectangle"
           android:hint="Search"
+          android:imeOptions="actionSearch"
+          android:inputType="text"
           android:padding="12dp"
           android:textColorHint="@color/app_blue" />
 
@@ -61,38 +63,25 @@
       <!--      </LinearLayout>-->
 
       <RelativeLayout
-          android:layout_marginBottom="5dp"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginLeft="15dp"
           android:layout_marginRight="15dp"
-          android:background="@drawable/rounded_solid_rectangle"
-          android:backgroundTint="@color/app_green"
-          android:clickable="true"
-          android:focusable="true"
-          android:padding="10dp">
+          android:layout_marginBottom="10dp"
 
-        <LinearLayout
+          android:backgroundTint="@color/app_green">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="horizontal">
-
-          <ImageView
-              android:layout_width="25dp"
-              android:layout_height="25dp"
-              android:layout_marginRight="10dp"
-              android:src="@drawable/custom_order" />
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="5dp"
-              android:text="ADD CUSTOM ORDER"
-              android:textColor="@color/white"
-              android:textSize="16sp" />
-
-        </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/add_custom_order"
+            android:textColor="@color/app_blue"
+            android:textSize="14sp" />
 
       </RelativeLayout>
 

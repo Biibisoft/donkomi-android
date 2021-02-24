@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +25,9 @@ public class ClientCartFragment extends Fragment {
 
 
   public void initialize(View v) {
+    Spinner dropdown = v.findViewById(R.id.shops_spinner);
+    ArrayAdapter dropdownAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, Konstants.DUMMY_VENDORS);
+    dropdown.setAdapter(dropdownAdapter);
     RecyclerView recyclerView = v.findViewById(R.id.order_items_recycler);
     OrderItemsRecycler adapter = new OrderItemsRecycler();
     LinearLayoutManager manager = new LinearLayoutManager(getContext());

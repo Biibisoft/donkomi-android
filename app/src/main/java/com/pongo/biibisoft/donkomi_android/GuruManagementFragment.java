@@ -21,7 +21,6 @@ import static android.view.View.GONE;
 public class GuruManagementFragment extends Fragment {
 
 
-
   OneTabPage currentTab, vendorsTab, stocksTab, routinesTab;
   View vue;
   RelativeLayout vendorBtn, stockBtn, routineBtn;
@@ -128,7 +127,11 @@ public class GuruManagementFragment extends Fragment {
     routinesTab = new OneTabPage("Vendors", R.id.routines_tab_header, R.layout.routines_tab_fragment, v, new OneTabPage.InitialSetup() {
       @Override
       public void createView(View v) {
-
+        RecyclerView routinesRec = v.findViewById(R.id.guru_routines_tab_recycler);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        EditableRoutinesRecyclerAdapter adapter = new EditableRoutinesRecyclerAdapter();
+        routinesRec.setAdapter(adapter);
+        routinesRec.setLayoutManager(manager);
       }
     });
     TextView routinesHeader = v.findViewById(R.id.routines_tab_header);

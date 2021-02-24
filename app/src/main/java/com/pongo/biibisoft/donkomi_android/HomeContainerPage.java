@@ -52,7 +52,7 @@ public class HomeContainerPage extends AppCompatActivity {
   private View.OnClickListener goToCartPage = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-      Intent page = new Intent(thisActivity, ClientPlaceOrderPage.class);
+      Intent page = new Intent(thisActivity, CompleteOrderPage.class);
       startActivity(page);
     }
   };
