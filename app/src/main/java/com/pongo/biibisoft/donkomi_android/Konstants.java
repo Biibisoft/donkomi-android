@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Konstants {
 
+  public static final String AWAITING_ORDER = "AWAITING_ORDER";
+  public static final String COMPLETE_ORDER = "COMPLETE_ORDER";
   public static final String ROOM_NUMBER = "ROOM_NUMBER";
   public static final String STANDARD = "STANDARD";
   public static final String GURU  = "GURU";
