@@ -36,6 +36,10 @@ public class RoutineTemplate implements Parcelable {
     }
   };
 
+  public RoutineTemplate() {
+
+  }
+
   public String getTitle() {
     return title;
   }

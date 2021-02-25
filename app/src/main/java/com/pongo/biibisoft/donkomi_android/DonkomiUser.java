@@ -12,6 +12,15 @@ public class DonkomiUser implements Parcelable {
   private String type = Konstants.STANDARD;
   private String OrgID;
   private String orgIDType = Konstants.ROOM_NUMBER;
+  private String profilePicture;
+
+  public String getProfilePicture() {
+    return profilePicture;
+  }
+
+  public void setProfilePicture(String profilePicture) {
+    this.profilePicture = profilePicture;
+  }
 
   public DonkomiUser() {
   }
@@ -84,6 +93,7 @@ public class DonkomiUser implements Parcelable {
     this.type = type;
   }
 
+
   @Override
   public int describeContents() {
     return 0;
@@ -99,9 +109,11 @@ public class DonkomiUser implements Parcelable {
     dest.writeString(this.type);
     dest.writeString(this.OrgID);
     dest.writeString(this.orgIDType);
+    dest.writeString(this.profilePicture);
   }
 
   public void readFromParcel(Parcel source) {
+
     this.firstName = source.readString();
     this.lastName = source.readString();
     this.gender = source.readString();
@@ -110,6 +122,7 @@ public class DonkomiUser implements Parcelable {
     this.type = source.readString();
     this.OrgID = source.readString();
     this.orgIDType = source.readString();
+    this.profilePicture = source.readString();
   }
 
   protected DonkomiUser(Parcel in) {
@@ -121,6 +134,7 @@ public class DonkomiUser implements Parcelable {
     this.type = in.readString();
     this.OrgID = in.readString();
     this.orgIDType = in.readString();
+    this.profilePicture = in.readString();
   }
 
   public static final Creator<DonkomiUser> CREATOR = new Creator<DonkomiUser>() {
