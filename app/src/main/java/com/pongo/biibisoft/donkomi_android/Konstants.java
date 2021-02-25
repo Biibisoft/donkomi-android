@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Konstants {
 
+  public static final String ROOM_NUMBER = "ROOM_NUMBER";
+  public static final String STANDARD = "STANDARD";
+  public static final String GURU  = "GURU";
+  public static final String SELLER = "SELLER";
   public static final String[] EARNING_OPTIONS = { "Seller", "Delivery Guru"};
   public static final String[] ORGANISATIONS = { "African Leadership University", "Middle Sex University", "Mauritius University"};
   public static final String[] DUMMY_VENDORS = { "McDonalds", "KFC", "Ricardos", "Trobiche Fast Food"};
