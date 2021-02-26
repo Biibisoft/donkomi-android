@@ -3,4 +3,5 @@
   <string name="delivery_guru">~Delivery Guru</string>
   <string name="learn_about_donkomi"><u> Learn more about earning on Donkomi</u></string>
   <string name="add_custom_order"><u>ADD CUSTOM ORDER</u></string>
+  <string name="loading">Loading...</string>
 </resources>
