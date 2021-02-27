@@ -51,7 +51,7 @@
         android:textSize="15sp" />
 
     <EditText
-        android:id="@+id/passwords"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
@@ -99,7 +99,8 @@
         android:id="@+id/finish_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_blue"
+        android:background="@drawable/rounded_solid_rectangle"
+        android:backgroundTint="@color/app_blue"
         android:text="FINISH"
         android:textColor="@color/white" />
 
@@ -107,7 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/solid_rectangle"
+        android:background="@drawable/rounded_solid_rectangle"
         android:backgroundTint="@color/app_red"
         android:text="USE GOOGLE"
         android:textColor="@color/white" />
