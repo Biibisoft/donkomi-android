@@ -12,7 +12,7 @@ public class RoutineTemplate implements Parcelable {
   private int perOrderRate;
   private int baseCost;
   private Currency currency;
-  private ArrayList<Tag> foodTags ;
+  private ArrayList<Tag> foodTags;
 
   protected RoutineTemplate(Parcel in) {
     title = in.readString();

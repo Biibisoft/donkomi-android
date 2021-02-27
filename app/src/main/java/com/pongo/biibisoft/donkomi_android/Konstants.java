@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class Konstants {
 
+  public static final String ANDROID = "ANDROID";
+  public static final String IPHONE  = "IPHONE";
+  public static final String WEB = "WEB";
   public static final String AWAITING_ORDER = "AWAITING_ORDER";
   public static final String COMPLETE_ORDER = "COMPLETE_ORDER";
   public static final String ROOM_NUMBER = "ROOM_NUMBER";

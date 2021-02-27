@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Role implements Parcelable {
-
   private String name = Konstants.STANDARD;
   private int accessLevel = 1;
 

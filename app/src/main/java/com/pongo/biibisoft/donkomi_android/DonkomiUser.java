@@ -3,16 +3,49 @@ package com.pongo.biibisoft.donkomi_android;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class DonkomiUser implements Parcelable {
+  private String platformID; // UID that is given by firebase
   private String firstName;
   private String lastName;
   private String gender;
   private String email;
   private Organization organization;
-  private String type = Konstants.STANDARD;
   private String OrgID;
   private String orgIDType = Konstants.ROOM_NUMBER;
   private String profilePicture;
+  private ArrayList<Device> deviceTokens;
+  private ArrayList<Role> role;
+
+
+  public DonkomiUser() {
+  }
+
+
+  public ArrayList<Device> getDeviceTokens() {
+    return deviceTokens;
+  }
+
+  public void setDeviceTokens(ArrayList<Device> deviceTokens) {
+    this.deviceTokens = deviceTokens;
+  }
+
+  public ArrayList<Role> getRole() {
+    return role;
+  }
+
+  public void setRole(ArrayList<Role> role) {
+    this.role = role;
+  }
+
+  public String getPlatformID() {
+    return platformID;
+  }
+
+  public void setPlatformID(String platformID) {
+    this.platformID = platformID;
+  }
 
   public String getProfilePicture() {
     return profilePicture;
@@ -22,8 +55,7 @@ public class DonkomiUser implements Parcelable {
     this.profilePicture = profilePicture;
   }
 
-  public DonkomiUser() {
-  }
+
 
   public String getEmail() {
     return email;
@@ -85,14 +117,6 @@ public class DonkomiUser implements Parcelable {
     this.organization = organization;
   }
 
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
 
   @Override
   public int describeContents() {
@@ -106,20 +130,17 @@ public class DonkomiUser implements Parcelable {
     dest.writeString(this.gender);
     dest.writeString(this.email);
     dest.writeParcelable(this.organization, flags);
-    dest.writeString(this.type);
     dest.writeString(this.OrgID);
     dest.writeString(this.orgIDType);
     dest.writeString(this.profilePicture);
   }
 
   public void readFromParcel(Parcel source) {
-
     this.firstName = source.readString();
     this.lastName = source.readString();
     this.gender = source.readString();
     this.email = source.readString();
     this.organization = source.readParcelable(Organization.class.getClassLoader());
-    this.type = source.readString();
     this.OrgID = source.readString();
     this.orgIDType = source.readString();
     this.profilePicture = source.readString();
@@ -131,7 +152,6 @@ public class DonkomiUser implements Parcelable {
     this.gender = in.readString();
     this.email = in.readString();
     this.organization = in.readParcelable(Organization.class.getClassLoader());
-    this.type = in.readString();
     this.OrgID = in.readString();
     this.orgIDType = in.readString();
     this.profilePicture = in.readString();

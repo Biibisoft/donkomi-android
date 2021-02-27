@@ -21,6 +21,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 
 import java.io.ByteArrayOutputStream;
@@ -71,27 +73,27 @@ public class ImageUploadHelper {
     Bitmap bitmap = BitmapFactory.decodeByteArray(compressedImage, 0, compressedImage.length);
     return bitmap;
   }
-//
-//  public void openFileChooserWithCropper(Activity activity, int aspectRationX, int aspectRatioY) {
-//    CropImage.activity()
-//        .setGuidelines(CropImageView.Guidelines.ON)
-//        .setAspectRatio(aspectRationX, aspectRatioY)
-//        .start(activity);
-//  }
 
-//  public void collectCroppedImage(int requestCode, int resultCode, @Nullable Intent data, CroppingImageCallback croppingResult) {
-//    if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-//      CropImage.ActivityResult result = CropImage.getActivityResult(data);
-//      if (resultCode == RESULT_OK) {
-//        Uri resultUri = result.getUri();
-//        croppingResult.getCroppedImage(result.getUri());
-//      } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-//        Exception error = result.getError();
-//        croppingResult.getCroppingError(error);
-//      }
-//    }
-//
-//  }
+  public void openFileChooserWithCropper(Activity activity, int aspectRationX, int aspectRatioY) {
+    CropImage.activity()
+        .setGuidelines(CropImageView.Guidelines.ON)
+        .setAspectRatio(aspectRationX, aspectRatioY)
+        .start(activity);
+  }
+
+  public void collectCroppedImage(int requestCode, int resultCode, @Nullable Intent data, CroppingImageCallback croppingResult) {
+    if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+      CropImage.ActivityResult result = CropImage.getActivityResult(data);
+      if (resultCode == RESULT_OK) {
+        Uri resultUri = result.getUri();
+        croppingResult.getCroppedImage(result.getUri());
+      } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+        Exception error = result.getError();
+        croppingResult.getCroppingError(error);
+      }
+    }
+
+  }
 
   public void compressImageToBytes(Uri uri, final CompressedImageToBytesCallback callback) {
     new BackgroundCompressorToBytes(context.getContentResolver(), new CompressedImageToBytesCallback() {
