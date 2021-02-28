@@ -19,6 +19,13 @@ public class DonkomiUser implements Parcelable {
   private ArrayList<Role> role;
 
 
+  public DonkomiUser(String email, String firstName, String lastName, String platformID) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.platformID = platformID;
+  }
+
   public DonkomiUser() {
   }
 
@@ -54,7 +61,6 @@ public class DonkomiUser implements Parcelable {
   public void setProfilePicture(String profilePicture) {
     this.profilePicture = profilePicture;
   }
-
 
 
   public String getEmail() {

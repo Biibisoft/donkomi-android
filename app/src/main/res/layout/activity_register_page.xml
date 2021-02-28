@@ -5,91 +5,139 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterPage">
-  <include  layout="@layout/universal_toolbar" />
 
-  <LinearLayout
-      android:layout_marginTop="90dp"
+  <include layout="@layout/universal_toolbar" />
+
+  <ScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:orientation="vertical"
-      android:padding="15dp">
+      android:layout_above="@id/bottom_buttons"
+      android:layout_below="@id/title_bar">
 
-    <TextView
-        android:textSize="18sp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Setup Your Personal Profile On Donkomi"
-        android:textColor="@color/app_blue" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
 
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/stroke_rectangle"
-        android:hint="Email"
-        android:padding="13dp"
-        android:textColorHint="@color/app_blue"
-        android:textSize="15sp" />
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="10dp"
+          android:text="Setup Your Personal Profile On Donkomi"
+          android:textColor="@color/app_blue"
+          android:textSize="18sp" />
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/stroke_rectangle" />
+      <EditText
+          android:id="@+id/email"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="Email"
+          android:inputType="textEmailAddress"
+          android:padding="13dp"
+          android:textColorHint="@color/app_blue"
+          android:textSize="15sp" />
 
-    <EditText
-        android:id="@+id/phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/stroke_rectangle"
-        android:hint="Phone Number"
-        android:inputType="number"
-        android:padding="13dp"
-        android:textColorHint="@color/app_blue"
-        android:textSize="15sp" />
+      <EditText
+          android:id="@+id/first_name"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="7dp"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="First Name"
+          android:padding="13dp"
+          android:textColorHint="@color/app_blue"
+          android:textSize="15sp" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/stroke_rectangle"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:padding="13dp"
-        android:textColorHint="@color/app_blue"
-        android:textSize="15sp" />
+      <EditText
+          android:id="@+id/last_name"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="7dp"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="Last Name"
+          android:padding="13dp"
+          android:textColorHint="@color/app_blue"
+          android:textSize="15sp" />
 
-    <EditText
-        android:id="@+id/confirm_passwords"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/stroke_rectangle"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:padding="13dp"
-        android:textColorHint="@color/app_blue"
-        android:textSize="15sp" />
-    <TextView
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Choose An Organisation You Belong To"
-        android:textColor="@color/app_blue" />
-    <Spinner
-        android:background="@drawable/stroke_rectangle"
-        android:id="@+id/organistion_dropdown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-      />
 
-  </LinearLayout>
+      <Spinner
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="7dp"
+          android:background="@drawable/stroke_rectangle" />
+
+      <EditText
+          android:id="@+id/phone"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="7dp"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="Phone Number"
+          android:inputType="number"
+          android:padding="13dp"
+          android:textColorHint="@color/app_blue"
+          android:textSize="15sp" />
+
+      <EditText
+          android:id="@+id/password"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="7dp"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="Password"
+          android:inputType="textPassword"
+          android:padding="13dp"
+          android:textColorHint="@color/app_blue"
+          android:textSize="15sp" />
+
+      <EditText
+          android:id="@+id/confirm_passwords"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="7dp"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="Confirm Password"
+          android:inputType="textPassword"
+          android:padding="13dp"
+          android:textColorHint="@color/app_blue"
+          android:textSize="15sp" />
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="15dp"
+          android:padding="5dp"
+          android:text="Your Gender"
+          android:textColor="@color/app_blue" />
+
+      <Spinner
+          android:id="@+id/gender_dropdown"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+
+          android:background="@drawable/stroke_rectangle" />
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="15dp"
+          android:padding="5dp"
+          android:text="Choose An Organisation You Belong To"
+          android:textColor="@color/app_blue" />
+
+      <Spinner
+          android:id="@+id/organistion_dropdown"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/stroke_rectangle" />
+
+    </LinearLayout>
+  </ScrollView>
 
   <LinearLayout
+      android:id="@+id/bottom_buttons"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
