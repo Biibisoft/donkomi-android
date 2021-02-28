@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1002786340365",
+    "project_id": "donkomi-android",
+    "storage_bucket": "donkomi-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002786340365:android:b150e14a4986774bd35f44",
+        "android_client_info": {
+          "package_name": "com.pongo.biibisoft.donkomi_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002786340365-757ttvi0eh63euff6ku9ibrmrejk0rpj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvFyanieEvs5VyYJTvMDdWIW2QNuFYMzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002786340365-757ttvi0eh63euff6ku9ibrmrejk0rpj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
