@@ -174,4 +174,21 @@ public class DonkomiUser implements Parcelable {
       return new DonkomiUser[size];
     }
   };
+
+  @Override
+  public String toString() {
+    return "DonkomiUser{" +
+        "platformID='" + platformID + '\'' +
+        ", firstName='" + firstName + '\'' +
+        ", lastName='" + lastName + '\'' +
+        ", gender='" + gender + '\'' +
+        ", email='" + email + '\'' +
+        ", organization=" + organization +
+        ", OrgID='" + OrgID + '\'' +
+        ", orgIDType='" + orgIDType + '\'' +
+        ", profilePicture='" + profilePicture + '\'' +
+        ", deviceTokens=" + deviceTokens +
+        ", role=" + role +
+        '}';
+  }
 }

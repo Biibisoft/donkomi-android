@@ -17,7 +17,7 @@ public class Konstants {
   public static final String[] EARNING_OPTIONS = { "Seller", "Delivery Guru"};
   public static final String[] ORGANISATIONS = { "African Leadership University"};
   public static final String[] DUMMY_VENDORS = { "McDonalds", "KFC", "Ricardos", "Trobiche Fast Food"};
-  public static final String[] GENDER = {"MALE", "FEMALE", "Tennis Ball","Other", "Prefer Not To"};
+  public static final String[] GENDER = {"MALE", "FEMALE", "TENNIS BALL","OTHER", "PREFER NOT TO"};
 
   public static final String NEW_VENDOR = "NEW_VENDOR";
   public static final String NEW_STOCK = "NEW_STOCK";

@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,8 +38,10 @@ public class RegisterPage extends AppCompatActivity {
   FirebaseUser fireUser;
   FirebaseAuth mAuth;
   private DonkomiUser userObj;
-  String selectedGender = "Other";
+  String selectedGender = "OTHER";
   Organization selectedOrg;
+  MagicBoxes dialogCreator;
+  Dialog loadingDialog;
 
 
   @Override
@@ -106,8 +111,10 @@ public class RegisterPage extends AppCompatActivity {
               if (task.isSuccessful()) {
                 Toast.makeText(RegisterPage.this, "Successfully Created Your Account", Toast.LENGTH_SHORT).show();
                 fireUser = mAuth.getCurrentUser();
+                loadingDialog.dismiss();
 
               } else {
+                loadingDialog.dismiss();
                 Log.w("RegPageEmail&PErr::", task.getException().getMessage());
                 Toast.makeText(RegisterPage.this, "Oops, something happened! " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
               }
@@ -117,12 +124,14 @@ public class RegisterPage extends AppCompatActivity {
         public void onFailure(@NonNull Exception e) {
           Log.w("RegPageEmail&PErr::", "withEmailAndPasswordException:" + e.getMessage());
           Toast.makeText(RegisterPage.this, "Oops! " + e.getMessage(), Toast.LENGTH_SHORT).show();
+          loadingDialog.dismiss();
         }
       });
     }
   }
 
   public void initialize() {
+    dialogCreator = new MagicBoxes(this);
     email = findViewById(R.id.email);
     phone = findViewById(R.id.phone);
     password = findViewById(R.id.password);
@@ -133,7 +142,13 @@ public class RegisterPage extends AppCompatActivity {
     finishBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-//        finishNormalRegistration();
+        View loadingView = LayoutInflater.from(_this).inflate(R.layout.simple_loading_dialog,null, false);
+        TextView  loadingText = loadingView.findViewById(R.id.loader_text);
+        loadingText.setText("Creating Account...");
+        loadingDialog = dialogCreator.constructLoadingCustomDialog(loadingView);
+        loadingDialog.setCanceledOnTouchOutside(false);
+        loadingDialog.show();
+        finishNormalRegistration();
 //        Intent page = new Intent(_this, HomeContainerPage.class);
 //        startActivity(page);
       }
@@ -160,7 +175,7 @@ public class RegisterPage extends AppCompatActivity {
 
   }
 
-  private AdapterView.OnItemSelectedListener onGenderSelected = new AdapterView.OnItemSelectedListener() {
+  private final AdapterView.OnItemSelectedListener onGenderSelected = new AdapterView.OnItemSelectedListener() {
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
       selectedGender = parent.getItemAtPosition(position).toString();
@@ -172,7 +187,7 @@ public class RegisterPage extends AppCompatActivity {
     }
   };
 
-  private AdapterView.OnItemSelectedListener onOrgSelected = new AdapterView.OnItemSelectedListener() {
+  private final AdapterView.OnItemSelectedListener onOrgSelected = new AdapterView.OnItemSelectedListener() {
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
       // Initially hardcoded, but will be changed to get dynamic values when more organizations join
