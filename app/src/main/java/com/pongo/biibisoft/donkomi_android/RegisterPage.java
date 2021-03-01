@@ -166,9 +166,11 @@ public class RegisterPage extends AppCompatActivity {
   }
 
   // Create a donkomi object from the details given by the user
-  public void createCombinedUserObject() {
-
-//    userObj = new DonkomiUser(MyHelper.getTextFrom(email),MyHelper.getTextFrom())
+  public DonkomiUser createCombinedUserObject(String platformID) {
+    userObj = new DonkomiUser(MyHelper.getTextFrom(email), MyHelper.getTextFrom(firstName), MyHelper.getTextFrom(lastName), platformID);
+    userObj.setOrganization(selectedOrg);
+    userObj.setGender(selectedGender);
+    return userObj;
   }
 
   // Create new user user with email and password in firebase
@@ -182,7 +184,7 @@ public class RegisterPage extends AppCompatActivity {
                 Toast.makeText(RegisterPage.this, "Successfully Created Your Account", Toast.LENGTH_SHORT).show();
                 fireUser = mAuth.getCurrentUser();
                 loadingDialog.dismiss();
-
+                transitionToHomePage();
               } else {
                 loadingDialog.dismiss();
                 Log.w("RegPageEmail&PErr::", task.getException().getMessage());
@@ -198,6 +200,17 @@ public class RegisterPage extends AppCompatActivity {
         }
       });
     }
+  }
+
+  private void goToProfileCompletionPage() {
+    Intent page = new Intent(this, ClientAllPagesContainer.class);
+    page.putExtra(Konstants.FORM_FOR, Konstants.EDIT_PROFILE_FORM);
+    startActivity(page);
+  }
+
+  private void transitionToHomePage() {
+    Intent homePage = new Intent(this, HomeContainerPage.class);
+    startActivity(homePage);
   }
 
   // Google Registration Step 2
@@ -227,7 +240,7 @@ public class RegisterPage extends AppCompatActivity {
         firebaseAuthWithGoogle(account.getIdToken());
       } catch (Exception e) {
         e.printStackTrace();
-        Log.d(TAG, "onActivityResult: GoogleError"+ e.getLocalizedMessage());
+        Log.d(TAG, "onActivityResult: GoogleError" + e.getLocalizedMessage());
         Toast.makeText(this, "Oops! Failed to sign up with google! " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
       }
     }
@@ -243,7 +256,8 @@ public class RegisterPage extends AppCompatActivity {
           public void onComplete(@NonNull Task<AuthResult> task) {
             if (task.isSuccessful()) {
               // Sign in success, update UI with the signed-in user's information
-              FirebaseUser user = mAuth.getCurrentUser();
+              fireUser = mAuth.getCurrentUser();
+              goToProfileCompletionPage();
             } else {
               // If sign in fails, display a message to the user.
               Log.w(TAG, "signUpWithCredential:failure", task.getException());
