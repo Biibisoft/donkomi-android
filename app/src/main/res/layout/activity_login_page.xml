@@ -38,6 +38,9 @@
     </RelativeLayout>
 
     <EditText
+        android:inputType="text"
+        android:lines="1"
+        android:maxLines="1"
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +51,9 @@
         android:textSize="15sp" />
 
     <EditText
-        android:id="@+id/passwords"
+        android:lines="1"
+        android:maxLines="1"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
@@ -124,6 +129,7 @@
         android:textColor="@color/white" />
 
     <Button
+        android:id="@+id/use_google_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
