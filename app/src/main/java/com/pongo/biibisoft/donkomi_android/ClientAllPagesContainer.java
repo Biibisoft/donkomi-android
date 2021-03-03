@@ -10,8 +10,11 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,18 +41,19 @@ public class ClientAllPagesContainer extends AppCompatActivity {
 
   public void generateForm() {
     CURRENT_PAGE = CURRENT_PAGE == null ? Konstants.EDIT_PROFILE_FORM : CURRENT_PAGE;
-    if (CURRENT_PAGE == Konstants.EDIT_PROFILE_FORM) {
+    if (CURRENT_PAGE.equals(Konstants.EDIT_PROFILE_FORM)) {
+      setupUniqueEditQualities();
+      pageName.setText("Edit Your Profile");
       editProfileForm.setVisibility(View.VISIBLE);
     }
   }
 
   public void initialize() {
-    profilePicture = findViewById(R.id.profile_picture);
-    imageUploadHelper = new ImageUploadHelper(this);
-    editProfileForm = findViewById(R.id.edit_profile_form);
+    Spinner gender_dropdown = findViewById(R.id.gender_dropdown);
+    ArrayAdapter<String> genderAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Konstants.GENDER);
+    gender_dropdown.setAdapter(genderAdapter);
     CURRENT_PAGE = getIntent().getStringExtra(Konstants.FORM_FOR);
     pageName = findViewById(R.id.page_name);
-    pageName.setText("Edit Your Profile");
     backBtn = findViewById(R.id.back_icon);
     rightIcon = findViewById(R.id.right_icon);
     rightIcon.setVisibility(View.INVISIBLE);
@@ -59,14 +63,26 @@ public class ClientAllPagesContainer extends AppCompatActivity {
         finish();
       }
     });
+    generateForm();
+  }
+
+  public void setupUniqueEditQualities() {
+    profilePicture = findViewById(R.id.profile_picture);
+    editProfileForm = findViewById(R.id.edit_profile_form);
+    imageUploadHelper = new ImageUploadHelper(this);
+    Button saveChanges = findViewById(R.id.save_changes);
+    saveChanges.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Toast.makeText(_this, "Do some submission lol!", Toast.LENGTH_SHORT).show();
+      }
+    });
     profilePicture.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         startImageChooser();
       }
     });
-    generateForm();
-
   }
 
 

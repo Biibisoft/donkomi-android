@@ -7,7 +7,7 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:orientation="vertical"
-      android:visibility="gone">
+      android:visibility="visible">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,11 +33,22 @@
 
 
       <EditText
-          android:id="@+id/edit_name"
+          android:id="@+id/first_name"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:background="@drawable/stroke_rectangle"
-          android:hint="Name"
+          android:hint="First Name"
+          android:padding="15dp"
+          android:textColor="@color/app_blue"
+          android:textColorHint="@color/app_blue" />
+
+      <EditText
+          android:id="@+id/last_name"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:background="@drawable/stroke_rectangle"
+          android:hint="Last Name"
           android:padding="15dp"
           android:textColor="@color/app_blue"
           android:textColorHint="@color/app_blue" />
@@ -52,10 +63,27 @@
           android:padding="15dp"
           android:textColor="@color/app_blue"
           android:textColorHint="@color/app_blue" />
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="15dp"
+          android:padding="5dp"
+          android:text="Your Gender"
+          android:textColor="@color/app_blue" />
+
+      <Spinner
+          android:id="@+id/gender_dropdown"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/stroke_rectangle" />
+
+
     </LinearLayout>
 
 
     <Button
+        android:id="@+id/save_changes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -210,6 +210,7 @@ public class RegisterPage extends AppCompatActivity {
 
   private void transitionToHomePage() {
     Intent homePage = new Intent(this, HomeContainerPage.class);
+    homePage.putExtra(Konstants.FORM_FOR, Konstants.EDIT_PROFILE_FORM);
     startActivity(homePage);
   }
 
