@@ -11,8 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 public class ClientHomeFragment extends Fragment {
 
+  RequestQueue httpHandler;
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -21,8 +25,8 @@ public class ClientHomeFragment extends Fragment {
     return v;
   }
 
-
   public void initialize(View v){
+    this.httpHandler = Volley.newRequestQueue(getContext());
     RecyclerView recyclerView = v.findViewById(R.id.live_trips_recycler);
     LinearLayoutManager manager = new LinearLayoutManager(getContext());
     LiveTripsRecyclerAdapter adapter = new LiveTripsRecyclerAdapter();

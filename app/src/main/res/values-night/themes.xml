@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.DonkomiAndroid" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.DonkomiAndroid" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/app_blue</item>
         <item name="colorPrimaryVariant">@color/app_red</item>

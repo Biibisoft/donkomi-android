@@ -18,7 +18,6 @@ public class DonkomiUser implements Parcelable {
   private ArrayList<Device> deviceTokens;
   private ArrayList<Role> role;
 
-
   public DonkomiUser(String email, String firstName, String lastName, String platformID) {
     this.firstName = firstName;
     this.lastName = lastName;
