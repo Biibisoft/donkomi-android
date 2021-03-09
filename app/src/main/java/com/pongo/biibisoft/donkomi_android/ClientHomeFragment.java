@@ -1,6 +1,7 @@
 package com.pongo.biibisoft.donkomi_android;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 public class ClientHomeFragment extends Fragment {
 
@@ -33,5 +40,22 @@ public class ClientHomeFragment extends Fragment {
     recyclerView.setLayoutManager(manager);
     recyclerView.setAdapter(adapter);
     recyclerView.hasFixedSize();
+    runInitialRequest();
+  }
+
+
+  public void runInitialRequest(){
+    JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, DonkomiURLS.GET_USER + "2", null, new Response.Listener<JSONObject>() {
+      @Override
+      public void onResponse(JSONObject response) {
+        Log.d("RESPONSE-HERE:::",response.toString());
+      }
+    }, new Response.ErrorListener() {
+      @Override
+      public void onErrorResponse(VolleyError error) {
+        Log.d("RESPONSE_ERROR:", error.getLocalizedMessage());
+      }
+    });
+    httpHandler.add(req);
   }
 }
