@@ -3,41 +3,33 @@ package com.pongo.biibisoft.donkomi_android;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 public class RoutineTemplate implements Parcelable {
   private String title;
+  @SerializedName("involved_vendors")
   private ArrayList<Vendor> vendors;
   private String estimatedTime;
   private int perOrderRate;
+  @SerializedName("base_cost")
   private int baseCost;
   private Currency currency;
   private ArrayList<Tag> foodTags;
+  private String description;
 
-  protected RoutineTemplate(Parcel in) {
-    title = in.readString();
-    vendors = in.createTypedArrayList(Vendor.CREATOR);
-    estimatedTime = in.readString();
-    perOrderRate = in.readInt();
-    baseCost = in.readInt();
-    currency = in.readParcelable(Currency.class.getClassLoader());
-    foodTags = in.createTypedArrayList(Tag.CREATOR);
-  }
-
-  public static final Creator<RoutineTemplate> CREATOR = new Creator<RoutineTemplate>() {
-    @Override
-    public RoutineTemplate createFromParcel(Parcel in) {
-      return new RoutineTemplate(in);
-    }
-
-    @Override
-    public RoutineTemplate[] newArray(int size) {
-      return new RoutineTemplate[size];
-    }
-  };
 
   public RoutineTemplate() {
 
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getTitle() {
@@ -103,12 +95,61 @@ public class RoutineTemplate implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(title);
-    dest.writeTypedList(vendors);
-    dest.writeString(estimatedTime);
-    dest.writeInt(perOrderRate);
-    dest.writeInt(baseCost);
-    dest.writeParcelable(currency, flags);
-    dest.writeTypedList(foodTags);
+    dest.writeString(this.title);
+    dest.writeTypedList(this.vendors);
+    dest.writeString(this.estimatedTime);
+    dest.writeInt(this.perOrderRate);
+    dest.writeInt(this.baseCost);
+    dest.writeParcelable(this.currency, flags);
+    dest.writeTypedList(this.foodTags);
+    dest.writeString(this.description);
   }
+
+  public void readFromParcel(Parcel source) {
+    this.title = source.readString();
+    this.vendors = source.createTypedArrayList(Vendor.CREATOR);
+    this.estimatedTime = source.readString();
+    this.perOrderRate = source.readInt();
+    this.baseCost = source.readInt();
+    this.currency = source.readParcelable(Currency.class.getClassLoader());
+    this.foodTags = source.createTypedArrayList(Tag.CREATOR);
+    this.description = source.readString();
+  }
+
+  protected RoutineTemplate(Parcel in) {
+    this.title = in.readString();
+    this.vendors = in.createTypedArrayList(Vendor.CREATOR);
+    this.estimatedTime = in.readString();
+    this.perOrderRate = in.readInt();
+    this.baseCost = in.readInt();
+    this.currency = in.readParcelable(Currency.class.getClassLoader());
+    this.foodTags = in.createTypedArrayList(Tag.CREATOR);
+    this.description = in.readString();
+  }
+
+  @Override
+  public String toString() {
+    return "RoutineTemplate{" +
+        "title='" + title + '\'' +
+        ", vendors=" + vendors +
+        ", estimatedTime='" + estimatedTime + '\'' +
+        ", perOrderRate=" + perOrderRate +
+        ", baseCost=" + baseCost +
+        ", currency=" + currency +
+        ", foodTags=" + foodTags +
+        ", description='" + description + '\'' +
+        '}';
+  }
+
+  public static final Creator<RoutineTemplate> CREATOR = new Creator<RoutineTemplate>() {
+    @Override
+    public RoutineTemplate createFromParcel(Parcel source) {
+      return new RoutineTemplate(source);
+    }
+
+    @Override
+    public RoutineTemplate[] newArray(int size) {
+      return new RoutineTemplate[size];
+    }
+  };
 }
