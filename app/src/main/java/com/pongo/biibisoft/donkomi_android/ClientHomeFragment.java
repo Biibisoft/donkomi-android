@@ -22,8 +22,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 public class ClientHomeFragment extends Fragment {
-
+  public static final String TAG = "CLIENT_HOME_FRAGMENT";
   RequestQueue httpHandler;
+  InternetExplorer explorer;
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class ClientHomeFragment extends Fragment {
 
   public void initialize(View v){
     this.httpHandler = Volley.newRequestQueue(getContext());
+    this.explorer = new InternetExplorer(getContext());
     RecyclerView recyclerView = v.findViewById(R.id.live_trips_recycler);
     LinearLayoutManager manager = new LinearLayoutManager(getContext());
     LiveTripsRecyclerAdapter adapter = new LiveTripsRecyclerAdapter();
@@ -45,17 +47,16 @@ public class ClientHomeFragment extends Fragment {
 
 
   public void runInitialRequest(){
-    JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, DonkomiURLS.GET_USER + "2", null, new Response.Listener<JSONObject>() {
+    explorer.run(DonkomiURLS.GET_ROUTINES, new Result() {
       @Override
-      public void onResponse(JSONObject response) {
-        Log.d("RESPONSE-HERE:::",response.toString());
+      public void isOkay(JSONObject response) {
+        Log.d(TAG, "isOkay: "+response.toString());
       }
-    }, new Response.ErrorListener() {
+
       @Override
-      public void onErrorResponse(VolleyError error) {
-        Log.d("RESPONSE_ERROR:", error.getLocalizedMessage());
+      public void error(String error) {
+        Log.d(TAG, "error: "+error);
       }
     });
-    httpHandler.add(req);
   }
 }
