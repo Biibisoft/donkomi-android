@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+  <ProgressBar
+
+      android:layout_centerHorizontal="true"
+      android:id="@+id/raw_loading_spinner"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_centerVertical="true"
+      android:layout_marginLeft="10dp"
+      android:layout_marginTop="20dp"
+      android:layout_marginBottom="7dp"
+      android:indeterminateDrawable="@drawable/progress_circle"
+      android:outlineSpotShadowColor="@color/app_red" />
+</RelativeLayout>

@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +34,10 @@ public class ClientHomeFragment extends Fragment {
   InternetExplorer explorer;
   private Gson gson = new Gson();
 
+  RecyclerView liveTripsRecycler;
+  ProgressBar loadingSpinner;
+  TextView informationBanner;
+
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,14 +47,16 @@ public class ClientHomeFragment extends Fragment {
   }
 
   public void initialize(View v) {
-    this.httpHandler = Volley.newRequestQueue(getContext());
+//    this.httpHandler = Volley.newRequestQueue(getContext());
     this.explorer = new InternetExplorer(getContext());
-    RecyclerView recyclerView = v.findViewById(R.id.live_trips_recycler);
+    informationBanner = v.findViewById(R.id.information);
+    loadingSpinner = v.findViewById(R.id.raw_loading_spinner);
+    liveTripsRecycler = v.findViewById(R.id.live_trips_recycler);
     LinearLayoutManager manager = new LinearLayoutManager(getContext());
     LiveTripsRecyclerAdapter adapter = new LiveTripsRecyclerAdapter();
-    recyclerView.setLayoutManager(manager);
-    recyclerView.setAdapter(adapter);
-    recyclerView.hasFixedSize();
+    liveTripsRecycler.setLayoutManager(manager);
+    liveTripsRecycler.setAdapter(adapter);
+    liveTripsRecycler.hasFixedSize();
     runInitialRequest();
   }
 
@@ -58,12 +66,15 @@ public class ClientHomeFragment extends Fragment {
       @Override
       public void isOkay(JSONObject response) {
         try {
-          RoutineTemplate[] templates =  gson.fromJson(response.get("data").toString(), (Type) RoutineTemplate[].class);
+          RoutineTemplate[] templates = gson.fromJson(response.get("data").toString(), (Type) RoutineTemplate[].class);
           Log.d(TAG, "isOkay: " + templates[0].toString());
+          loadingSpinner.setVisibility(View.GONE);
+          liveTripsRecycler.setVisibility(View.VISIBLE);
         } catch (JSONException e) {
+          loadingSpinner.setVisibility(View.GONE);
+          informationBanner.setVisibility(View.VISIBLE);
           e.printStackTrace();
         }
-
       }
 
       @Override
