@@ -127,38 +127,54 @@ public class RegisterPage extends AppCompatActivity {
   public Boolean contentIsValid() {
     if (email.getText() == null || email.getText().toString().isEmpty()) {
       Toast.makeText(this, "Please input a valid email", Toast.LENGTH_SHORT).show();
+      email.requestFocus();
+      email.setError("Please input a valid email");
       return false;
     }
     if (firstName.getText() == null || firstName.getText().toString().isEmpty()) {
       Toast.makeText(this, "Please enter a valid first name", Toast.LENGTH_SHORT).show();
+      firstName.requestFocus();
+      firstName.setError("Please enter a valid first name");
       return false;
     }
     if (lastName.getText() == null || lastName.getText().toString().isEmpty()) {
       Toast.makeText(this, "Please enter a valid last name", Toast.LENGTH_SHORT).show();
+      lastName.requestFocus();
+      lastName.setError("Please enter a valid last name");
       return false;
     }
 
-    if (phone.getText() == null || phone.getText().toString().isEmpty()) {
-      Toast.makeText(this, "Please input a valid phone number", Toast.LENGTH_SHORT).show();
-      return false;
-    }
+//    if (phone.getText() == null || phone.getText().toString().isEmpty()) {
+//      Toast.makeText(this, "Please input a valid phone number", Toast.LENGTH_SHORT).show();
+//      phone.requestFocus();
+//      phone.setError("Please input a valid phone number");
+//      return false;
+//    }
     if (phone.getText() == null || phone.getText().toString().isEmpty() || phone.getText().toString().length() < 8) {
       Toast.makeText(this, "Please input a valid phone number", Toast.LENGTH_SHORT).show();
+      phone.requestFocus();
+      phone.setError("Please input a valid phone number");
       return false;
     }
 
     if (password.getText() == null || password.getText().toString().isEmpty()) {
       Toast.makeText(this, "Please input a valid password", Toast.LENGTH_SHORT).show();
+      password.requestFocus();
+      password.setError("Please input a valid password");
       return false;
     }
     if (password.getText().toString().length() < 6) {
       Toast.makeText(this, "Your password must have 6 or more characters", Toast.LENGTH_SHORT).show();
+      password.requestFocus();
+      password.setError("Your password must have 6 or more characters");
       return false;
     }
 
 
     if (!confirmPassword.getText().toString().equals(password.getText().toString())) {
       Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+      confirmPassword.requestFocus();
+      confirmPassword.setError("Passwords do not match");
       return false;
     }
 
@@ -200,6 +216,7 @@ public class RegisterPage extends AppCompatActivity {
         }
       });
     }
+    else loadingDialog.dismiss();
   }
 
   private void goToProfileCompletionPage() {

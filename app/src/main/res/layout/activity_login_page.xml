@@ -135,6 +135,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/solid_rectangle"
         android:backgroundTint="@color/app_red"
+        app:backgroundTint = "@color/app_red"
         android:text="USE GOOGLE"
         android:textColor="@color/white" />
 

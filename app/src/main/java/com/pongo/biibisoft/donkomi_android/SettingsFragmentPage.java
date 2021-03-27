@@ -13,13 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class SettingsFragmentPage extends Fragment {
 
 
   RelativeLayout goToSettingsBtn, applyToDonkomiBtn, signOutBtn;
-
   private Context context;
-
+  FirebaseAuth mAuth = FirebaseAuth.getInstance();
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,11 +40,9 @@ public class SettingsFragmentPage extends Fragment {
   }
 
   public void initialize(View v) {
-
     goToSettingsBtn = v.findViewById(R.id.go_to_profile_edits_btn);
     applyToDonkomiBtn = v.findViewById(R.id.apply_btn);
     signOutBtn = v.findViewById(R.id.sign_out_btn);
-
     goToSettingsBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -64,7 +63,10 @@ public class SettingsFragmentPage extends Fragment {
     signOutBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
+        mAuth.signOut();
+        Intent login = new Intent(context,LoginPage.class);
+        startActivity(login);
+        getActivity().finish();
       }
     });
 
