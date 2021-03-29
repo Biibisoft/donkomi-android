@@ -151,12 +151,6 @@ public class RegisterPage extends AppCompatActivity {
       return false;
     }
 
-//    if (phone.getText() == null || phone.getText().toString().isEmpty()) {
-//      Toast.makeText(this, "Please input a valid phone number", Toast.LENGTH_SHORT).show();
-//      phone.requestFocus();
-//      phone.setError("Please input a valid phone number");
-//      return false;
-//    }
     if (phone.getText() == null || phone.getText().toString().isEmpty() || phone.getText().toString().length() < 8) {
       Toast.makeText(this, "Please input a valid phone number", Toast.LENGTH_SHORT).show();
       phone.requestFocus();
@@ -207,10 +201,10 @@ public class RegisterPage extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
               if (task.isSuccessful()) {
-                Toast.makeText(RegisterPage.this, "Successfully Created Your Account", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(RegisterPage.this, "Successfully Created Your Account", Toast.LENGTH_SHORT).show();
                 fireUser = mAuth.getCurrentUser();
-                loadingDialog.dismiss();
-//                transitionToHomePage();
+                userObj = createCombinedUserObject(fireUser.getUid(), false);
+                createBackendDonkomiUser(userObj, false);
               } else {
                 loadingDialog.dismiss();
                 Log.w("RegPageEmail&PErr::", task.getException().getMessage());
@@ -285,7 +279,7 @@ public class RegisterPage extends AppCompatActivity {
               // Sign in success, update UI with the signed-in user's information
               fireUser = mAuth.getCurrentUser();
               userObj = createCombinedUserObject(fireUser.getUid(), true);
-              createBackendDonkomiUser(userObj);
+              createBackendDonkomiUser(userObj, true);
 //              goToProfileCompletionPage();
             } else {
               // If sign in fails, display a message to the user.
@@ -298,16 +292,10 @@ public class RegisterPage extends AppCompatActivity {
         });
   }
 
-  private void createBackendDonkomiUser(DonkomiUser user) {
-    JSONObject data = new JSONObject();
+  private void createBackendDonkomiUser(DonkomiUser user, boolean isGoogle) {
     try {
-      data.put("firstName", user.getFirstName());
-      data.put("lastName", user.getLastName());
-      data.put("user_id", user.getPlatformID());
-      data.put("phone", user.getPhone());
-      data.put("email",user.getEmail());
-      data.put("organization_id",1);
-      explorer.setData(data);
+      Log.d(TAG, "createBackendDonkomiUser: "+user.parseIntoInternetData().toString());
+      explorer.setData(user.parseIntoInternetData());
       explorer.run(DonkomiURLS.REGISTER_USER, new Result() {
         @Override
         public void isOkay(JSONObject response) {
@@ -315,10 +303,16 @@ public class RegisterPage extends AppCompatActivity {
           try {
             if (handler.hasError()) {
               Log.d(TAG, "isOkay: " + handler.getErrorMessage());
-            }else{
-              Log.d(TAG, "isOkay: Saved nicely!");
+              Toast.makeText(_this, handler.getErrorMessage(), Toast.LENGTH_LONG).show();
+              loadingDialog.dismiss();
+            } else {
+              if (isGoogle) goToProfileCompletionPage();
+              else transitionToHomePage();
+              finish();
             }
           } catch (JSONException e) {
+            loadingDialog.dismiss();
+            Toast.makeText(_this, "Sorry, something happened please retry!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
           }
         }
@@ -356,7 +350,7 @@ public class RegisterPage extends AppCompatActivity {
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
       // Initially hardcoded, but will be changed to get dynamic values when more organizations join
       String orgName = parent.getItemAtPosition(position).toString();
-      selectedOrg = new Organization(orgName, Konstants.MAURITIUS);
+      selectedOrg = new Organization(orgName, Konstants.MAURITIUS,1);
 
     }
 

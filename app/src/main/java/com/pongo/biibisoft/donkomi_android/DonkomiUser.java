@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class DonkomiUser implements Parcelable {
@@ -14,7 +17,7 @@ public class DonkomiUser implements Parcelable {
   private String lastName;
   private String gender;
   private String email;
-  private Organization organization;
+  private Organization organization = null;
   private String OrgID;
   private String orgIDType = Konstants.ROOM_NUMBER;
   private String profilePicture;
@@ -27,6 +30,18 @@ public class DonkomiUser implements Parcelable {
     this.lastName = lastName;
     this.email = email;
     this.platformID = platformID;
+  }
+
+
+  public JSONObject parseIntoInternetData() throws JSONException {
+    JSONObject data = new JSONObject();
+    data.put("firstName", this.firstName);
+    data.put("lastName", this.lastName);
+    data.put("user_id", this.platformID);
+    data.put("phone", this.phone);
+    data.put("email", this.email);
+    data.put("organization_id", this.organization != null ? this.organization.getOrganizationID() : 1);
+    return data;
   }
 
   public DonkomiUser() {
