@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -35,6 +36,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RegisterPage extends AppCompatActivity {
 
   private static final String TAG = "RegisterPage";
@@ -52,6 +56,7 @@ public class RegisterPage extends AppCompatActivity {
   MagicBoxes dialogCreator;
   Dialog loadingDialog;
   private GoogleSignInClient mGoogleSignInClient;
+  InternetExplorer explorer;
 
 
   @Override
@@ -64,9 +69,10 @@ public class RegisterPage extends AppCompatActivity {
     initialize();
   }
 
-  public void initialize() {
-    initializeLoader();
 
+  public void initialize() {
+    explorer = new InternetExplorer(this);
+    initializeLoader();
     useGoogleBtn = findViewById(R.id.use_google_btn);
     useGoogleBtn.setOnClickListener(launchGoogleRegistration);
     email = findViewById(R.id.email);
@@ -94,7 +100,7 @@ public class RegisterPage extends AppCompatActivity {
     gender_dropdown.setOnItemSelectedListener(onGenderSelected);
     org_dropdown.setOnItemSelectedListener(onOrgSelected);
     pageName = findViewById(R.id.page_name);
-    pageName.setText("Create An Account");
+    pageName.setText(R.string.create_account_text);
     rightIcon = findViewById(R.id.right_icon);
     rightIcon.setVisibility(View.GONE);
     backBtn = findViewById(R.id.back_icon);
@@ -111,7 +117,7 @@ public class RegisterPage extends AppCompatActivity {
     dialogCreator = new MagicBoxes(this);
     View loadingView = LayoutInflater.from(_this).inflate(R.layout.simple_loading_dialog, null, false);
     TextView loadingText = loadingView.findViewById(R.id.loader_text);
-    loadingText.setText("Creating Account...");
+    loadingText.setText(R.string.create_account_text_loading_bar);
     loadingDialog = dialogCreator.constructLoadingCustomDialog(loadingView);
     loadingDialog.setCanceledOnTouchOutside(false);
   }
@@ -136,6 +142,7 @@ public class RegisterPage extends AppCompatActivity {
       firstName.requestFocus();
       firstName.setError("Please enter a valid first name");
       return false;
+
     }
     if (lastName.getText() == null || lastName.getText().toString().isEmpty()) {
       Toast.makeText(this, "Please enter a valid last name", Toast.LENGTH_SHORT).show();
@@ -182,8 +189,11 @@ public class RegisterPage extends AppCompatActivity {
   }
 
   // Create a donkomi object from the details given by the user
-  public DonkomiUser createCombinedUserObject(String platformID) {
-    userObj = new DonkomiUser(MyHelper.getTextFrom(email), MyHelper.getTextFrom(firstName), MyHelper.getTextFrom(lastName), platformID);
+  public DonkomiUser createCombinedUserObject(String platformID, boolean isGoogle) {
+    if (!isGoogle)
+      userObj = new DonkomiUser(MyHelper.getTextFrom(email), MyHelper.getTextFrom(firstName), MyHelper.getTextFrom(lastName), platformID);
+    else
+      userObj = new DonkomiUser(fireUser.getEmail(), fireUser.getDisplayName(), null, fireUser.getUid());
     userObj.setOrganization(selectedOrg);
     userObj.setGender(selectedGender);
     return userObj;
@@ -200,7 +210,7 @@ public class RegisterPage extends AppCompatActivity {
                 Toast.makeText(RegisterPage.this, "Successfully Created Your Account", Toast.LENGTH_SHORT).show();
                 fireUser = mAuth.getCurrentUser();
                 loadingDialog.dismiss();
-                transitionToHomePage();
+//                transitionToHomePage();
               } else {
                 loadingDialog.dismiss();
                 Log.w("RegPageEmail&PErr::", task.getException().getMessage());
@@ -215,8 +225,7 @@ public class RegisterPage extends AppCompatActivity {
           loadingDialog.dismiss();
         }
       });
-    }
-    else loadingDialog.dismiss();
+    } else loadingDialog.dismiss();
   }
 
   private void goToProfileCompletionPage() {
@@ -262,7 +271,7 @@ public class RegisterPage extends AppCompatActivity {
         Toast.makeText(this, "Oops! Failed to sign up with google! " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
       }
     }
-    loadingDialog.dismiss();
+//    loadingDialog.dismiss();
   }
 
   // Google Registration Step 4
@@ -275,15 +284,58 @@ public class RegisterPage extends AppCompatActivity {
             if (task.isSuccessful()) {
               // Sign in success, update UI with the signed-in user's information
               fireUser = mAuth.getCurrentUser();
-              goToProfileCompletionPage();
+              userObj = createCombinedUserObject(fireUser.getUid(), true);
+              createBackendDonkomiUser(userObj);
+//              goToProfileCompletionPage();
             } else {
               // If sign in fails, display a message to the user.
               Log.w(TAG, "signUpWithCredential:failure", task.getException());
               Toast.makeText(RegisterPage.this, "Oops, couldn't sign you up with google! " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+              loadingDialog.dismiss();
             }
-            loadingDialog.dismiss();
+
           }
         });
+  }
+
+  private void createBackendDonkomiUser(DonkomiUser user) {
+    JSONObject data = new JSONObject();
+    try {
+      data.put("firstName", user.getFirstName());
+      data.put("lastName", user.getLastName());
+      data.put("user_id", user.getPlatformID());
+      data.put("phone", user.getPhone());
+      data.put("email",user.getEmail());
+      data.put("organization_id",1);
+      explorer.setData(data);
+      explorer.run(DonkomiURLS.REGISTER_USER, new Result() {
+        @Override
+        public void isOkay(JSONObject response) {
+          ResponseHandler handler = new ResponseHandler(response);
+          try {
+            if (handler.hasError()) {
+              Log.d(TAG, "isOkay: " + handler.getErrorMessage());
+            }else{
+              Log.d(TAG, "isOkay: Saved nicely!");
+            }
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
+        }
+
+        @Override
+        public void error(String error) {
+          Toast.makeText(_this, error, Toast.LENGTH_SHORT).show();
+          loadingDialog.dismiss();
+        }
+      });
+    } catch (JSONException e) {
+      e.printStackTrace();
+      Toast.makeText(_this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+      loadingDialog.dismiss();
+    }
+
+
   }
 
 

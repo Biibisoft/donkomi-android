@@ -70,12 +70,12 @@
     </activity>
     <activity android:name=".HomeContainerPage">
 
-            <intent-filter>
-              <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--              <action android:name="android.intent.action.MAIN" />-->
 
 
-              <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--              <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
     </activity>
     <activity android:name=".RegisterPage">
 <!--      <intent-filter>-->
@@ -87,12 +87,12 @@
     </activity>
     <activity android:name=".LoginPage">
 
-<!--       <intent-filter>-->
-<!--       <action android:name="android.intent.action.MAIN" />-->
+       <intent-filter>
+       <action android:name="android.intent.action.MAIN" />
 
 
-<!--       <category android:name="android.intent.category.LAUNCHER" />-->
-<!--       </intent-filter>-->
+       <category android:name="android.intent.category.LAUNCHER" />
+       </intent-filter>
     </activity>
     <activity android:name=".SplashScreen">
 <!--      <intent-filter>-->
