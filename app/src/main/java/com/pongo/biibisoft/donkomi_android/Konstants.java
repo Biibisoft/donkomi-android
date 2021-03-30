@@ -29,4 +29,5 @@ public class Konstants {
   public static final int GOOGLE_SIGN_UP_CODE = 8820;
   public static final int GOOGLE_SIGN_IN_CODE = 8822;
 
+  public static final String USER = "USER" ;
 }

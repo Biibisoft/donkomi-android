@@ -204,7 +204,12 @@ public class RegisterPage extends AppCompatActivity {
 //                Toast.makeText(RegisterPage.this, "Successfully Created Your Account", Toast.LENGTH_SHORT).show();
                 fireUser = mAuth.getCurrentUser();
                 userObj = createCombinedUserObject(fireUser.getUid(), false);
-                createBackendDonkomiUser(userObj, false);
+                createBackendDonkomiUser(userObj, new DonkomiInterfaces.Callback() {
+                  @Override
+                  public void next() {
+                    transitionToHomePage();
+                  }
+                });
               } else {
                 loadingDialog.dismiss();
                 Log.w("RegPageEmail&PErr::", task.getException().getMessage());
@@ -222,9 +227,10 @@ public class RegisterPage extends AppCompatActivity {
     } else loadingDialog.dismiss();
   }
 
-  private void goToProfileCompletionPage() {
+  private void goToProfileCompletionPage(DonkomiUser user) {
     Intent page = new Intent(this, ClientAllPagesContainer.class);
     page.putExtra(Konstants.FORM_FOR, Konstants.EDIT_PROFILE_FORM);
+    page.putExtra(Konstants.USER,user);
     startActivity(page);
   }
 
@@ -279,8 +285,13 @@ public class RegisterPage extends AppCompatActivity {
               // Sign in success, update UI with the signed-in user's information
               fireUser = mAuth.getCurrentUser();
               userObj = createCombinedUserObject(fireUser.getUid(), true);
-              createBackendDonkomiUser(userObj, true);
-//              goToProfileCompletionPage();
+              createBackendDonkomiUser(userObj, new DonkomiInterfaces.Callback() {
+                @Override
+                public void next() {
+                  goToProfileCompletionPage(userObj);
+                  finish();
+                }
+              });
             } else {
               // If sign in fails, display a message to the user.
               Log.w(TAG, "signUpWithCredential:failure", task.getException());
@@ -292,9 +303,8 @@ public class RegisterPage extends AppCompatActivity {
         });
   }
 
-  private void createBackendDonkomiUser(DonkomiUser user, boolean isGoogle) {
+  private void createBackendDonkomiUser(DonkomiUser user, DonkomiInterfaces.Callback callback) {
     try {
-      Log.d(TAG, "createBackendDonkomiUser: "+user.parseIntoInternetData().toString());
       explorer.setData(user.parseIntoInternetData());
       explorer.run(DonkomiURLS.REGISTER_USER, new Result() {
         @Override
@@ -306,9 +316,8 @@ public class RegisterPage extends AppCompatActivity {
               Toast.makeText(_this, handler.getErrorMessage(), Toast.LENGTH_LONG).show();
               loadingDialog.dismiss();
             } else {
-              if (isGoogle) goToProfileCompletionPage();
-              else transitionToHomePage();
-              finish();
+              callback.next();
+//              finish();
             }
           } catch (JSONException e) {
             loadingDialog.dismiss();
@@ -350,7 +359,7 @@ public class RegisterPage extends AppCompatActivity {
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
       // Initially hardcoded, but will be changed to get dynamic values when more organizations join
       String orgName = parent.getItemAtPosition(position).toString();
-      selectedOrg = new Organization(orgName, Konstants.MAURITIUS,1);
+      selectedOrg = new Organization(orgName, Konstants.MAURITIUS, 1);
 
     }
 
@@ -359,6 +368,5 @@ public class RegisterPage extends AppCompatActivity {
 
     }
   };
-
 
 }

@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 public class ClientAllPagesContainer extends AppCompatActivity {
 
+  private static final String TAG = "ALL_PAGES_CONTAINER";
   TextView pageName;
   ImageView backBtn, rightIcon, profilePicture;
   Activity _this;
@@ -29,6 +31,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   private ImageUploadHelper imageUploadHelper;
   private byte[] selectedImageBytes;
   private String selectedImageExt;
+  DonkomiUser authUser;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +46,14 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     CURRENT_PAGE = CURRENT_PAGE == null ? Konstants.EDIT_PROFILE_FORM : CURRENT_PAGE;
     if (CURRENT_PAGE.equals(Konstants.EDIT_PROFILE_FORM)) {
       setupUniqueEditQualities();
-      pageName.setText("Edit Your Profile");
+      pageName.setText(R.string.edit_your_profile);
       editProfileForm.setVisibility(View.VISIBLE);
     }
   }
 
   public void initialize() {
+    authUser = getIntent().getParcelableExtra(Konstants.USER);
+    Log.d(TAG, "setupUniqueEditQualities: "+ authUser.toString());
     Spinner gender_dropdown = findViewById(R.id.gender_dropdown);
     ArrayAdapter<String> genderAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Konstants.GENDER);
     gender_dropdown.setAdapter(genderAdapter);
@@ -67,6 +72,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   }
 
   public void setupUniqueEditQualities() {
+
     profilePicture = findViewById(R.id.profile_picture);
     editProfileForm = findViewById(R.id.edit_profile_form);
     imageUploadHelper = new ImageUploadHelper(this);
