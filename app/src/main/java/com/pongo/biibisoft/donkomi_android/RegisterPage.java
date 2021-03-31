@@ -3,6 +3,9 @@ package com.pongo.biibisoft.donkomi_android;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -58,6 +61,7 @@ public class RegisterPage extends AppCompatActivity {
   private GoogleSignInClient mGoogleSignInClient;
   InternetExplorer explorer;
 
+  RegisterPageViewModel viewModel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,13 @@ public class RegisterPage extends AppCompatActivity {
 
 
   public void initialize() {
+    viewModel = new ViewModelProvider(this).get(RegisterPageViewModel.class);
+    viewModel.getSome().observe(this, new Observer<Integer>() {
+      @Override
+      public void onChanged(Integer integer) {
+        finishBtn.setText(integer.toString());
+      }
+    });
     explorer = new InternetExplorer(this);
     initializeLoader();
     useGoogleBtn = findViewById(R.id.use_google_btn);
@@ -85,8 +96,9 @@ public class RegisterPage extends AppCompatActivity {
     finishBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        loadingDialog.show();
-        finishNormalRegistration();
+        viewModel.increase();
+//        loadingDialog.show();
+//        finishNormalRegistration();
 //        Intent page = new Intent(_this, HomeContainerPage.class);
 //        startActivity(page);
       }
@@ -230,7 +242,7 @@ public class RegisterPage extends AppCompatActivity {
   private void goToProfileCompletionPage(DonkomiUser user) {
     Intent page = new Intent(this, ClientAllPagesContainer.class);
     page.putExtra(Konstants.FORM_FOR, Konstants.EDIT_PROFILE_FORM);
-    page.putExtra(Konstants.USER,user);
+    page.putExtra(Konstants.USER, user);
     startActivity(page);
   }
 
