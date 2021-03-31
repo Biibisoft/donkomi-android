@@ -59,30 +59,26 @@ public class RegisterPage extends AppCompatActivity {
   MagicBoxes dialogCreator;
   Dialog loadingDialog;
   private GoogleSignInClient mGoogleSignInClient;
-  InternetExplorer explorer;
-
-  RegisterPageViewModel viewModel;
+  RegisterPageViewModel registrationHandler;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_register_page);
+    registrationHandler = new ViewModelProvider(this).get(RegisterPageViewModel.class);
     mAuth = FirebaseAuth.getInstance();
     _this = this;
     setGoogleDialogUp();
     initialize();
+    setObservers();
   }
 
+  public void setObservers(){
 
+
+  }
   public void initialize() {
-    viewModel = new ViewModelProvider(this).get(RegisterPageViewModel.class);
-    viewModel.getSome().observe(this, new Observer<Integer>() {
-      @Override
-      public void onChanged(Integer integer) {
-        finishBtn.setText(integer.toString());
-      }
-    });
-    explorer = new InternetExplorer(this);
+
     initializeLoader();
     useGoogleBtn = findViewById(R.id.use_google_btn);
     useGoogleBtn.setOnClickListener(launchGoogleRegistration);
@@ -96,7 +92,6 @@ public class RegisterPage extends AppCompatActivity {
     finishBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        viewModel.increase();
 //        loadingDialog.show();
 //        finishNormalRegistration();
 //        Intent page = new Intent(_this, HomeContainerPage.class);
@@ -315,10 +310,10 @@ public class RegisterPage extends AppCompatActivity {
         });
   }
 
-  private void createBackendDonkomiUser(DonkomiUser user, DonkomiInterfaces.Callback callback) {
+  private void createBackendDonkomiUser(DonkomiUser user, DonkomiInterfaces.Callback callback)  {
     try {
-      explorer.setData(user.parseIntoInternetData());
-      explorer.run(DonkomiURLS.REGISTER_USER, new Result() {
+      registrationHandler.explorer().setData(user.parseIntoInternetData());
+      registrationHandler.explorer().run(DonkomiURLS.REGISTER_USER, new Result() {
         @Override
         public void isOkay(JSONObject response) {
           ResponseHandler handler = new ResponseHandler(response);

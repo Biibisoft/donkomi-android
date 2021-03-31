@@ -1,62 +1,100 @@
 package com.pongo.biibisoft.donkomi_android;
 
+import android.app.Application;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class RegisterPageViewModel extends ViewModel {
-  private MutableLiveData<Integer> some = new MutableLiveData<Integer>(0);
-  private MutableLiveData<String>  email, password,confirmPassword, firstName, lastName = new MutableLiveData<>("");
-//  private Mutab
-  public void setSome(MutableLiveData<Integer> some) {
-    this.some = some;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class RegisterPageViewModel extends AndroidViewModel {
+  private MutableLiveData<String> email, password, confirmPassword, firstName, lastName = new MutableLiveData<>("");
+  private MutableLiveData<DonkomiUser> userObj = new MutableLiveData<DonkomiUser>();
+  private InternetExplorer explorer = new InternetExplorer(getApplication().getApplicationContext());
+  private FirebaseUser fireUser;
+  private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+  String selectedGender = "OTHER";
+  Organization selectedOrg;
+  MagicBoxes dialogCreator;
+  private MutableLiveData<Boolean> loaderOn, isGoogle, flipBtns = new MutableLiveData<Boolean>(false);
+  private MutableLiveData<String> toastMsg = new MutableLiveData<String>("");
+//  private MutableLiveData<Boolean> isGoogle = new MutableLiveData<Boolean>(false);
+
+
+  public RegisterPageViewModel(@NonNull Application application) {
+    super(application);
   }
 
-  public MutableLiveData<String> getEmail() {
-    return email;
+  public void flipBtns(){
+    this.flipBtns.setValue(!this.flipBtns.getValue());
+  }
+  public LiveData<Boolean> shouldBtnsFlip(){
+    return this.flipBtns;
+  }
+  public void setToastMsg(String msg) {
+    this.toastMsg.setValue(msg);
   }
 
-  public void setEmail(MutableLiveData<String> email) {
-    this.email = email;
+  public Boolean isGoogleRegistration() {
+    return isGoogle.getValue();
   }
 
-  public MutableLiveData<String> getPassword() {
-    return password;
+  public LiveData<String> geToastMsg() {
+    return this.toastMsg;
   }
 
-  public void setPassword(MutableLiveData<String> password) {
-    this.password = password;
+  public void toggleLoader() {
+    loaderOn.setValue(!this.loaderOn.getValue());
   }
 
-  public MutableLiveData<String> getConfirmPassword() {
-    return confirmPassword;
+  public LiveData<Boolean> getLoaderState() {
+    return this.loaderOn;
   }
 
-  public void setConfirmPassword(MutableLiveData<String> confirmPassword) {
-    this.confirmPassword = confirmPassword;
+  public InternetExplorer explorer() {
+    return this.explorer;
   }
 
-  public MutableLiveData<String> getFirstName() {
-    return firstName;
+  public void setUserObj(DonkomiUser user) {
+    this.userObj.setValue(user);
   }
 
-  public void setFirstName(MutableLiveData<String> firstName) {
-    this.firstName = firstName;
+  public LiveData<DonkomiUser> userObj() {
+    return userObj;
   }
 
-  public MutableLiveData<String> getLastName() {
-    return lastName;
+  public void createBackendDonkomiUser(DonkomiUser user, DonkomiInterfaces.Callback callback) throws JSONException {
+    explorer.setData(user.parseIntoInternetData());
+    explorer.run(DonkomiURLS.REGISTER_USER, new Result() {
+      @Override
+      public void isOkay(JSONObject response) throws JSONException {
+        ResponseHandler handler = new ResponseHandler(response);
+        if (handler.hasError()) {
+          toggleLoader();
+          setToastMsg(handler.getErrorMessage());
+        } else {
+          if (isGoogleRegistration()) setUserObj(user); flipBtns();
+          callback.next();
+        }
+      }
+
+      @Override
+      public void error(String error) {
+        toggleLoader();
+        setToastMsg(error);
+      }
+    });
+
   }
 
-  public void setLastName(MutableLiveData<String> lastName) {
-    this.lastName = lastName;
-  }
 
-  public LiveData<Integer> getSome(){
-    return some;
-  }
-
-  public void increase(){
-    some.setValue(some.getValue()+1);
-  }
 }

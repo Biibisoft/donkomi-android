@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class DonkomiUser implements Parcelable {
+public class DonkomiUser implements Parcelable, DonkomiUserManager {
   @SerializedName("user_id")
   private String platformID; // UID that is given by firebase
   private String firstName;
@@ -33,16 +33,6 @@ public class DonkomiUser implements Parcelable {
   }
 
 
-  public JSONObject parseIntoInternetData() throws JSONException {
-    JSONObject data = new JSONObject();
-    data.put("firstName", this.firstName);
-    data.put("lastName", this.lastName);
-    data.put("user_id", this.platformID);
-    data.put("phone", this.phone);
-    data.put("email", this.email);
-    data.put("organization_id", this.organization != null ? this.organization.getOrganizationID() : 1);
-    return data;
-  }
 
   public DonkomiUser() {
   }
@@ -237,4 +227,16 @@ public class DonkomiUser implements Parcelable {
       return new DonkomiUser[size];
     }
   };
+
+  @Override
+  public JSONObject parseIntoInternetData() throws JSONException {
+    JSONObject data = new JSONObject();
+    data.put("firstName", this.firstName);
+    data.put("lastName", this.lastName);
+    data.put("user_id", this.platformID);
+    data.put("phone", this.phone);
+    data.put("email", this.email);
+    data.put("organization_id", this.organization != null ? this.organization.getOrganizationID() : 1);
+    return data;
+  }
 }
