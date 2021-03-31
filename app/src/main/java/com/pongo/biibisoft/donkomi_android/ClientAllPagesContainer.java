@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -32,6 +33,8 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   private byte[] selectedImageBytes;
   private String selectedImageExt;
   DonkomiUser authUser;
+  EditText firstName, lastName, phone;
+  MagicBoxes dialogCreator;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +55,18 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   }
 
   public void initialize() {
+    dialogCreator = new MagicBoxes(this);
     authUser = getIntent().getParcelableExtra(Konstants.USER);
-    Log.d(TAG, "setupUniqueEditQualities: "+ authUser.toString());
+    if(authUser == null) {
+      dialogCreator.constructSimpleOneActionDialog("Sign In", "You have not signed in yet", "", new OneAction() {
+        @Override
+        public void callback() {
+          Intent login = new Intent(_this, LoginPage.class);
+          startActivity(login);
+          finish();
+        }
+      });
+    }
     Spinner gender_dropdown = findViewById(R.id.gender_dropdown);
     ArrayAdapter<String> genderAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Konstants.GENDER);
     gender_dropdown.setAdapter(genderAdapter);
@@ -72,7 +85,12 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   }
 
   public void setupUniqueEditQualities() {
-
+    firstName = findViewById(R.id.first_name);
+    lastName = findViewById(R.id.last_name);
+    phone = findViewById(R.id.edit_mobile_number);
+    firstName.setText(authUser.getFirstName());
+    lastName.setText(authUser.getLastName());
+    phone.setText(authUser.getPhone());
     profilePicture = findViewById(R.id.profile_picture);
     editProfileForm = findViewById(R.id.edit_profile_form);
     imageUploadHelper = new ImageUploadHelper(this);
