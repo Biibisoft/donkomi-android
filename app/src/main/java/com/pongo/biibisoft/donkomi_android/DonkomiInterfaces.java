@@ -1,8 +1,11 @@
 package com.pongo.biibisoft.donkomi_android;
 
+import android.content.Intent;
+
 public class DonkomiInterfaces {
   interface Callback {
     void next();
+
   }
 
   interface Result {

@@ -29,13 +29,15 @@ public class MyFirebaseGoogleRegistrationHelper {
   }
 
   //  ----- SECOND 2
-  public void startGoogleRegistration() {
+  public void startGoogleRegistration(RelayCallback callback) {
+    setGoogleDialogUp();
     Intent withGoogle = mGoogleSignInClient.getSignInIntent();
+    callback.next(withGoogle);
 //    startActivityForResult(withGoogle, Konstants.GOOGLE_SIGN_UP_CODE);
   }
 
   // ----- FIRST 1
-  private void setGoogleDialogUp() {
+  public void setGoogleDialogUp() {
     GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
         .requestIdToken(context.getString(R.string.default_web_client_id))
         .requestEmail()
@@ -45,12 +47,13 @@ public class MyFirebaseGoogleRegistrationHelper {
   }
 
   //------- THIRD 3
-  private void onActivityResult(int requestCode, Intent data, DonkomiInterfaces.Result callback) {
+  public void onActivityResult(int requestCode, Intent data, ActivityResultsCallback callback) {
     if (requestCode == Konstants.GOOGLE_SIGN_UP_CODE) {
       Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
       try {
         GoogleSignInAccount account = task.getResult(ApiException.class);
-        firebaseAuthWithGoogle(account.getIdToken(), callback);
+        callback.isOkay(account.getIdToken());
+//        firebaseAuthWithGoogle(account.getIdToken(), callback);
       } catch (Exception e) {
         e.printStackTrace();
         callback.error(e.getMessage());
@@ -59,7 +62,7 @@ public class MyFirebaseGoogleRegistrationHelper {
   }
 
   //  ---------- FOURTH 4
-  private void firebaseAuthWithGoogle(String token, DonkomiInterfaces.Result callback) {
+  public void firebaseAuthWithGoogle(String token, DonkomiInterfaces.Result callback) {
     AuthCredential credential = GoogleAuthProvider.getCredential(token, null);
     mAuth.signInWithCredential(credential)
         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -73,5 +76,18 @@ public class MyFirebaseGoogleRegistrationHelper {
         });
   }
 
+  @FunctionalInterface
+  interface RelayCallback {
+    void next(Object anything);
+  }
 
+  @FunctionalInterface
+  interface RegistrationCallback {
+    void next();
+  }
+
+  interface ActivityResultsCallback{
+    void isOkay(String idToken);
+    void error(String error);
+  }
 }

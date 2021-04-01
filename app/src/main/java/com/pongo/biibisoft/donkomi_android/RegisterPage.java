@@ -68,7 +68,6 @@ public class RegisterPage extends AppCompatActivity {
     registrationHandler = new ViewModelProvider(this).get(RegisterPageViewModel.class);
     mAuth = FirebaseAuth.getInstance();
     _this = this;
-    setGoogleDialogUp();
     initialize();
     setObservers();
   }
@@ -77,7 +76,7 @@ public class RegisterPage extends AppCompatActivity {
     registrationHandler.getToastMsg().observe(this, new Observer<String>() {
       @Override
       public void onChanged(String s) {
-        if(!s.isEmpty()) Toast.makeText(_this, s, Toast.LENGTH_SHORT).show();
+        if (!s.isEmpty()) Toast.makeText(_this, s, Toast.LENGTH_SHORT).show();
       }
     });
 
@@ -190,7 +189,12 @@ public class RegisterPage extends AppCompatActivity {
     @Override
     public void onClick(View v) {
       registrationHandler.toggleLoader();
-      registerWithGoogle();
+      registrationHandler.startGoogleRegistration(new MyFirebaseGoogleRegistrationHelper.RelayCallback() {
+        @Override
+        public void next(Object anything) {
+          startActivityForResult((Intent) anything, Konstants.GOOGLE_SIGN_UP_CODE);
+        }
+      });
     }
   };
 
@@ -270,12 +274,12 @@ public class RegisterPage extends AppCompatActivity {
 //                Toast.makeText(RegisterPage.this, "Successfully Created Your Account", Toast.LENGTH_SHORT).show();
                 fireUser = mAuth.getCurrentUser();
                 userObj = createCombinedUserObject(null, false);
-                createBackendDonkomiUser(userObj, new DonkomiInterfaces.Callback() {
-                  @Override
-                  public void next() {
-                    transitionToHomePage();
-                  }
-                });
+//                createBackendDonkomiUser(userObj, new DonkomiInterfaces.Callback() {
+//                  @Override
+//                  public void next() {
+//                    transitionToHomePage();
+//                  }
+//                });
               } else {
                 loadingDialog.dismiss();
                 Log.w("RegPageEmail&PErr::", task.getException().getMessage());
@@ -306,103 +310,46 @@ public class RegisterPage extends AppCompatActivity {
     startActivity(homePage);
   }
 
-  // Google Registration Step 2
-  private void setGoogleDialogUp() {
-    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken(getString(R.string.default_web_client_id))
-        .requestEmail()
-        .build();
-    //attach google sign in options to Google Dialog
-    mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-  }
 
-  // Google Registration Step 1
-  public void registerWithGoogle() {
-    Intent withGoogle = mGoogleSignInClient.getSignInIntent();
-    startActivityForResult(withGoogle, Konstants.GOOGLE_SIGN_UP_CODE);
-  }
-
-  // Google Registration Step 3
   @Override
   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == Konstants.GOOGLE_SIGN_UP_CODE) {
-      Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-      try {
-        GoogleSignInAccount account = task.getResult(ApiException.class);
-        firebaseAuthWithGoogle(account.getIdToken());
-      } catch (Exception e) {
-        e.printStackTrace();
-        Log.d(TAG, "onActivityResult: GoogleError" + e.getLocalizedMessage());
-        Toast.makeText(this, "Oops! Failed to sign up with google! " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-      }
-    }
-//    loadingDialog.dismiss();
-  }
-
-  // Google Registration Step 4
-  private void firebaseAuthWithGoogle(String token) {
-    AuthCredential credential = GoogleAuthProvider.getCredential(token, null);
-    mAuth.signInWithCredential(credential)
-        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+    registrationHandler.fireAuthService.onActivityResult(requestCode, data, new MyFirebaseGoogleRegistrationHelper.ActivityResultsCallback() {
+      @Override
+      public void isOkay(String idToken) {
+        registrationHandler.fireAuthService.firebaseAuthWithGoogle(idToken, new DonkomiInterfaces.Result() {
           @Override
-          public void onComplete(@NonNull Task<AuthResult> task) {
-            if (task.isSuccessful()) {
-              // Sign in success, update UI with the signed-in user's information
-              fireUser = mAuth.getCurrentUser();
-              userObj = createCombinedUserObject(fireUser, true);
-              registrationHandler.toggleLoader();
-              registrationHandler.setUserObj(userObj);
-              registrationHandler.flipBtns();
-              registrationHandler.setMessage("Add The Remaining Information To Complete Your Profile");
-            } else {
-              // If sign in fails, display a message to the user.
-              Log.w(TAG, "signUpWithCredential:failure", task.getException());
-              registrationHandler.setToastMsg("Oops, couldn't sign you up with google!");
-              registrationHandler.toggleLoader();
-            }
+          public void isOkay() {
+            userObj = createCombinedUserObject(registrationHandler.mAuth.getCurrentUser(), true);
+            registrationHandler.proceedAfterGoogleRegistration(userObj);
+          }
+
+          @Override
+          public void error(String error) {
+            registrationHandler.setToastMsg("Oops, couldn't sign you up with google!");
+            registrationHandler.toggleLoader();
           }
         });
-  }
+      }
 
-  private void createBackendDonkomiUser(DonkomiUser user, DonkomiInterfaces.Callback callback) {
-    try {
-      registrationHandler.explorer().setData(user.parseIntoInternetData());
-      registrationHandler.explorer().run(DonkomiURLS.REGISTER_USER, new Result() {
-        @Override
-        public void isOkay(JSONObject response) {
-          ResponseHandler handler = new ResponseHandler(response);
-          try {
-            if (handler.hasError()) {
-              Log.d(TAG, "isOkay: " + handler.getErrorMessage());
-              Toast.makeText(_this, handler.getErrorMessage(), Toast.LENGTH_LONG).show();
-              loadingDialog.dismiss();
-            } else {
-              callback.next();
-//              finish();
-            }
-          } catch (JSONException e) {
-            loadingDialog.dismiss();
-            Toast.makeText(_this, "Sorry, something happened please retry!", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-          }
-        }
-
-        @Override
-        public void error(String error) {
-          Toast.makeText(_this, error, Toast.LENGTH_SHORT).show();
-          loadingDialog.dismiss();
-        }
-      });
-    } catch (JSONException e) {
-      e.printStackTrace();
-      Toast.makeText(_this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-      loadingDialog.dismiss();
-    }
-
+      @Override
+      public void error(String error) {
+        registrationHandler.setToastMsg(error);
+      }
+    });
+//    if (requestCode == Konstants.GOOGLE_SIGN_UP_CODE) {
+//      Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//      try {
+//        GoogleSignInAccount account = task.getResult(ApiException.class);
+//        firebaseAuthWithGoogle(account.getIdToken());
+//      } catch (Exception e) {
+//        e.printStackTrace();
+//        Log.d(TAG, "onActivityResult: GoogleError" + e.getLocalizedMessage());
+//        Toast.makeText(this, "Oops! Failed to sign up with google! " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//      }
+//    }
 
   }
-
 
   private final AdapterView.OnItemSelectedListener onGenderSelected = new AdapterView.OnItemSelectedListener() {
     @Override

@@ -1,6 +1,7 @@
 package com.pongo.biibisoft.donkomi_android;
 
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -21,28 +22,48 @@ public class RegisterPageViewModel extends AndroidViewModel {
   private MutableLiveData<DonkomiUser> userObj = new MutableLiveData<DonkomiUser>();
   private InternetExplorer explorer = new InternetExplorer(getApplication().getApplicationContext());
   private FirebaseUser fireUser;
-  private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+  public FirebaseAuth mAuth = FirebaseAuth.getInstance();
   String selectedGender = "OTHER";
   Organization selectedOrg;
   MagicBoxes dialogCreator;
-  private final MutableLiveData<Boolean> loaderOn= new MutableLiveData<Boolean>(false);
+  private final MutableLiveData<Boolean> loaderOn = new MutableLiveData<Boolean>(false);
   private final MutableLiveData<Boolean> isGoogle = new MutableLiveData<Boolean>(false);
-  private final MutableLiveData<Boolean> flipBtns = new MutableLiveData<Boolean>(false);;
+  private final MutableLiveData<Boolean> flipBtns = new MutableLiveData<Boolean>(false);
+  ;
   private final MutableLiveData<String> toastMsg = new MutableLiveData<String>("");
   private final MutableLiveData<String> message = new MutableLiveData<String>("Setup Your Profile On Donkomi");
+  public final MyFirebaseGoogleRegistrationHelper fireAuthService = new MyFirebaseGoogleRegistrationHelper(getApplication().getApplicationContext());
 
 
   public RegisterPageViewModel(@NonNull Application application) {
     super(application);
   }
 
-  public LiveData<String> getMessage(){
+  public void startGoogleRegistration(MyFirebaseGoogleRegistrationHelper.RelayCallback callback) {
+    fireAuthService.startGoogleRegistration(new MyFirebaseGoogleRegistrationHelper.RelayCallback() {
+      @Override
+      public void next(Object anything) {
+        callback.next(anything);
+      }
+    });
+  }
+
+  public void proceedAfterGoogleRegistration(DonkomiUser user) {
+    toggleLoader();
+    setUserObj(user);
+    flipBtns();
+    setMessage("Add The Remaining Information To Complete Your Profile");
+  }
+
+
+  public LiveData<String> getMessage() {
     return this.message;
   }
 
-  public void setMessage(String msg){
+  public void setMessage(String msg) {
     this.message.setValue(msg);
   }
+
   public void flipBtns() {
     this.flipBtns.setValue(!this.flipBtns.getValue());
   }
@@ -83,7 +104,7 @@ public class RegisterPageViewModel extends AndroidViewModel {
     return userObj;
   }
 
-  public void createBackendDonkomiUser( DonkomiInterfaces.Callback callback) throws JSONException {
+  public void createBackendDonkomiUser(DonkomiInterfaces.Callback callback) throws JSONException {
     DonkomiUser user = userObj.getValue();
     explorer.setData(user.parseIntoInternetData());
     explorer.run(DonkomiURLS.REGISTER_USER, new Result() {
