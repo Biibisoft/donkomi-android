@@ -136,6 +136,7 @@
     </LinearLayout>
   </ScrollView>
 
+
   <LinearLayout
       android:id="@+id/bottom_buttons"
       android:layout_width="match_parent"
@@ -144,12 +145,24 @@
       android:orientation="vertical">
 
     <Button
+        android:id="@+id/complete_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_solid_rectangle"
+        android:backgroundTint="@color/app_green"
+        android:text="COMPLETE"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:backgroundTint="@color/app_green" />
+
+    <Button
         android:id="@+id/finish_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_solid_rectangle"
         android:backgroundTint="@color/app_blue"
         android:text="FINISH"
+
         android:textColor="@color/white" />
 
     <Button
@@ -159,9 +172,21 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/rounded_solid_rectangle"
         android:backgroundTint="@color/app_red"
-        app:backgroundTint = "@color/app_red"
         android:text="USE GOOGLE"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        app:backgroundTint="@color/app_red" />
+
+    <Button
+        android:id="@+id/cancel_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rounded_solid_rectangle"
+        android:backgroundTint="@color/app_red"
+        android:text="CANCEL"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:backgroundTint="@color/app_red" />
 
 
   </LinearLayout>

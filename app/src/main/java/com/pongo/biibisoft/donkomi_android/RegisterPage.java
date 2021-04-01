@@ -47,7 +47,7 @@ public class RegisterPage extends AppCompatActivity {
   private static final String TAG = "RegisterPage";
   ImageView backBtn, rightIcon;
   TextView pageName;
-  Button finishBtn, useGoogleBtn;
+  Button finishBtn, useGoogleBtn, completeBtn, cancelBtn;
   Activity _this;
   EditText email, phone, password, confirmPassword, firstName, lastName;
   Spinner org_dropdown, gender_dropdown;
@@ -73,15 +73,60 @@ public class RegisterPage extends AppCompatActivity {
     setObservers();
   }
 
-  public void setObservers(){
+  public void setObservers() {
+    registrationHandler.getToastMsg().observe(this, new Observer<String>() {
+      @Override
+      public void onChanged(String s) {
+        Toast.makeText(_this, s, Toast.LENGTH_SHORT).show();
+      }
+    });
+
+    registrationHandler.shouldBtnsFlip().observe(this, new Observer<Boolean>() {
+      @Override
+      public void onChanged(Boolean flipped) {
+        if (!flipped) {
+          cancelBtn.setVisibility(View.GONE);
+          completeBtn.setVisibility(View.GONE);
+          finishBtn.setVisibility(View.VISIBLE);
+          useGoogleBtn.setVisibility(View.VISIBLE);
+        } else {
+          cancelBtn.setVisibility(View.VISIBLE);
+          completeBtn.setVisibility(View.VISIBLE);
+          finishBtn.setVisibility(View.GONE);
+          useGoogleBtn.setVisibility(View.GONE);
+        }
+      }
+    });
+
+    registrationHandler.userObj().observe(this, new Observer<DonkomiUser>() {
+      @Override
+      public void onChanged(DonkomiUser userObj) {
+        firstName.setText(userObj.getFirstName());
+        lastName.setText(userObj.getLastName());
+        email.setText(userObj.getEmail());
+        phone.setText(userObj.getPhone());
+      }
+    });
+
+    registrationHandler.getLoaderState().observe(this, new Observer<Boolean>() {
+      @Override
+      public void onChanged(Boolean loading) {
+        if(loading) loadingDialog.show();
+        else loadingDialog.dismiss();
+      }
+    });
 
 
   }
-  public void initialize() {
 
+  public void initialize() {
     initializeLoader();
+    completeBtn = findViewById(R.id.complete_btn);
+    cancelBtn = findViewById(R.id.cancel_btn);
     useGoogleBtn = findViewById(R.id.use_google_btn);
     useGoogleBtn.setOnClickListener(launchGoogleRegistration);
+    completeBtn.setOnClickListener(completeGoogleRegistration);
+    cancelBtn.setOnClickListener(cancelGoogleRegistration);
     email = findViewById(R.id.email);
     phone = findViewById(R.id.phone);
     password = findViewById(R.id.password);
@@ -292,25 +337,27 @@ public class RegisterPage extends AppCompatActivity {
               // Sign in success, update UI with the signed-in user's information
               fireUser = mAuth.getCurrentUser();
               userObj = createCombinedUserObject(fireUser.getUid(), true);
-              createBackendDonkomiUser(userObj, new DonkomiInterfaces.Callback() {
-                @Override
-                public void next() {
-                  goToProfileCompletionPage(userObj);
-                  finish();
-                }
-              });
+//              createBackendDonkomiUser(userObj, new DonkomiInterfaces.Callback() {
+//                @Override
+//                public void next() {
+//                  goToProfileCompletionPage(userObj);
+//                  finish();
+//                }
+//              });
             } else {
               // If sign in fails, display a message to the user.
               Log.w(TAG, "signUpWithCredential:failure", task.getException());
-              Toast.makeText(RegisterPage.this, "Oops, couldn't sign you up with google! " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
-              loadingDialog.dismiss();
+              registrationHandler.setToastMsg("Oops, couldn't sign you up with google!");
+              registrationHandler.toggleLoader();
+//              Toast.makeText(RegisterPage.this, "Oops, couldn't sign you up with google! " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//              loadingDialog.dismiss();
             }
 
           }
         });
   }
 
-  private void createBackendDonkomiUser(DonkomiUser user, DonkomiInterfaces.Callback callback)  {
+  private void createBackendDonkomiUser(DonkomiUser user, DonkomiInterfaces.Callback callback) {
     try {
       registrationHandler.explorer().setData(user.parseIntoInternetData());
       registrationHandler.explorer().run(DonkomiURLS.REGISTER_USER, new Result() {
@@ -376,4 +423,16 @@ public class RegisterPage extends AppCompatActivity {
     }
   };
 
+  private final View.OnClickListener cancelGoogleRegistration = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+
+    }
+  };
+  private final View.OnClickListener completeGoogleRegistration = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+
+    }
+  };
 }

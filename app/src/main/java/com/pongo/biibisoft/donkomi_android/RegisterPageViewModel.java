@@ -48,7 +48,7 @@ public class RegisterPageViewModel extends AndroidViewModel {
     return isGoogle.getValue();
   }
 
-  public LiveData<String> geToastMsg() {
+  public LiveData<String> getToastMsg() {
     return this.toastMsg;
   }
 
