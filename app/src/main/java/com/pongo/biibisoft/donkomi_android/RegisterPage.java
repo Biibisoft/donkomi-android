@@ -46,7 +46,7 @@ public class RegisterPage extends AppCompatActivity {
 
   private static final String TAG = "RegisterPage";
   ImageView backBtn, rightIcon;
-  TextView pageName;
+  TextView pageName, msgBox;
   Button finishBtn, useGoogleBtn, completeBtn, cancelBtn;
   Activity _this;
   EditText email, phone, password, confirmPassword, firstName, lastName;
@@ -77,7 +77,7 @@ public class RegisterPage extends AppCompatActivity {
     registrationHandler.getToastMsg().observe(this, new Observer<String>() {
       @Override
       public void onChanged(String s) {
-        Toast.makeText(_this, s, Toast.LENGTH_SHORT).show();
+        if(!s.isEmpty()) Toast.makeText(_this, s, Toast.LENGTH_SHORT).show();
       }
     });
 
@@ -89,11 +89,15 @@ public class RegisterPage extends AppCompatActivity {
           completeBtn.setVisibility(View.GONE);
           finishBtn.setVisibility(View.VISIBLE);
           useGoogleBtn.setVisibility(View.VISIBLE);
+          password.setVisibility(View.VISIBLE);
+          confirmPassword.setVisibility(View.VISIBLE);
         } else {
           cancelBtn.setVisibility(View.VISIBLE);
           completeBtn.setVisibility(View.VISIBLE);
           finishBtn.setVisibility(View.GONE);
           useGoogleBtn.setVisibility(View.GONE);
+          password.setVisibility(View.GONE);
+          confirmPassword.setVisibility(View.GONE);
         }
       }
     });
@@ -111,8 +115,15 @@ public class RegisterPage extends AppCompatActivity {
     registrationHandler.getLoaderState().observe(this, new Observer<Boolean>() {
       @Override
       public void onChanged(Boolean loading) {
-        if(loading) loadingDialog.show();
+        if (loading) loadingDialog.show();
         else loadingDialog.dismiss();
+      }
+    });
+
+    registrationHandler.getMessage().observe(this, new Observer<String>() {
+      @Override
+      public void onChanged(String msg) {
+        msgBox.setText(msg);
       }
     });
 
@@ -121,6 +132,7 @@ public class RegisterPage extends AppCompatActivity {
 
   public void initialize() {
     initializeLoader();
+    msgBox = findViewById(R.id.message_box);
     completeBtn = findViewById(R.id.complete_btn);
     cancelBtn = findViewById(R.id.cancel_btn);
     useGoogleBtn = findViewById(R.id.use_google_btn);
@@ -177,7 +189,7 @@ public class RegisterPage extends AppCompatActivity {
   private final View.OnClickListener launchGoogleRegistration = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-      loadingDialog.show();
+      registrationHandler.toggleLoader();
       registerWithGoogle();
     }
   };
@@ -235,11 +247,13 @@ public class RegisterPage extends AppCompatActivity {
   }
 
   // Create a donkomi object from the details given by the user
-  public DonkomiUser createCombinedUserObject(String platformID, boolean isGoogle) {
+  public DonkomiUser createCombinedUserObject(FirebaseUser fireUser, boolean isGoogle) {
     if (!isGoogle)
-      userObj = new DonkomiUser(MyHelper.getTextFrom(email), MyHelper.getTextFrom(firstName), MyHelper.getTextFrom(lastName), platformID);
-    else
+      userObj = new DonkomiUser(MyHelper.getTextFrom(email), MyHelper.getTextFrom(firstName), MyHelper.getTextFrom(lastName), fireUser.getUid());
+    else {
       userObj = new DonkomiUser(fireUser.getEmail(), fireUser.getDisplayName(), null, fireUser.getUid());
+      userObj.setPhone(fireUser.getPhoneNumber());
+    }
     userObj.setOrganization(selectedOrg);
     userObj.setGender(selectedGender);
     return userObj;
@@ -255,7 +269,7 @@ public class RegisterPage extends AppCompatActivity {
               if (task.isSuccessful()) {
 //                Toast.makeText(RegisterPage.this, "Successfully Created Your Account", Toast.LENGTH_SHORT).show();
                 fireUser = mAuth.getCurrentUser();
-                userObj = createCombinedUserObject(fireUser.getUid(), false);
+                userObj = createCombinedUserObject(null, false);
                 createBackendDonkomiUser(userObj, new DonkomiInterfaces.Callback() {
                   @Override
                   public void next() {
@@ -336,23 +350,17 @@ public class RegisterPage extends AppCompatActivity {
             if (task.isSuccessful()) {
               // Sign in success, update UI with the signed-in user's information
               fireUser = mAuth.getCurrentUser();
-              userObj = createCombinedUserObject(fireUser.getUid(), true);
-//              createBackendDonkomiUser(userObj, new DonkomiInterfaces.Callback() {
-//                @Override
-//                public void next() {
-//                  goToProfileCompletionPage(userObj);
-//                  finish();
-//                }
-//              });
+              userObj = createCombinedUserObject(fireUser, true);
+              registrationHandler.toggleLoader();
+              registrationHandler.setUserObj(userObj);
+              registrationHandler.flipBtns();
+              registrationHandler.setMessage("Add The Remaining Information To Complete Your Profile");
             } else {
               // If sign in fails, display a message to the user.
               Log.w(TAG, "signUpWithCredential:failure", task.getException());
               registrationHandler.setToastMsg("Oops, couldn't sign you up with google!");
               registrationHandler.toggleLoader();
-//              Toast.makeText(RegisterPage.this, "Oops, couldn't sign you up with google! " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
-//              loadingDialog.dismiss();
             }
-
           }
         });
   }
@@ -432,7 +440,20 @@ public class RegisterPage extends AppCompatActivity {
   private final View.OnClickListener completeGoogleRegistration = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+      try {
+        registrationHandler.toggleLoader();
+        registrationHandler.createBackendDonkomiUser(new DonkomiInterfaces.Callback() {
+          @Override
+          public void next() {
+            transitionToHomePage();
+          }
+        });
+      } catch (JSONException e) {
+        e.printStackTrace();
+        registrationHandler.setToastMsg(e.getMessage());
+        registrationHandler.toggleLoader();
 
+      }
     }
   };
 }

@@ -25,21 +25,32 @@ public class RegisterPageViewModel extends AndroidViewModel {
   String selectedGender = "OTHER";
   Organization selectedOrg;
   MagicBoxes dialogCreator;
-  private MutableLiveData<Boolean> loaderOn, isGoogle, flipBtns = new MutableLiveData<Boolean>(false);
-  private MutableLiveData<String> toastMsg = new MutableLiveData<String>("");
-//  private MutableLiveData<Boolean> isGoogle = new MutableLiveData<Boolean>(false);
+  private final MutableLiveData<Boolean> loaderOn= new MutableLiveData<Boolean>(false);
+  private final MutableLiveData<Boolean> isGoogle = new MutableLiveData<Boolean>(false);
+  private final MutableLiveData<Boolean> flipBtns = new MutableLiveData<Boolean>(false);;
+  private final MutableLiveData<String> toastMsg = new MutableLiveData<String>("");
+  private final MutableLiveData<String> message = new MutableLiveData<String>("Setup Your Profile On Donkomi");
 
 
   public RegisterPageViewModel(@NonNull Application application) {
     super(application);
   }
 
-  public void flipBtns(){
+  public LiveData<String> getMessage(){
+    return this.message;
+  }
+
+  public void setMessage(String msg){
+    this.message.setValue(msg);
+  }
+  public void flipBtns() {
     this.flipBtns.setValue(!this.flipBtns.getValue());
   }
-  public LiveData<Boolean> shouldBtnsFlip(){
+
+  public LiveData<Boolean> shouldBtnsFlip() {
     return this.flipBtns;
   }
+
   public void setToastMsg(String msg) {
     this.toastMsg.setValue(msg);
   }
@@ -72,7 +83,8 @@ public class RegisterPageViewModel extends AndroidViewModel {
     return userObj;
   }
 
-  public void createBackendDonkomiUser(DonkomiUser user, DonkomiInterfaces.Callback callback) throws JSONException {
+  public void createBackendDonkomiUser( DonkomiInterfaces.Callback callback) throws JSONException {
+    DonkomiUser user = userObj.getValue();
     explorer.setData(user.parseIntoInternetData());
     explorer.run(DonkomiURLS.REGISTER_USER, new Result() {
       @Override
@@ -81,10 +93,7 @@ public class RegisterPageViewModel extends AndroidViewModel {
         if (handler.hasError()) {
           toggleLoader();
           setToastMsg(handler.getErrorMessage());
-        } else {
-          if (isGoogleRegistration()) setUserObj(user); flipBtns();
-          callback.next();
-        }
+        } else callback.next();
       }
 
       @Override

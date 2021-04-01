@@ -42,7 +42,12 @@ public class InternetExplorer {
     JsonObjectRequest req = new JsonObjectRequest(this.getMethod(), URL, this.data, new Response.Listener<JSONObject>() {
       @Override
       public void onResponse(JSONObject response) {
-        explorer.isOkay(response);
+        try {
+          explorer.isOkay(response);
+        } catch (JSONException e) {
+          e.printStackTrace();
+          explorer.error(e.getMessage());
+        }
       }
     }, new Response.ErrorListener() {
       @Override
@@ -60,5 +65,6 @@ public class InternetExplorer {
 
 interface Result {
   void isOkay(JSONObject response) throws JSONException;
+
   void error(String error);
 }
