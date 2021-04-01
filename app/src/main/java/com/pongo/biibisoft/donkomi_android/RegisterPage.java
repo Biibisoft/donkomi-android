@@ -145,15 +145,7 @@ public class RegisterPage extends AppCompatActivity {
     lastName = findViewById(R.id.last_name);
     confirmPassword = findViewById(R.id.confirm_passwords);
     finishBtn = findViewById(R.id.finish_btn);
-    finishBtn.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-//        loadingDialog.show();
-//        finishNormalRegistration();
-//        Intent page = new Intent(_this, HomeContainerPage.class);
-//        startActivity(page);
-      }
-    });
+    finishBtn.setOnClickListener(startRegWithEmailAndPassword);
     gender_dropdown = findViewById(R.id.gender_dropdown);
     org_dropdown = findViewById(R.id.organistion_dropdown);
     ArrayAdapter<String> dropdownAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Konstants.ORGANISATIONS);
@@ -310,7 +302,6 @@ public class RegisterPage extends AppCompatActivity {
     startActivity(homePage);
   }
 
-
   @Override
   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -381,7 +372,37 @@ public class RegisterPage extends AppCompatActivity {
   private final View.OnClickListener cancelGoogleRegistration = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+      registrationHandler.mAuth.signOut();
+      Intent login = new Intent(_this, LoginPage.class);
+      startActivity(login);
+      finish();
+    }
+  };
 
+  private final View.OnClickListener startRegWithEmailAndPassword = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      if (contentIsValid()) {
+        registrationHandler.registerNewUserWithEmailAndPassword(MyHelper.getTextFrom(email), MyHelper.getTextFrom(password), new DonkomiInterfaces.Callback() {
+          @Override
+          public void next() {
+            DonkomiUser userObj = createCombinedUserObject(registrationHandler.mAuth.getCurrentUser(), false);
+            registrationHandler.setUserObj(userObj);
+            try {
+              registrationHandler.createBackendDonkomiUser(new DonkomiInterfaces.Callback() {
+                @Override
+                public void next() {
+                  // now go to the homepage or something
+                }
+              });
+            } catch (JSONException e) {
+              registrationHandler.setToastMsg(e.getMessage());
+              registrationHandler.toggleLoader();
+              e.printStackTrace();
+            }
+          }
+        });
+      }
     }
   };
   private final View.OnClickListener completeGoogleRegistration = new View.OnClickListener() {

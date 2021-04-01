@@ -39,6 +39,22 @@ public class RegisterPageViewModel extends AndroidViewModel {
     super(application);
   }
 
+  public void registerNewUserWithEmailAndPassword(String email, String password, DonkomiInterfaces.Callback callback) {
+    toggleLoader();
+    fireAuthService.createUserWithEmailAndPassword(email, password, new MyFirebaseGoogleRegistrationHelper.Result() {
+      @Override
+      public void isOkay() {
+        callback.next();
+      }
+
+      @Override
+      public void error(String error) {
+        toggleLoader();
+        setToastMsg(error);
+      }
+    });
+  }
+
   public void startGoogleRegistration(MyFirebaseGoogleRegistrationHelper.RelayCallback callback) {
     fireAuthService.startGoogleRegistration(new MyFirebaseGoogleRegistrationHelper.RelayCallback() {
       @Override

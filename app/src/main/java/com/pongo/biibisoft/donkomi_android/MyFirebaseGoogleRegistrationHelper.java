@@ -33,7 +33,6 @@ public class MyFirebaseGoogleRegistrationHelper {
     setGoogleDialogUp();
     Intent withGoogle = mGoogleSignInClient.getSignInIntent();
     callback.next(withGoogle);
-//    startActivityForResult(withGoogle, Konstants.GOOGLE_SIGN_UP_CODE);
   }
 
   // ----- FIRST 1
@@ -75,7 +74,25 @@ public class MyFirebaseGoogleRegistrationHelper {
           }
         });
   }
+//-------------------------------------------------- EMAIL AND PASSWORD ---------------------------------------
 
+  public void createUserWithEmailAndPassword(String email, String password, Result callback) {
+    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+      @Override
+      public void onComplete(@NonNull Task<AuthResult> task) {
+        if (task.isSuccessful()) callback.isOkay();
+        else callback.error("Sorry, something happened, could not create your account. Please try again!");
+      }
+    });
+
+  }
+
+
+
+  interface Result {
+    void isOkay();
+    void error(String error);
+  }
   @FunctionalInterface
   interface RelayCallback {
     void next(Object anything);
@@ -86,8 +103,9 @@ public class MyFirebaseGoogleRegistrationHelper {
     void next();
   }
 
-  interface ActivityResultsCallback{
+  interface ActivityResultsCallback {
     void isOkay(String idToken);
+
     void error(String error);
   }
 }
