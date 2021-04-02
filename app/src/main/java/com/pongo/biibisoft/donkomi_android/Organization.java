@@ -77,4 +77,13 @@ public class Organization  implements Parcelable {
       return new Organization[size];
     }
   };
+
+  @Override
+  public String toString() {
+    return "Organization{" +
+        "organizationID=" + organizationID +
+        ", name='" + name + '\'' +
+        ", country='" + country + '\'' +
+        '}';
+  }
 }

@@ -10,8 +10,8 @@ public class DonkomiInterfaces {
 
   interface Result {
     void isOkay();
-
     void error(String error);
+
   }
 
   interface Relay {

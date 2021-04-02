@@ -19,10 +19,20 @@ public class InternetExplorer {
   private JSONObject data = null;
   private String method = InternetExplorer.POST;
   private Context context;
+  private Boolean expectsArray  = true;
 
   public InternetExplorer(Context context) {
     this.context = context;
     this.handler = Volley.newRequestQueue(context);
+  }
+
+
+  public Boolean isExpectingArray() {
+    return expectsArray;
+  }
+
+  public void expectsArray(Boolean expectsArray) {
+    this.expectsArray = expectsArray;
   }
 
   public void setData(JSONObject data) {
@@ -69,7 +79,10 @@ public class InternetExplorer {
         ResponseHandler responseHandler = new ResponseHandler(response);
         try {
           if (responseHandler.hasError()) explorer.error(responseHandler.getErrorMessage());
-          else explorer.getData(responseHandler.getData());
+          else{
+            if(isExpectingArray()) explorer.getDataArray(responseHandler.getData());
+            else explorer.getData(responseHandler.getDataObject());
+          }
 
         } catch (JSONException e) {
           explorer.error(e.getMessage());
@@ -105,6 +118,8 @@ interface ResultWithData {
   void isOkay(JSONObject response) throws JSONException;
 
   void getData(Object data);
+
+  void getDataArray(Object[] data);
 
   void error(String error);
 }

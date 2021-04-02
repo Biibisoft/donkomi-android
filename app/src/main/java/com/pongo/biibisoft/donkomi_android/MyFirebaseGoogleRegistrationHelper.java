@@ -29,14 +29,14 @@ public class MyFirebaseGoogleRegistrationHelper {
     this.context = context;
   }
 
-  //  ----- SECOND 2
+  //  ----- FIRST,  (this is the entry point)
   public void startGoogleRegistration(RelayCallback callback) {
     setGoogleDialogUp();
     Intent withGoogle = mGoogleSignInClient.getSignInIntent();
     callback.next(withGoogle);
   }
 
-  // ----- FIRST 1
+  // ----- SETUP
   public void setGoogleDialogUp() {
     GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
         .requestIdToken(context.getString(R.string.default_web_client_id))
@@ -46,7 +46,7 @@ public class MyFirebaseGoogleRegistrationHelper {
     mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
   }
 
-  //------- THIRD 3
+  //------- THIRD 2
   public void onActivityResult(int requestCode, Intent data, ActivityResultsCallback callback) {
     if (requestCode == Konstants.GOOGLE_SIGN_UP_CODE) {
       Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -61,7 +61,7 @@ public class MyFirebaseGoogleRegistrationHelper {
     }
   }
 
-  //  ---------- FOURTH 4
+  //  ---------- FOURTH 3 ( should be called inside the onActivity result fxn ---
   public void firebaseAuthWithGoogle(String token, DonkomiInterfaces.Result callback) {
     AuthCredential credential = GoogleAuthProvider.getCredential(token, null);
     mAuth.signInWithCredential(credential)

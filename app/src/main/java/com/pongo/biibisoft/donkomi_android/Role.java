@@ -50,4 +50,12 @@ public class Role implements Parcelable {
     dest.writeString(name);
     dest.writeInt(accessLevel);
   }
+
+  @Override
+  public String toString() {
+    return "Role{" +
+        "name='" + name + '\'' +
+        ", accessLevel=" + accessLevel +
+        '}';
+  }
 }

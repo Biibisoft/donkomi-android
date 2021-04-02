@@ -55,6 +55,7 @@ public class RegisterPageViewModel extends AndroidViewModel {
     });
   }
 
+//  This extra fxn is not necessary remove it when you get time offui!
   public void startGoogleRegistration(MyFirebaseGoogleRegistrationHelper.RelayCallback callback) {
     fireAuthService.startGoogleRegistration(new MyFirebaseGoogleRegistrationHelper.RelayCallback() {
       @Override

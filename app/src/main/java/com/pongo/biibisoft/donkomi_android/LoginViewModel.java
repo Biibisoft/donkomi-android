@@ -86,6 +86,7 @@ public class LoginViewModel extends AndroidViewModel {
 
   public void fetchUserFromBackend(String uid, DonkomiInterfaces.Result callback) {
     explorer.setMethod(InternetExplorer.GET);
+    explorer.expectsArray(false);
     explorer.runAndFindData(DonkomiURLS.GET_USER + explorer.endSlash(uid), new ResultWithData() {
       @Override
       public void isOkay(JSONObject response) throws JSONException {
@@ -100,8 +101,22 @@ public class LoginViewModel extends AndroidViewModel {
       }
 
       @Override
+      public void getDataArray(Object[] data) {
+
+      }
+
+      @Override
       public void error(String error) {
         callback.error(error);
+      }
+    });
+  }
+
+  public void authenticateWithGoogle(){
+    fireAuthService.startGoogleRegistration(new MyFirebaseGoogleRegistrationHelper.RelayCallback() {
+      @Override
+      public void next(Object anything) {
+
       }
     });
   }

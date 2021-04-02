@@ -288,17 +288,6 @@ public class RegisterPage extends AppCompatActivity {
         registrationHandler.setToastMsg(error);
       }
     });
-//    if (requestCode == Konstants.GOOGLE_SIGN_UP_CODE) {
-//      Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//      try {
-//        GoogleSignInAccount account = task.getResult(ApiException.class);
-//        firebaseAuthWithGoogle(account.getIdToken());
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//        Log.d(TAG, "onActivityResult: GoogleError" + e.getLocalizedMessage());
-//        Toast.makeText(this, "Oops! Failed to sign up with google! " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-//      }
-//    }
 
   }
 
@@ -365,6 +354,7 @@ public class RegisterPage extends AppCompatActivity {
       }
     }
   };
+
   private final View.OnClickListener completeGoogleRegistration = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
