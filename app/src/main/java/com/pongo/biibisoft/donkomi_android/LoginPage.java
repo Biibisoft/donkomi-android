@@ -3,6 +3,9 @@ package com.pongo.biibisoft.donkomi_android;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -43,17 +46,42 @@ public class LoginPage extends AppCompatActivity {
   Dialog loadingDialog;
   private GoogleSignInClient mGoogleSignInClient;
   private FirebaseUser fireUser;
+  LoginViewModel loginHandler;
+  TextView loadingText;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login_page);
-    mAuth = FirebaseAuth.getInstance();
     _this = this;
     setGoogleDialogUp();
     initialize();
+    loginHandler = new ViewModelProvider(this).get(LoginViewModel.class);
+    setObservers();
   }
 
+
+  public void setObservers() {
+    loginHandler.getLoaderState().observe(this, new Observer<Boolean>() {
+      @Override
+      public void onChanged(Boolean isShowing) {
+        if (isShowing) loadingDialog.show();
+        else loadingDialog.dismiss();
+      }
+    });
+
+    loginHandler.toastMsg().observe(this, new Observer<String>() {
+      @Override
+      public void onChanged(String text) {
+        if (text == null) {
+          Toast.makeText(_this, "Unknown error", Toast.LENGTH_SHORT).show();
+          return;
+        }
+        if (!text.isEmpty()) Toast.makeText(_this, text, Toast.LENGTH_SHORT).show();
+      }
+    });
+
+  }
 
   public void initialize() {
     initializeLoader();
@@ -86,8 +114,8 @@ public class LoginPage extends AppCompatActivity {
   private void initializeLoader() {
     dialogCreator = new MagicBoxes(this);
     View loadingView = LayoutInflater.from(_this).inflate(R.layout.simple_loading_dialog, null, false);
-    TextView loadingText = loadingView.findViewById(R.id.loader_text);
-    loadingText.setText("Checking Details...");
+    loadingText = loadingView.findViewById(R.id.loader_text);
+    loadingText.setText(R.string.authenticating);
     loadingDialog = dialogCreator.constructLoadingCustomDialog(loadingView);
     loadingDialog.setCanceledOnTouchOutside(false);
   }
@@ -111,33 +139,18 @@ public class LoginPage extends AppCompatActivity {
     @Override
     public void onClick(View v) {
       if (!detailsAreValid()) return;
-      loadingDialog.show();
-      mAuth.signInWithEmailAndPassword(MyHelper.getTextFrom(email), MyHelper.getTextFrom(password))
-          .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-              if (task.isSuccessful()) {
-                Toast.makeText(LoginPage.this, "Nice, good to go!", Toast.LENGTH_SHORT).show();
-                fireUser = mAuth.getCurrentUser();
-              } else {
-                Toast.makeText(_this, "Oops!, something happened! Couldn't log you in!", Toast.LENGTH_SHORT).show();
-              }
-              loadingDialog.dismiss();
-            }
-          }).addOnFailureListener(new OnFailureListener() {
+      loginHandler.authenticateWithEmailAndPassword(MyHelper.getTextFrom(email), MyHelper.getTextFrom(password), new DonkomiInterfaces.RelayUser() {
         @Override
-        public void onFailure(@NonNull Exception e) {
-          Log.d("LOGINATTEMPTERROR:", e.getMessage());
-          Toast.makeText(LoginPage.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-          loadingDialog.dismiss();
+        public void send(DonkomiUser user) {
+          transitionToHomePage(user);
         }
       });
-
     }
   };
 
-  private void transitionToHomePage() {
+  private void transitionToHomePage(DonkomiUser user) {
     Intent homePage = new Intent(this, HomeContainerPage.class);
+    homePage.putExtra(Konstants.USER, user);
     startActivity(homePage);
   }
 
@@ -187,7 +200,7 @@ public class LoginPage extends AppCompatActivity {
             if (task.isSuccessful()) {
               // Sign in success, update UI with the signed-in user's information
               fireUser = mAuth.getCurrentUser();
-              transitionToHomePage();
+//              transitionToHomePage();
 
             } else {
               // If sign in fails, display a message to the user.

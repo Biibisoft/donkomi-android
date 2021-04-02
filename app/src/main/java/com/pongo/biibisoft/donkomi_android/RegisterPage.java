@@ -114,7 +114,7 @@ public class RegisterPage extends AppCompatActivity {
     registrationHandler.getLoaderState().observe(this, new Observer<Boolean>() {
       @Override
       public void onChanged(Boolean loading) {
-        if (loading) loadingDialog.show();
+        if (loading) if(loadingDialog != null) loadingDialog.show();
         else loadingDialog.dismiss();
       }
     });
@@ -255,51 +255,11 @@ public class RegisterPage extends AppCompatActivity {
     return userObj;
   }
 
-  // Create new user user with email and password in firebase
-  public void finishNormalRegistration() {
-    if (contentIsValid()) {
-      mAuth.createUserWithEmailAndPassword(MyHelper.getTextFrom(email), MyHelper.getTextFrom(password))
-          .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-              if (task.isSuccessful()) {
-//                Toast.makeText(RegisterPage.this, "Successfully Created Your Account", Toast.LENGTH_SHORT).show();
-                fireUser = mAuth.getCurrentUser();
-                userObj = createCombinedUserObject(null, false);
-//                createBackendDonkomiUser(userObj, new DonkomiInterfaces.Callback() {
-//                  @Override
-//                  public void next() {
-//                    transitionToHomePage();
-//                  }
-//                });
-              } else {
-                loadingDialog.dismiss();
-                Log.w("RegPageEmail&PErr::", task.getException().getMessage());
-                Toast.makeText(RegisterPage.this, "Oops, something happened! " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-              }
-            }
-          }).addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception e) {
-          Log.w("RegPageEmail&PErr::", "withEmailAndPasswordException:" + e.getMessage());
-          Toast.makeText(RegisterPage.this, "Oops! " + e.getMessage(), Toast.LENGTH_SHORT).show();
-          loadingDialog.dismiss();
-        }
-      });
-    } else loadingDialog.dismiss();
-  }
-
-  private void goToProfileCompletionPage(DonkomiUser user) {
-    Intent page = new Intent(this, ClientAllPagesContainer.class);
-    page.putExtra(Konstants.FORM_FOR, Konstants.EDIT_PROFILE_FORM);
-    page.putExtra(Konstants.USER, user);
-    startActivity(page);
-  }
-
   private void transitionToHomePage() {
     Intent homePage = new Intent(this, HomeContainerPage.class);
-    homePage.putExtra(Konstants.FORM_FOR, Konstants.EDIT_PROFILE_FORM);
+    homePage.putExtra(Konstants.USER, registrationHandler.getDonkomiUser());
     startActivity(homePage);
+    finish();
   }
 
   @Override
@@ -392,7 +352,7 @@ public class RegisterPage extends AppCompatActivity {
               registrationHandler.createBackendDonkomiUser(new DonkomiInterfaces.Callback() {
                 @Override
                 public void next() {
-                  // now go to the homepage or something
+                  transitionToHomePage();
                 }
               });
             } catch (JSONException e) {

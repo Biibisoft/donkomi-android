@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -81,18 +82,38 @@ public class MyFirebaseGoogleRegistrationHelper {
       @Override
       public void onComplete(@NonNull Task<AuthResult> task) {
         if (task.isSuccessful()) callback.isOkay();
-        else callback.error("Sorry, something happened, could not create your account. Please try again!");
+        else
+          callback.error("Sorry, something happened, could not create your account. Please try again!");
       }
     });
 
   }
 
+  public void signInWithEmailAndPassword(String email, String password, Result callback) {
+    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+      @Override
+      public void onComplete(@NonNull Task<AuthResult> task) {
+        if (task.isSuccessful()) callback.isOkay();
+        else
+          callback.error("Sorry, something happened, could not sign you in. Please try again!");
+
+      }
+    }).addOnFailureListener(new OnFailureListener() {
+      @Override
+      public void onFailure(@NonNull Exception e) {
+        callback.error(e.getMessage());
+        Log.d("FIREBASE_REG_HELPER", "onFailure: " + e.getMessage());
+      }
+    });
+  }
 
 
   interface Result {
     void isOkay();
+
     void error(String error);
   }
+
   @FunctionalInterface
   interface RelayCallback {
     void next(Object anything);

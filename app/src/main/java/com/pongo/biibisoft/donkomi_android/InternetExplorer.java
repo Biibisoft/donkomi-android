@@ -61,10 +61,50 @@ public class InternetExplorer {
       explorer.error("Request handler is not setup properly!");
     }
   }
+
+  public void runAndFindData(String URL, ResultWithData explorer) {
+    JsonObjectRequest req = new JsonObjectRequest(this.getMethod(), URL, this.data, new Response.Listener<JSONObject>() {
+      @Override
+      public void onResponse(JSONObject response) {
+        ResponseHandler responseHandler = new ResponseHandler(response);
+        try {
+          if (responseHandler.hasError()) explorer.error(responseHandler.getErrorMessage());
+          else explorer.getData(responseHandler.getData());
+
+        } catch (JSONException e) {
+          explorer.error(e.getMessage());
+          e.printStackTrace();
+        }
+      }
+    }, new Response.ErrorListener() {
+      @Override
+      public void onErrorResponse(VolleyError error) {
+        if (error != null) explorer.error(error.getMessage());
+        else explorer.error("Something happened! Request timeout, or unknown error while roaming");
+      }
+    });
+    if (this.handler != null) handler.add(req);
+    else {
+      explorer.error("Request handler is not setup properly!");
+    }
+  }
+
+
+  public String endSlash(String url) {
+    return url + "/";
+  }
 }
 
 interface Result {
   void isOkay(JSONObject response) throws JSONException;
+
+  void error(String error);
+}
+
+interface ResultWithData {
+  void isOkay(JSONObject response) throws JSONException;
+
+  void getData(Object data);
 
   void error(String error);
 }

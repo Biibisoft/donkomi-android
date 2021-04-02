@@ -120,6 +120,10 @@ public class RegisterPageViewModel extends AndroidViewModel {
     return userObj;
   }
 
+  public DonkomiUser getDonkomiUser(){
+    return userObj.getValue();
+  }
+
   public void createBackendDonkomiUser(DonkomiInterfaces.Callback callback) throws JSONException {
     DonkomiUser user = userObj.getValue();
     explorer.setData(user.parseIntoInternetData());

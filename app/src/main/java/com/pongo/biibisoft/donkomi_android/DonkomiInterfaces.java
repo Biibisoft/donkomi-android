@@ -17,4 +17,8 @@ public class DonkomiInterfaces {
   interface Relay {
     void run();
   }
+
+  interface RelayUser{
+    void send(DonkomiUser user);
+  }
 }
