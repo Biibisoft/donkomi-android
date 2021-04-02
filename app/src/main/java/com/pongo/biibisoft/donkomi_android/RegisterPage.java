@@ -114,7 +114,7 @@ public class RegisterPage extends AppCompatActivity {
     registrationHandler.getLoaderState().observe(this, new Observer<Boolean>() {
       @Override
       public void onChanged(Boolean loading) {
-        if (loading) if(loadingDialog != null) loadingDialog.show();
+        if (loading) loadingDialog.show();
         else loadingDialog.dismiss();
       }
     });
@@ -180,7 +180,7 @@ public class RegisterPage extends AppCompatActivity {
   private final View.OnClickListener launchGoogleRegistration = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-      registrationHandler.toggleLoader();
+      registrationHandler.setLoaderValue(true);
       registrationHandler.startGoogleRegistration(new MyFirebaseGoogleRegistrationHelper.RelayCallback() {
         @Override
         public void next(Object anything) {
@@ -244,11 +244,12 @@ public class RegisterPage extends AppCompatActivity {
 
   // Create a donkomi object from the details given by the user
   public DonkomiUser createCombinedUserObject(FirebaseUser fireUser, boolean isGoogle) {
-    if (!isGoogle)
+    if (!isGoogle) {
       userObj = new DonkomiUser(MyHelper.getTextFrom(email), MyHelper.getTextFrom(firstName), MyHelper.getTextFrom(lastName), fireUser.getUid());
-    else {
+      userObj.setPhone(MyHelper.getTextFrom(phone));
+    } else {
       userObj = new DonkomiUser(fireUser.getEmail(), fireUser.getDisplayName(), null, fireUser.getUid());
-      userObj.setPhone(fireUser.getPhoneNumber());
+      userObj.setPhone(fireUser.getPhoneNumber() !=null ? fireUser.getPhoneNumber() : "123456789");
     }
     userObj.setOrganization(selectedOrg);
     userObj.setGender(selectedGender);
@@ -267,18 +268,19 @@ public class RegisterPage extends AppCompatActivity {
     super.onActivityResult(requestCode, resultCode, data);
     registrationHandler.fireAuthService.onActivityResult(requestCode, data, new MyFirebaseGoogleRegistrationHelper.ActivityResultsCallback() {
       @Override
-      public void isOkay(String idToken) {
+      public void googleDialogAuthIsOkay(String idToken) {
         registrationHandler.fireAuthService.firebaseAuthWithGoogle(idToken, new DonkomiInterfaces.Result() {
           @Override
           public void isOkay() {
             userObj = createCombinedUserObject(registrationHandler.mAuth.getCurrentUser(), true);
             registrationHandler.proceedAfterGoogleRegistration(userObj);
+            registrationHandler.setLoaderValue(false);
           }
 
           @Override
           public void error(String error) {
             registrationHandler.setToastMsg("Oops, couldn't sign you up with google!");
-            registrationHandler.toggleLoader();
+            registrationHandler.setLoaderValue(false);
           }
         });
       }
@@ -286,6 +288,7 @@ public class RegisterPage extends AppCompatActivity {
       @Override
       public void error(String error) {
         registrationHandler.setToastMsg(error);
+        registrationHandler.setLoaderValue(false);
       }
     });
 
@@ -359,7 +362,7 @@ public class RegisterPage extends AppCompatActivity {
     @Override
     public void onClick(View v) {
       try {
-        registrationHandler.toggleLoader();
+        registrationHandler.setLoaderValue(true);
         registrationHandler.createBackendDonkomiUser(new DonkomiInterfaces.Callback() {
           @Override
           public void next() {
@@ -369,7 +372,7 @@ public class RegisterPage extends AppCompatActivity {
       } catch (JSONException e) {
         e.printStackTrace();
         registrationHandler.setToastMsg(e.getMessage());
-        registrationHandler.toggleLoader();
+        registrationHandler.setLoaderValue(false);
 
       }
     }

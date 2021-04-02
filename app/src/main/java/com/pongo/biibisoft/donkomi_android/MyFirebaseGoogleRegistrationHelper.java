@@ -3,7 +3,6 @@ package com.pongo.biibisoft.donkomi_android;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -52,7 +51,7 @@ public class MyFirebaseGoogleRegistrationHelper {
       Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
       try {
         GoogleSignInAccount account = task.getResult(ApiException.class);
-        callback.isOkay(account.getIdToken());
+        callback.googleDialogAuthIsOkay(account.getIdToken());
 //        firebaseAuthWithGoogle(account.getIdToken(), callback);
       } catch (Exception e) {
         e.printStackTrace();
@@ -125,7 +124,7 @@ public class MyFirebaseGoogleRegistrationHelper {
   }
 
   interface ActivityResultsCallback {
-    void isOkay(String idToken);
+    void googleDialogAuthIsOkay(String idToken);
 
     void error(String error);
   }

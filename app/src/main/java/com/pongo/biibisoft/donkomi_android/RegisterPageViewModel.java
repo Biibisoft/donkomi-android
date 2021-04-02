@@ -39,6 +39,10 @@ public class RegisterPageViewModel extends AndroidViewModel {
     super(application);
   }
 
+
+  public void setLoaderValue(Boolean value){
+    this.loaderOn.setValue(value);
+  }
   public void registerNewUserWithEmailAndPassword(String email, String password, DonkomiInterfaces.Callback callback) {
     toggleLoader();
     fireAuthService.createUserWithEmailAndPassword(email, password, new MyFirebaseGoogleRegistrationHelper.Result() {
@@ -66,7 +70,7 @@ public class RegisterPageViewModel extends AndroidViewModel {
   }
 
   public void proceedAfterGoogleRegistration(DonkomiUser user) {
-    toggleLoader();
+    setLoaderValue(false);
     setUserObj(user);
     flipBtns();
     setMessage("Add The Remaining Information To Complete Your Profile");
@@ -91,10 +95,6 @@ public class RegisterPageViewModel extends AndroidViewModel {
 
   public void setToastMsg(String msg) {
     this.toastMsg.setValue(msg);
-  }
-
-  public Boolean isGoogleRegistration() {
-    return isGoogle.getValue();
   }
 
   public LiveData<String> getToastMsg() {

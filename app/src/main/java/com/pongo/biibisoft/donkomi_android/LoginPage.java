@@ -105,6 +105,7 @@ public class LoginPage extends AppCompatActivity {
   private final View.OnClickListener launchGoogleSignIn = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+      loginHandler.setLoaderValue(true);
       loginHandler.fireAuthService.startGoogleRegistration(new MyFirebaseGoogleRegistrationHelper.RelayCallback() {
         @Override
         public void next(Object anything) {
@@ -158,18 +159,29 @@ public class LoginPage extends AppCompatActivity {
     startActivity(homePage);
   }
 
-  // Google Login Step 4
+
   @Override
   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    loginHandler.setLoaderValue(true);
     loginHandler.fireAuthService.onActivityResult(requestCode, data, new MyFirebaseGoogleRegistrationHelper.ActivityResultsCallback() {
       @Override
-      public void isOkay(String idToken) {
+      public void googleDialogAuthIsOkay(String idToken) {
         loginHandler.fireAuthService.firebaseAuthWithGoogle(idToken, new DonkomiInterfaces.Result() {
           @Override
           public void isOkay() {
-//            Now send backend request to foind user when you are ready
+            FirebaseUser fireUser = loginHandler.mAuth.getCurrentUser();
+            loginHandler.fetchUserFromBackend(fireUser.getUid(), new DonkomiInterfaces.Result() {
+              @Override
+              public void isOkay() {
+                transitionToHomePage(loginHandler.userObj);
+              }
+
+              @Override
+              public void error(String error) {
+                loginHandler.setToastMsg(error);
+                loginHandler.setLoaderValue(false);
+              }
+            });
           }
 
           @Override
