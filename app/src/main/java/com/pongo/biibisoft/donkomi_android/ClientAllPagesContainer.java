@@ -2,6 +2,7 @@ package com.pongo.biibisoft.donkomi_android;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
@@ -33,7 +34,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   private ImageUploadHelper imageUploadHelper;
   private byte[] selectedImageBytes;
   private String selectedImageExt;
-  DonkomiUser authUser;
+
   EditText firstName, lastName, phone;
   MagicBoxes dialogCreator;
   ClientAllPagesContainerViewModel pageHandler;
@@ -44,6 +45,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     setContentView(R.layout.activity_client_all_pages_container);
     pageHandler = new ViewModelProvider(this).get(ClientAllPagesContainerViewModel.class);
     pageHandler.handleTravellingContent(getIntent());
+    setObservers();
     _this = this;
     initialize();
   }
@@ -58,19 +60,27 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     }
   }
 
+  public void setObservers(){
+    pageHandler.authenticatedUser.observe(this, new Observer<DonkomiUser>() {
+      @Override
+      public void onChanged(DonkomiUser donkomiUser) {
+        prefillWithContent(donkomiUser);
+      }
+    });
+  }
   public void initialize() {
     dialogCreator = new MagicBoxes(this);
-    authUser = getIntent().getParcelableExtra(Konstants.USER);
-    if(authUser == null) {
-      dialogCreator.constructSimpleOneActionDialog("Sign In", "You have not signed in yet", "", new OneAction() {
-        @Override
-        public void callback() {
-          Intent login = new Intent(_this, LoginPage.class);
-          startActivity(login);
-          finish();
-        }
-      });
-    }
+//    authUser = getIntent().getParcelableExtra(Konstants.USER);
+//    if(authUser == null) {
+//      dialogCreator.constructSimpleOneActionDialog("Sign In", "You have not signed in yet", "", new OneAction() {
+//        @Override
+//        public void callback() {
+//          Intent login = new Intent(_this, LoginPage.class);
+//          startActivity(login);
+//          finish();
+//        }
+//      });
+//    }
     Spinner gender_dropdown = findViewById(R.id.gender_dropdown);
     ArrayAdapter<String> genderAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Konstants.GENDER);
     gender_dropdown.setAdapter(genderAdapter);
@@ -92,9 +102,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     firstName = findViewById(R.id.first_name);
     lastName = findViewById(R.id.last_name);
     phone = findViewById(R.id.edit_mobile_number);
-    firstName.setText(authUser.getFirstName());
-    lastName.setText(authUser.getLastName());
-    phone.setText(authUser.getPhone());
+
     profilePicture = findViewById(R.id.profile_picture);
     editProfileForm = findViewById(R.id.edit_profile_form);
     imageUploadHelper = new ImageUploadHelper(this);
@@ -113,6 +121,11 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     });
   }
 
+  public void prefillWithContent(DonkomiUser authUser){
+    firstName.setText(authUser.getFirstName());
+    lastName.setText(authUser.getLastName());
+    phone.setText(authUser.getPhone());
+  }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

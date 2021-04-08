@@ -27,13 +27,15 @@ public class HomeContainerPage extends AppCompatActivity {
   Fragment currentFragment;
   Context thisActivity;
   HomePageViewModel homeHandler;
-
+  ClientFragmentsViewModel tabHandler;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home_container_page);
     thisActivity = this;
     homeHandler = new ViewModelProvider(this).get(HomePageViewModel.class);
+    tabHandler = new ViewModelProvider(this).get(ClientFragmentsViewModel.class);
+    tabHandler.handleTravellingContent(getIntent());
     homeHandler.handleTravellingContent(getIntent());
     initialize();
   }
@@ -73,7 +75,8 @@ public class HomeContainerPage extends AppCompatActivity {
           } else if (menuID == R.id.settings_menu_item) {
             currentFragment = new SettingsFragmentPage();
             ((SettingsFragmentPage) currentFragment).setContext(thisActivity);
-            ((SettingsFragmentPage) currentFragment).setAuthenticatedUser(homeHandler.authenticatedUser);
+            ((SettingsFragmentPage) currentFragment).setPageHandler(tabHandler);
+
           } else if (menuID == R.id.client_side_guru_management_menu_item) {
             Intent page = new Intent(thisActivity, GuruLandingPage.class);
             startActivity(page);
