@@ -16,7 +16,6 @@ public class AllFormsContainerPage extends AppCompatActivity {
   String FORM_FOR = Konstants.NEW_STOCK;
   TextView pageName;
   ImageView backBtn, rightIcon;
-  //  LinearLayout routineForm;
   RelativeLayout vendorForm, stockForm, routineForm;
 
   @Override
@@ -27,6 +26,9 @@ public class AllFormsContainerPage extends AppCompatActivity {
   }
 
 
+  public void setObservers(){
+
+  }
   public void initialize() {
     String _for = getIntent().getStringExtra(Konstants.FORM_FOR);
     FORM_FOR = _for != null ? _for : Konstants.NEW_ROUTINE;

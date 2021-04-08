@@ -45,7 +45,7 @@ public class MyFirebaseGoogleRegistrationHelper {
     mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
   }
 
-  //------- THIRD 2
+  //------- THIRD 2 ---- (put this in onActivity result of the active activity)
   public void onActivityResult(int requestCode, Intent data, ActivityResultsCallback callback) {
     if (requestCode == Konstants.GOOGLE_SIGN_UP_CODE) {
       Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);

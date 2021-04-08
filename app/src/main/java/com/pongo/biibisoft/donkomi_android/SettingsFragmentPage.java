@@ -12,23 +12,27 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingsFragmentPage extends Fragment {
-
-
   RelativeLayout goToSettingsBtn, applyToDonkomiBtn, signOutBtn;
   private Context context;
   FirebaseAuth mAuth = FirebaseAuth.getInstance();
+  SettingsFragmentViewModel settingsHandler;
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.settings_fragment_page, container, false);
+    settingsHandler  = new ViewModelProvider(this).get(SettingsFragmentViewModel.class);
     initialize(v);
     return v;
   }
 
+  public void setAuthenticatedUser(DonkomiUser user){
+    settingsHandler.setAuthenticatedUser(user);
+  }
   @Nullable
   @Override
   public Context getContext() {
@@ -48,6 +52,7 @@ public class SettingsFragmentPage extends Fragment {
       public void onClick(View v) {
         Intent page = new Intent(context, ClientAllPagesContainer.class);
 //        page.putExtra(Konstants.FORM_FOR, Konstants.EDIT_PROFILE_FORM);
+        page.putExtra(Konstants.USER,settingsHandler.authenticatedUser);
         startActivity(page);
       }
     });

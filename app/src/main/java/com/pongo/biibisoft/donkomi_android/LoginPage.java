@@ -54,7 +54,7 @@ public class LoginPage extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login_page);
     _this = this;
-    setGoogleDialogUp();
+
     initialize();
     loginHandler = new ViewModelProvider(this).get(LoginViewModel.class);
     setObservers();
@@ -198,59 +198,6 @@ public class LoginPage extends AppCompatActivity {
         loginHandler.setToastMsg(error);
       }
     });
-//    if (requestCode == Konstants.GOOGLE_SIGN_IN_CODE) {
-//      Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//      try {
-//        GoogleSignInAccount account = task.getResult(ApiException.class);
-//        firebaseAuthWithGoogle(account.getIdToken());
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//        Log.d(TAG, "onActivityResult: GoogleError" + e.getLocalizedMessage());
-//        Toast.makeText(this, "Oops! Failed to sign up with google! " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-//        loadingDialog.dismiss();
-//      }
-//    }
 
   }
-
-  // Google Login Step 2
-  private void setGoogleDialogUp() {
-    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken(getString(R.string.default_web_client_id))
-        .requestEmail()
-        .build();
-    //attach google sign in options to Google Dialog
-    mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-  }
-
-  // Google Login Step 1
-  public void registerWithGoogle() {
-    Intent withGoogle = mGoogleSignInClient.getSignInIntent();
-    startActivityForResult(withGoogle, Konstants.GOOGLE_SIGN_IN_CODE);
-  }
-
-
-  // Google Login Step 4
-  private void firebaseAuthWithGoogle(String token) {
-    AuthCredential credential = GoogleAuthProvider.getCredential(token, null);
-    mAuth.signInWithCredential(credential)
-        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-          @Override
-          public void onComplete(@NonNull Task<AuthResult> task) {
-            if (task.isSuccessful()) {
-              // Sign in success, update UI with the signed-in user's information
-              fireUser = mAuth.getCurrentUser();
-//              transitionToHomePage();
-
-            } else {
-              // If sign in fails, display a message to the user.
-              Log.w(TAG, "signUpWithCredential:failure", task.getException());
-              Toast.makeText(LoginPage.this, "Oops, couldn't sign you up with google! " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
-            }
-            loadingDialog.dismiss();
-          }
-        });
-  }
-
-
 }

@@ -2,6 +2,7 @@ package com.pongo.biibisoft.donkomi_android;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,11 +36,14 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   DonkomiUser authUser;
   EditText firstName, lastName, phone;
   MagicBoxes dialogCreator;
+  ClientAllPagesContainerViewModel pageHandler;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_client_all_pages_container);
+    pageHandler = new ViewModelProvider(this).get(ClientAllPagesContainerViewModel.class);
+    pageHandler.handleTravellingContent(getIntent());
     _this = this;
     initialize();
   }

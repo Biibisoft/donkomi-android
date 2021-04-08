@@ -3,6 +3,8 @@ package com.pongo.biibisoft.donkomi_android;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,13 +26,15 @@ public class HomeContainerPage extends AppCompatActivity {
   BottomNavigationView navigation;
   Fragment currentFragment;
   Context thisActivity;
-
+  HomePageViewModel homeHandler;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home_container_page);
     thisActivity = this;
+    homeHandler = new ViewModelProvider(this).get(HomePageViewModel.class);
+    homeHandler.handleTravellingContent(getIntent());
     initialize();
   }
 
@@ -49,14 +53,14 @@ public class HomeContainerPage extends AppCompatActivity {
 
   }
 
-  private View.OnClickListener goToCartPage = new View.OnClickListener() {
+  private final View.OnClickListener goToCartPage = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       Intent page = new Intent(thisActivity, CompleteOrderPage.class);
       startActivity(page);
     }
   };
-  private BottomNavigationView.OnNavigationItemSelectedListener navItemSelected =
+  private final BottomNavigationView.OnNavigationItemSelectedListener navItemSelected =
       new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -69,6 +73,7 @@ public class HomeContainerPage extends AppCompatActivity {
           } else if (menuID == R.id.settings_menu_item) {
             currentFragment = new SettingsFragmentPage();
             ((SettingsFragmentPage) currentFragment).setContext(thisActivity);
+            ((SettingsFragmentPage) currentFragment).setAuthenticatedUser(homeHandler.authenticatedUser);
           } else if (menuID == R.id.client_side_guru_management_menu_item) {
             Intent page = new Intent(thisActivity, GuruLandingPage.class);
             startActivity(page);
