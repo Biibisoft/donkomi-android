@@ -17,7 +17,7 @@ public class DonkomiUser implements Parcelable, DonkomiUserManager {
   private String lastName;
   private String gender;
   private String email;
-  private Organization organization = null;
+  private Organization organization;
   private String OrgID;
   private String orgIDType = Konstants.ROOM_NUMBER;
   private String profilePicture;
@@ -32,6 +32,20 @@ public class DonkomiUser implements Parcelable, DonkomiUserManager {
     this.platformID = platformID;
   }
 
+  public DonkomiUser(DonkomiUser user) {
+    this.platformID = user.getPlatformID();
+    this.firstName = user.getFirstName();
+    this.lastName = user.getLastName();
+    this.gender = user.getGender();
+    this.email = user.getEmail();
+    this.organization = user.getOrganization() != null ? new Organization(user.getOrganization()) : null;
+    this.OrgID = user.getOrgID();
+    this.orgIDType = user.getOrgIDType();
+    this.profilePicture = user.getProfilePicture();
+    this.deviceTokens = user.getDeviceTokens();
+    this.roles = user.getRoles();
+    this.phone = user.getPhone();
+  }
 
 
   public DonkomiUser() {
@@ -239,4 +253,71 @@ public class DonkomiUser implements Parcelable, DonkomiUserManager {
     data.put("organization_id", this.organization != null ? this.organization.getOrganizationID() : 1);
     return data;
   }
+
+//  @Override
+//  public Boolean isTheSameAs(Object compareObj) {
+//    DonkomiUser user = (DonkomiUser) compareObj;
+//    return firstName.equals(user.getFirstName()) && lastName.equals(user.getLastName()) && phone.equals(user.getPhone()) && gender.equals(user.getGender());
+//  }
+
+  public static TravellingResults areTheSame(DonkomiUser user, DonkomiUser otherPerson, String[] fields) {
+    TravellingResults res = new TravellingResults();
+    if (fields == null) fields = FieldNames.FIELDS;
+    for (String fieldName : fields) {
+      String one = (String) getValueWithFieldName(fieldName, user);
+      String two = (String) getValueWithFieldName(fieldName, otherPerson);
+      if (one == null && two == null){} // both values are null so they are still the same
+      else if( one != null && two != null) { // none of the values is null, go on and check equality
+        if (!one.equals(two)){
+          res.setStatus(false);
+          res.addToData(fieldName);
+        }
+      }
+      else res.setStatus(false); // one of the values is null so its they are not the same
+    }
+    return res;
+  }
+
+
+  public static Object getValueWithFieldName(String fieldName, Object obj) {
+    DonkomiUser user = (DonkomiUser) obj;
+    switch (fieldName) {
+      case FieldNames.FIRST_NAME:
+        return user.getFirstName();
+
+      case FieldNames.LAST_NAME:
+        return user.getLastName();
+
+      case FieldNames.EMAIL:
+        return user.getEmail();
+      case FieldNames.GENDER:
+        return user.getGender();
+
+      case FieldNames.PHONE:
+        return user.getPhone();
+      case FieldNames.ORGANIZATION:
+        return user.getOrganization();
+
+      case FieldNames.PLATFORM_ID:
+        return user.getPlatformID();
+
+      case FieldNames.PROFILE_PICTURE:
+        return user.getProfilePicture();
+    }
+    return null;
+  }
+
+  public static class FieldNames {
+    public static final String FIRST_NAME = "firstName";
+    public static final String LAST_NAME = "lastName";
+    public static final String PHONE = "phone";
+    public static final String GENDER = "gender";
+    public static final String ORGANIZATION = "organization";
+    public static final String PLATFORM_ID = "platformID";
+    public static final String PROFILE_PICTURE = "profilePicture";
+    public static final String EMAIL = "EMAIL";
+    public static final String[] FIELDS = new String[]{FIRST_NAME, LAST_NAME, PHONE, GENDER, ORGANIZATION, PLATFORM_ID, PROFILE_PICTURE, EMAIL};
+  }
 }
+
+

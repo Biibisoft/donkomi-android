@@ -11,8 +11,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +40,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   EditText firstName, lastName, phone;
   MagicBoxes dialogCreator;
   ClientAllPagesContainerViewModel pageHandler;
-
+  private String selectedGender;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -60,8 +63,6 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   }
 
   public void setObservers(){
-
-
     pageHandler.currentPage().observe(this, new Observer<String>() {
       @Override
       public void onChanged(String page) {
@@ -81,6 +82,8 @@ public class ClientAllPagesContainer extends AppCompatActivity {
       }
     });
   }
+
+
   public void initialize() {
     dialogCreator = new MagicBoxes(this);
 //    authUser = getIntent().getParcelableExtra(Konstants.USER);
@@ -97,6 +100,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     Spinner gender_dropdown = findViewById(R.id.gender_dropdown);
     ArrayAdapter<String> genderAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Konstants.GENDER);
     gender_dropdown.setAdapter(genderAdapter);
+    gender_dropdown.setOnItemSelectedListener(genderSelected);
     CURRENT_PAGE = getIntent().getStringExtra(Konstants.FORM_FOR);
     pageName = findViewById(R.id.page_name);
     backBtn = findViewById(R.id.back_icon);
@@ -108,24 +112,18 @@ public class ClientAllPagesContainer extends AppCompatActivity {
         finish();
       }
     });
-//    generateForm();
+
   }
 
   public void setupUniqueEditQualities() {
     firstName = findViewById(R.id.first_name);
     lastName = findViewById(R.id.last_name);
     phone = findViewById(R.id.edit_mobile_number);
-
     profilePicture = findViewById(R.id.profile_picture);
     editProfileForm = findViewById(R.id.edit_profile_form);
     imageUploadHelper = new ImageUploadHelper(this);
     Button saveChanges = findViewById(R.id.save_changes);
-    saveChanges.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Toast.makeText(_this, "Do some submission lol!", Toast.LENGTH_SHORT).show();
-      }
-    });
+    saveChanges.setOnClickListener(saveEditChanges);
     profilePicture.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -133,6 +131,49 @@ public class ClientAllPagesContainer extends AppCompatActivity {
       }
     });
   }
+
+  public View.OnClickListener saveEditChanges = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      pageHandler.getEditedUser().setFirstName(MyHelper.getTextFrom(firstName));
+      pageHandler.getEditedUser().setLastName(MyHelper.getTextFrom(lastName));
+      pageHandler.getEditedUser().setPhone(MyHelper.getTextFrom(phone));
+      pageHandler.getEditedUser().setGender(selectedGender);
+      pageHandler.saveEditChanges(new ClientAllPagesContainerViewModel.AfterSavedChanges() {
+        @Override
+        public void nothingChanged() {
+          Toast.makeText(_this, "Nothing has changed bro", Toast.LENGTH_SHORT).show();
+          Log.d(TAG, "nothingChanged: "+pageHandler.getEditedUser().toString());
+          Log.d(TAG, "nothingChanged: "+pageHandler.getAuthUser().toString());
+        }
+
+        @Override
+        public void changesSaved() {
+          Toast.makeText(_this, "Something has happened bro!", Toast.LENGTH_SHORT).show();
+          Log.d(TAG, "changesSaved: "+pageHandler.getEditedUser().toString());
+          Log.d(TAG, "changesSaved: "+pageHandler.getAuthUser().toString());
+        }
+
+        @Override
+        public void error() {
+
+        }
+      });
+    }
+  };
+
+  private final AdapterView.OnItemSelectedListener genderSelected = new AdapterView.OnItemSelectedListener() {
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+      selectedGender = Konstants.GENDER[position];
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+  };
+
 
   public void prefillWithContent(DonkomiUser authUser){
     firstName.setText(authUser.getFirstName());
@@ -158,7 +199,6 @@ public class ClientAllPagesContainer extends AppCompatActivity {
         });
 
       }
-
       @Override
       public void getCroppingError(Exception e) {
         e.printStackTrace();

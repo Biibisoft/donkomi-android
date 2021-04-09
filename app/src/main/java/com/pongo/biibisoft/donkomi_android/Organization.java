@@ -8,10 +8,18 @@ public class Organization  implements Parcelable {
   private String name;
   private String country;
 
+
+  public Organization(){}
   public Organization(String name,String country, int ID){
     this.name = name;
     this.country = country;
     this.organizationID = ID;
+  }
+
+  public Organization(Organization org){
+    this.name = org.getName();
+    this.country = org.getCountry();
+    this.organizationID = org.getOrganizationID();
   }
 
   public int getOrganizationID() {
