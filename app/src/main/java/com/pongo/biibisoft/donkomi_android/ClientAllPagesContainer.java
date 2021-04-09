@@ -29,7 +29,6 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   ImageView backBtn, rightIcon, profilePicture;
   Activity _this;
   String CURRENT_PAGE = Konstants.EDIT_PROFILE_FORM;
-  //  String FORM_FOR ;
   RelativeLayout editProfileForm;
   private ImageUploadHelper imageUploadHelper;
   private byte[] selectedImageBytes;
@@ -45,9 +44,9 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     setContentView(R.layout.activity_client_all_pages_container);
     pageHandler = new ViewModelProvider(this).get(ClientAllPagesContainerViewModel.class);
     pageHandler.handleTravellingContent(getIntent());
-    setObservers();
     _this = this;
     initialize();
+    setObservers();
   }
 
 
@@ -61,7 +60,21 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   }
 
   public void setObservers(){
-    pageHandler.authenticatedUser.observe(this, new Observer<DonkomiUser>() {
+
+
+    pageHandler.currentPage().observe(this, new Observer<String>() {
+      @Override
+      public void onChanged(String page) {
+        switch (page) {
+          case Konstants.EDIT_PROFILE_FORM:
+            setupUniqueEditQualities();
+            pageName.setText(R.string.edit_your_profile);
+            editProfileForm.setVisibility(View.VISIBLE);
+        }
+
+      }
+    });
+    pageHandler.authenticatedUser().observe(this, new Observer<DonkomiUser>() {
       @Override
       public void onChanged(DonkomiUser donkomiUser) {
         prefillWithContent(donkomiUser);
@@ -95,7 +108,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
         finish();
       }
     });
-    generateForm();
+//    generateForm();
   }
 
   public void setupUniqueEditQualities() {
