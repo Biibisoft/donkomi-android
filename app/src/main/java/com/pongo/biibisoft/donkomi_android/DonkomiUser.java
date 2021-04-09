@@ -266,14 +266,17 @@ public class DonkomiUser implements Parcelable, DonkomiUserManager {
     for (String fieldName : fields) {
       String one = (String) getValueWithFieldName(fieldName, user);
       String two = (String) getValueWithFieldName(fieldName, otherPerson);
-      if (one == null && two == null){} // both values are null so they are still the same
-      else if( one != null && two != null) { // none of the values is null, go on and check equality
-        if (!one.equals(two)){
+      if (one == null && two == null) {
+      } // both values are null so they are still the same
+      else if (one != null && two != null) { // none of the values is null, go on and check equality
+        if (!one.equals(two)) {
           res.setStatus(false);
           res.addToData(fieldName);
         }
+      } else {// one of the values is null so its they are not the same
+        res.setStatus(false);
+        res.addToData(fieldName);
       }
-      else res.setStatus(false); // one of the values is null so its they are not the same
     }
     return res;
   }

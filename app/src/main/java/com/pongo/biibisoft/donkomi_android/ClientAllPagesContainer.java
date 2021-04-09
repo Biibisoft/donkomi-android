@@ -135,9 +135,9 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   public View.OnClickListener saveEditChanges = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-      pageHandler.getEditedUser().setFirstName(MyHelper.getTextFrom(firstName));
-      pageHandler.getEditedUser().setLastName(MyHelper.getTextFrom(lastName));
-      pageHandler.getEditedUser().setPhone(MyHelper.getTextFrom(phone));
+      pageHandler.getEditedUser().setFirstName(MyHelper.getTextFrom(firstName, true));
+      pageHandler.getEditedUser().setLastName(MyHelper.getTextFrom(lastName, true));
+      pageHandler.getEditedUser().setPhone(MyHelper.getTextFrom(phone, true));
       pageHandler.getEditedUser().setGender(selectedGender);
       pageHandler.saveEditChanges(new ClientAllPagesContainerViewModel.AfterSavedChanges() {
         @Override
