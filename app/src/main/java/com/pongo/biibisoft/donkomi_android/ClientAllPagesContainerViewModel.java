@@ -9,6 +9,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 // The view model for ClientAllPagesContainer.java
 public class ClientAllPagesContainerViewModel extends AndroidViewModel {
   public static final String TAG = "CLIENT_ALL_PAGES";
@@ -16,6 +19,8 @@ public class ClientAllPagesContainerViewModel extends AndroidViewModel {
   MutableLiveData<DonkomiUser> editedUser = new MutableLiveData<DonkomiUser>(new DonkomiUser());
   MagicBoxes dialogCreator = new MagicBoxes(getApplication().getApplicationContext());
   MutableLiveData<String> currentPage = new MutableLiveData<>(Konstants.EDIT_PROFILE_FORM);
+  MutableLiveData<String> message = new MutableLiveData<>("");
+  InternetExplorer explorer = new InternetExplorer(getApplication().getApplicationContext());
 
   public ClientAllPagesContainerViewModel(@NonNull Application application) {
     super(application);
@@ -23,6 +28,14 @@ public class ClientAllPagesContainerViewModel extends AndroidViewModel {
 
   public LiveData<DonkomiUser> authenticatedUser() {
     return authenticatedUser;
+  }
+
+  public LiveData<String> message (){
+    return message;
+  }
+
+  public void setMessage(String message){
+    this.message.setValue(message);
   }
 
   public void handleTravellingContent(Intent data) {
@@ -46,13 +59,24 @@ public class ClientAllPagesContainerViewModel extends AndroidViewModel {
     return currentPage;
   }
 
+  public String getCurrentPageValue(){
+    return currentPage.getValue();
+  }
+
   public void saveEditChanges(AfterSavedChanges callback) {
     String[] fields = new String[]{DonkomiUser.FieldNames.FIRST_NAME, DonkomiUser.FieldNames.LAST_NAME, DonkomiUser.FieldNames.PHONE, DonkomiUser.FieldNames.GENDER};
-    TravellingResults res = DonkomiUser.areTheSame(getAuthUser(), getEditedUser(), fields);
-    Log.d(TAG, "ALL_saveEditChanges: "+res.getData().toString());
+    TravellingResults res = null;
+    try {
+      res = DonkomiUser.areTheSame(getAuthUser(), getEditedUser(), fields);
+    } catch (JSONException e) {
+      callback.error(e.getMessage());
+      e.printStackTrace();
+    }
     if (res.isOkay()) callback.nothingChanged();
-    else callback.changesSaved();
+    else{
+      explorer.setData(res.getDataWithValues());
 
+    }
   }
 
   interface AfterSavedChanges {
@@ -60,6 +84,6 @@ public class ClientAllPagesContainerViewModel extends AndroidViewModel {
 
     void changesSaved();
 
-    void error();
+    void error(String error);
   }
 }

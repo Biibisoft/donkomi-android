@@ -260,22 +260,21 @@ public class DonkomiUser implements Parcelable, DonkomiUserManager {
 //    return firstName.equals(user.getFirstName()) && lastName.equals(user.getLastName()) && phone.equals(user.getPhone()) && gender.equals(user.getGender());
 //  }
 
-  public static TravellingResults areTheSame(DonkomiUser user, DonkomiUser otherPerson, String[] fields) {
+  public static TravellingResults areTheSame(DonkomiUser user, DonkomiUser otherPerson, String[] fields) throws JSONException {
     TravellingResults res = new TravellingResults();
     if (fields == null) fields = FieldNames.FIELDS;
     for (String fieldName : fields) {
       String one = (String) getValueWithFieldName(fieldName, user);
       String two = (String) getValueWithFieldName(fieldName, otherPerson);
-      if (one == null && two == null) {
-      } // both values are null so they are still the same
+      if (one == null && two == null) {} // both values are null so they are still the same
       else if (one != null && two != null) { // none of the values is null, go on and check equality
         if (!one.equals(two)) {
           res.setStatus(false);
-          res.addToData(fieldName);
+          res.addData(fieldName,two);
         }
       } else {// one of the values is null so its they are not the same
         res.setStatus(false);
-        res.addToData(fieldName);
+        res.addData(fieldName,two);
       }
     }
     return res;

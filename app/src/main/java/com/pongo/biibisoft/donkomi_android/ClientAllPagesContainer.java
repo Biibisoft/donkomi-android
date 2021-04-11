@@ -41,6 +41,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   MagicBoxes dialogCreator;
   ClientAllPagesContainerViewModel pageHandler;
   private String selectedGender;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -62,7 +63,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     }
   }
 
-  public void setObservers(){
+  public void setObservers() {
     pageHandler.currentPage().observe(this, new Observer<String>() {
       @Override
       public void onChanged(String page) {
@@ -79,6 +80,13 @@ public class ClientAllPagesContainer extends AppCompatActivity {
       @Override
       public void onChanged(DonkomiUser donkomiUser) {
         prefillWithContent(donkomiUser);
+      }
+    });
+
+    pageHandler.message().observe(this, new Observer<String>() {
+      @Override
+      public void onChanged(String s) {
+        Toast.makeText(_this, s, Toast.LENGTH_LONG).show();
       }
     });
   }
@@ -135,32 +143,37 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   public View.OnClickListener saveEditChanges = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-      pageHandler.getEditedUser().setFirstName(MyHelper.getTextFrom(firstName, true));
-      pageHandler.getEditedUser().setLastName(MyHelper.getTextFrom(lastName, true));
-      pageHandler.getEditedUser().setPhone(MyHelper.getTextFrom(phone, true));
-      pageHandler.getEditedUser().setGender(selectedGender);
-      pageHandler.saveEditChanges(new ClientAllPagesContainerViewModel.AfterSavedChanges() {
-        @Override
-        public void nothingChanged() {
-          Toast.makeText(_this, "Nothing has changed bro", Toast.LENGTH_SHORT).show();
-          Log.d(TAG, "nothingChanged: "+pageHandler.getEditedUser().toString());
-          Log.d(TAG, "nothingChanged: "+pageHandler.getAuthUser().toString());
-        }
-
-        @Override
-        public void changesSaved() {
-          Toast.makeText(_this, "Something has happened bro!", Toast.LENGTH_SHORT).show();
-          Log.d(TAG, "changesSaved: "+pageHandler.getEditedUser().toString());
-          Log.d(TAG, "changesSaved: "+pageHandler.getAuthUser().toString());
-        }
-
-        @Override
-        public void error() {
-
-        }
-      });
+      String currentPage = pageHandler.getCurrentPageValue();
+      if (currentPage.equals(Konstants.EDIT_PROFILE_FORM)) applyEditChanges();
     }
   };
+
+  private void applyEditChanges() {
+    pageHandler.getEditedUser().setFirstName(MyHelper.getTextFrom(firstName, true));
+    pageHandler.getEditedUser().setLastName(MyHelper.getTextFrom(lastName, true));
+    pageHandler.getEditedUser().setPhone(MyHelper.getTextFrom(phone, true));
+    pageHandler.getEditedUser().setGender(selectedGender);
+    pageHandler.saveEditChanges(new ClientAllPagesContainerViewModel.AfterSavedChanges() {
+      @Override
+      public void nothingChanged() {
+        Toast.makeText(_this, "Nothing has changed bro", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "nothingChanged: " + pageHandler.getEditedUser().toString());
+        Log.d(TAG, "nothingChanged: " + pageHandler.getAuthUser().toString());
+      }
+
+      @Override
+      public void changesSaved() {
+        Toast.makeText(_this, "Something has happened bro!", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "changesSaved: " + pageHandler.getEditedUser().toString());
+        Log.d(TAG, "changesSaved: " + pageHandler.getAuthUser().toString());
+      }
+
+      @Override
+      public void error(String error) {
+        pageHandler.setMessage(error);
+      }
+    });
+  }
 
   private final AdapterView.OnItemSelectedListener genderSelected = new AdapterView.OnItemSelectedListener() {
     @Override
@@ -175,7 +188,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   };
 
 
-  public void prefillWithContent(DonkomiUser authUser){
+  public void prefillWithContent(DonkomiUser authUser) {
     firstName.setText(authUser.getFirstName());
     lastName.setText(authUser.getLastName());
     phone.setText(authUser.getPhone());
@@ -199,6 +212,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
         });
 
       }
+
       @Override
       public void getCroppingError(Exception e) {
         e.printStackTrace();
