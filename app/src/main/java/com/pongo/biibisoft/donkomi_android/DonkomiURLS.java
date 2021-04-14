@@ -10,6 +10,8 @@ public class DonkomiURLS {
 
   public static final String REGISTER_USER = HOST + "api/donkomi/account/user/register/";
 
+  public static final String UPDATE_USER = HOST+"api/donkomi/account/user/update/";
+
 
 
 

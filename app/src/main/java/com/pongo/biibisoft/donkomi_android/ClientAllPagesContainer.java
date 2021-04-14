@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,7 +30,7 @@ import android.widget.Toast;
 public class ClientAllPagesContainer extends AppCompatActivity {
 
   private static final String TAG = "ALL_PAGES_CONTAINER";
-  TextView pageName;
+  TextView pageName, loadingText;
   ImageView backBtn, rightIcon, profilePicture;
   Activity _this;
   String CURRENT_PAGE = Konstants.EDIT_PROFILE_FORM;
@@ -41,6 +43,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   MagicBoxes dialogCreator;
   ClientAllPagesContainerViewModel pageHandler;
   private String selectedGender;
+  Dialog loadingDialog;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,15 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     _this = this;
     initialize();
     setObservers();
+  }
+
+  private void initializeLoader() {
+    dialogCreator = new MagicBoxes(this);
+    View loadingView = LayoutInflater.from(_this).inflate(R.layout.simple_loading_dialog, null, false);
+    loadingText = loadingView.findViewById(R.id.loader_text);
+    loadingText.setText(R.string.updating);
+    loadingDialog = dialogCreator.constructLoadingCustomDialog(loadingView);
+    loadingDialog.setCanceledOnTouchOutside(false);
   }
 
 
@@ -85,8 +97,16 @@ public class ClientAllPagesContainer extends AppCompatActivity {
 
     pageHandler.message().observe(this, new Observer<String>() {
       @Override
-      public void onChanged(String s) {
-        Toast.makeText(_this, s, Toast.LENGTH_LONG).show();
+      public void onChanged(String msg) {
+        if( msg != null && !msg.isEmpty()) Toast.makeText(_this, msg, Toast.LENGTH_LONG).show();
+      }
+    });
+
+    pageHandler.loader.observe(this, new Observer<Boolean>() {
+      @Override
+      public void onChanged(Boolean isOn) {
+        if(isOn) loadingDialog.show();
+        else loadingDialog.dismiss();
       }
     });
   }
@@ -94,6 +114,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
 
   public void initialize() {
     dialogCreator = new MagicBoxes(this);
+    initializeLoader();
 //    authUser = getIntent().getParcelableExtra(Konstants.USER);
 //    if(authUser == null) {
 //      dialogCreator.constructSimpleOneActionDialog("Sign In", "You have not signed in yet", "", new OneAction() {
@@ -153,26 +174,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     pageHandler.getEditedUser().setLastName(MyHelper.getTextFrom(lastName, true));
     pageHandler.getEditedUser().setPhone(MyHelper.getTextFrom(phone, true));
     pageHandler.getEditedUser().setGender(selectedGender);
-    pageHandler.saveEditChanges(new ClientAllPagesContainerViewModel.AfterSavedChanges() {
-      @Override
-      public void nothingChanged() {
-        Toast.makeText(_this, "Nothing has changed bro", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "nothingChanged: " + pageHandler.getEditedUser().toString());
-        Log.d(TAG, "nothingChanged: " + pageHandler.getAuthUser().toString());
-      }
-
-      @Override
-      public void changesSaved() {
-        Toast.makeText(_this, "Something has happened bro!", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "changesSaved: " + pageHandler.getEditedUser().toString());
-        Log.d(TAG, "changesSaved: " + pageHandler.getAuthUser().toString());
-      }
-
-      @Override
-      public void error(String error) {
-        pageHandler.setMessage(error);
-      }
-    });
+    pageHandler.saveEditChanges();
   }
 
   private final AdapterView.OnItemSelectedListener genderSelected = new AdapterView.OnItemSelectedListener() {

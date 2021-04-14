@@ -21,11 +21,14 @@ public class ClientAllPagesContainerViewModel extends AndroidViewModel {
   MutableLiveData<String> currentPage = new MutableLiveData<>(Konstants.EDIT_PROFILE_FORM);
   MutableLiveData<String> message = new MutableLiveData<>("");
   InternetExplorer explorer = new InternetExplorer(getApplication().getApplicationContext());
+  MutableLiveData<Boolean> loader = new MutableLiveData<>(false);
 
   public ClientAllPagesContainerViewModel(@NonNull Application application) {
     super(application);
   }
-
+  public void setLoaderValue(Boolean bool) {
+    loader.setValue(bool);
+  }
   public LiveData<DonkomiUser> authenticatedUser() {
     return authenticatedUser;
   }
@@ -63,18 +66,36 @@ public class ClientAllPagesContainerViewModel extends AndroidViewModel {
     return currentPage.getValue();
   }
 
-  public void saveEditChanges(AfterSavedChanges callback) {
+  public void saveEditChanges() {
+    setLoaderValue(true);
     String[] fields = new String[]{DonkomiUser.FieldNames.FIRST_NAME, DonkomiUser.FieldNames.LAST_NAME, DonkomiUser.FieldNames.PHONE, DonkomiUser.FieldNames.GENDER};
     TravellingResults res = null;
     try {
       res = DonkomiUser.areTheSame(getAuthUser(), getEditedUser(), fields);
     } catch (JSONException e) {
-      callback.error(e.getMessage());
+      setMessage(e.getMessage());
       e.printStackTrace();
+      setLoaderValue(false);
     }
-    if (res.isOkay()) callback.nothingChanged();
+    if (res.isOkay()) {
+      setMessage("No Changes have been made!");
+      setLoaderValue(false);
+    }
     else{
       explorer.setData(res.getDataWithValues());
+      explorer.run(explorer.endSlash(DonkomiURLS.UPDATE_USER + getAuthUser().getPlatformID()), new Result() {
+        @Override
+        public void isOkay(JSONObject response) throws JSONException {
+          setMessage("User is successfully updated!");
+          setLoaderValue(false);
+        }
+
+        @Override
+        public void error(String error) {
+          setLoaderValue(false);
+          setMessage(error);
+        }
+      });
 
     }
   }
@@ -84,6 +105,6 @@ public class ClientAllPagesContainerViewModel extends AndroidViewModel {
 
     void changesSaved();
 
-    void error(String error);
+//    void error(String error);
   }
 }

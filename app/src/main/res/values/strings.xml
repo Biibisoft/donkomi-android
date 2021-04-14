@@ -8,4 +8,5 @@
   <string name="create_account_text">Create An Account</string>
   <string name="edit_your_profile">Edit Your Profile</string>
   <string name="authenticating">Authenticating...</string>
+  <string name="updating">Updating...</string>
 </resources>
