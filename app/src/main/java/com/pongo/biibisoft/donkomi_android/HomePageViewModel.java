@@ -17,6 +17,10 @@ public class HomePageViewModel extends AndroidViewModel {
     authenticatedUser = (DonkomiUser) data.getParcelableExtra(Konstants.USER);
   }
 
+  public void setAuthUser(DonkomiUser user){
+    this.authenticatedUser = user;
+  }
+
 
 
 }

@@ -51,6 +51,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     setContentView(R.layout.activity_client_all_pages_container);
     pageHandler = new ViewModelProvider(this).get(ClientAllPagesContainerViewModel.class);
     pageHandler.handleTravellingContent(getIntent());
+
     _this = this;
     initialize();
     setObservers();
@@ -112,6 +113,7 @@ public class ClientAllPagesContainer extends AppCompatActivity {
   }
 
 
+
   public void initialize() {
     dialogCreator = new MagicBoxes(this);
     initializeLoader();
@@ -138,6 +140,9 @@ public class ClientAllPagesContainer extends AppCompatActivity {
     backBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        Intent backPackage = new Intent();
+        backPackage.putExtra(Konstants.USER,pageHandler.getEditedUser());
+        setResult(Konstants.PASS_USER_REQ_CODE,backPackage);
         finish();
       }
     });

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import static com.pongo.biibisoft.donkomi_android.ClientHomeFragment.TAG;
+
 public class SettingsFragmentPage extends Fragment {
   RelativeLayout goToSettingsBtn, applyToDonkomiBtn, signOutBtn;
   private Context context;
@@ -25,8 +28,8 @@ public class SettingsFragmentPage extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.settings_fragment_page, container, false);
-
     initialize(v);
+//    Log.d(TAG, "onCreateView: ALL_"+ pageHandler.authenticatedUser.toString());
     return v;
   }
   @Nullable
@@ -51,9 +54,8 @@ public class SettingsFragmentPage extends Fragment {
       @Override
       public void onClick(View v) {
         Intent page = new Intent(context, ClientAllPagesContainer.class);
-//        page.putExtra(Konstants.FORM_FOR, Konstants.EDIT_PROFILE_FORM);
         page.putExtra(Konstants.USER,pageHandler.authenticatedUser);
-        startActivity(page);
+        startActivityForResult(page,Konstants.PASS_USER_REQ_CODE);
       }
     });
 
@@ -76,7 +78,15 @@ public class SettingsFragmentPage extends Fragment {
     });
 
   }
-
+//  @Override
+//  public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//    super.onActivityResult(requestCode, resultCode, data);
+//    Log.d(TAG, "onActivityResult: ALL_ here here settings");
+//    if(requestCode == Konstants.PASS_USER_REQ_CODE) {
+//      DonkomiUser user = data.getParcelableExtra(Konstants.USER);
+//      Log.d(TAG, "onActivityResult: ALL_" +user.toString());
+//    }
+//  }
 
 
 
