@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -46,7 +47,16 @@ public class MagicBoxes extends AppCompatDialogFragment {
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setView(v);
     return builder.create();
+  }
 
+  public Dialog constructLoadingDialog(String text) {
+    LayoutInflater inflater = getActivity().getLayoutInflater();
+    View view = inflater.inflate(R.layout.simple_loading_dialog, null, false);
+    TextView label = view.findViewById(R.id.loader_text);
+    label.setText(text);
+    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    builder.setView(view);
+    return builder.create();
   }
 
   public Dialog constructCustomDialog(String title, View v, final MagicBoxCallables magicInterface) {

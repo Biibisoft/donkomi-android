@@ -95,6 +95,8 @@
         android:text="Submit Application"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/app_green"
+        app:backgroundTint="@color/app_green"
         />
 
 

@@ -10,4 +10,5 @@
   <string name="authenticating">Authenticating...</string>
   <string name="updating">Updating...</string>
   <string name="Donkomi">Donkomi</string>
+  <string name="donkomi_application">Donkomi Application</string>
 </resources>
