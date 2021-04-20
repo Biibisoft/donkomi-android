@@ -50,7 +50,7 @@ public class MagicBoxes extends AppCompatDialogFragment {
   }
 
   public Dialog constructLoadingDialog(String text) {
-    LayoutInflater inflater = getActivity().getLayoutInflater();
+    LayoutInflater inflater = LayoutInflater.from(context);
     View view = inflater.inflate(R.layout.simple_loading_dialog, null, false);
     TextView label = view.findViewById(R.id.loader_text);
     label.setText(text);

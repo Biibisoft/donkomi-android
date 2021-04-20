@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +39,7 @@ public class ClientHomeFragment extends Fragment {
   RecyclerView liveTripsRecycler;
   ProgressBar loadingSpinner;
   TextView informationBanner;
+  RelativeLayout notFoundBox;
 
   @Nullable
   @Override
@@ -49,6 +52,7 @@ public class ClientHomeFragment extends Fragment {
   public void initialize(View v) {
 //    this.httpHandler = Volley.newRequestQueue(getContext());
     this.explorer = new InternetExplorer(getContext());
+    notFoundBox = v.findViewById(R.id.not_found);
     informationBanner = v.findViewById(R.id.information);
     loadingSpinner = v.findViewById(R.id.raw_loading_spinner);
     liveTripsRecycler = v.findViewById(R.id.live_trips_recycler);
@@ -67,9 +71,15 @@ public class ClientHomeFragment extends Fragment {
       public void isOkay(JSONObject response) {
         try {
           RoutineTemplate[] templates = gson.fromJson(response.get("data").toString(), (Type) RoutineTemplate[].class);
-          Log.d(TAG, "isOkay: " + templates[0].toString());
-          loadingSpinner.setVisibility(View.GONE);
-          liveTripsRecycler.setVisibility(View.VISIBLE);
+          if( templates != null && templates.length != 0) {
+            Log.d(TAG, "isOkay: " + templates[0].toString());
+            loadingSpinner.setVisibility(View.GONE);
+            liveTripsRecycler.setVisibility(View.VISIBLE);
+          }else{
+            loadingSpinner.setVisibility(View.GONE);
+            notFoundBox.setVisibility(View.VISIBLE);
+            Toast.makeText(getContext(), "There are no routines yet, sorry!", Toast.LENGTH_SHORT).show();
+          }
         } catch (JSONException e) {
           loadingSpinner.setVisibility(View.GONE);
           informationBanner.setVisibility(View.VISIBLE);

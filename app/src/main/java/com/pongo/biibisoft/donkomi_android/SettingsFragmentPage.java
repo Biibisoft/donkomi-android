@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import static com.pongo.biibisoft.donkomi_android.ClientHomeFragment.TAG;
 
 public class SettingsFragmentPage extends Fragment {
-  RelativeLayout goToSettingsBtn, applyToDonkomiBtn, signOutBtn;
+  RelativeLayout goToProfileEdits, applyToDonkomiBtn, signOutBtn;
   private Context context;
   FirebaseAuth mAuth = FirebaseAuth.getInstance();
   ClientFragmentsViewModel pageHandler;
@@ -47,10 +47,10 @@ public class SettingsFragmentPage extends Fragment {
   }
 
   public void initialize(View v) {
-    goToSettingsBtn = v.findViewById(R.id.go_to_profile_edits_btn);
+    goToProfileEdits = v.findViewById(R.id.go_to_profile_edits_btn);
     applyToDonkomiBtn = v.findViewById(R.id.apply_btn);
     signOutBtn = v.findViewById(R.id.sign_out_btn);
-    goToSettingsBtn.setOnClickListener(new View.OnClickListener() {
+    goToProfileEdits.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Intent page = new Intent(context, ClientAllPagesContainer.class);
@@ -63,6 +63,7 @@ public class SettingsFragmentPage extends Fragment {
       @Override
       public void onClick(View v) {
         Intent page = new Intent(getContext(), ApplicationPage.class);
+        page.putExtra(Konstants.USER,pageHandler.authenticatedUser);
         startActivity(page);
       }
     });
