@@ -38,21 +38,19 @@
     </RelativeLayout>
 
     <EditText
-        android:inputType="text"
-        android:lines="1"
-        android:maxLines="1"
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/stroke_rectangle"
         android:hint="Email"
+        android:inputType="text"
+        android:lines="1"
+        android:maxLines="1"
         android:padding="13dp"
         android:textColorHint="@color/app_blue"
         android:textSize="15sp" />
 
     <EditText
-        android:lines="1"
-        android:maxLines="1"
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,6 +58,8 @@
         android:background="@drawable/stroke_rectangle"
         android:hint="Password"
         android:inputType="textPassword"
+        android:lines="1"
+        android:maxLines="1"
         android:padding="13dp"
         android:textColorHint="@color/app_blue"
         android:textSize="15sp" />
@@ -70,12 +70,12 @@
 
       <TextView
           android:id="@+id/new_account_label"
-          android:clickable="true"
-          android:focusable="true"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignParentLeft="true"
           android:background="?attr/selectableItemBackground"
+          android:clickable="true"
+          android:focusable="true"
 
           android:padding="5dp"
           android:text="Create New Account"
@@ -83,12 +83,12 @@
 
 
       <TextView
-          android:clickable="true"
-          android:focusable="true"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignParentRight="true"
           android:background="?attr/selectableItemBackground"
+          android:clickable="true"
+          android:focusable="true"
           android:padding="5dp"
           android:text="Forgot Password"
           android:textColor="@color/app_blue" />
@@ -120,6 +120,16 @@
       android:layout_alignParentBottom="true"
       android:orientation="vertical">
 
+    <TextView
+        android:padding="15dp"
+        android:textColor="@color/app_blue"
+        android:id="@+id/sign_out_test_btn"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign Out Test Button" />
+
     <Button
         android:id="@+id/finish_btn"
         android:layout_width="match_parent"
@@ -135,9 +145,9 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/solid_rectangle"
         android:backgroundTint="@color/app_red"
-        app:backgroundTint = "@color/app_red"
         android:text="USE GOOGLE"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        app:backgroundTint="@color/app_red" />
 
 
   </LinearLayout>

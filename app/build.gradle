@@ -9,6 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.pongo.biibisoft.donkomi_android"
+//        minSdkVersion
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

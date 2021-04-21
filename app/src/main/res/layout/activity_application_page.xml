@@ -20,53 +20,60 @@
         android:padding="10dp">
 
       <EditText
+          android:id="@+id/first_name"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="5dp"
           android:background="@drawable/stroke_rectangle"
+          android:enabled="false"
           android:hint="First Name"
           android:padding="15dp"
           android:textColorHint="@color/app_blue" />
 
       <EditText
+          android:id="@+id/last_name"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="5dp"
           android:background="@drawable/stroke_rectangle"
+          android:enabled="false"
           android:hint="Last Name"
           android:padding="15dp"
           android:textColorHint="@color/app_blue" />
 
       <EditText
+
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="5dp"
           android:background="@drawable/stroke_rectangle"
           android:hint="Room Number"
           android:padding="15dp"
-          android:textColorHint="@color/app_blue" />
+          android:textColorHint="@color/app_blue"
+          android:visibility="gone" />
 
       <TextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:padding="10dp"
           android:text="I would like to be a " />
+
       <Spinner
-          android:id="@+id/earning_options_dropdown"
-          android:background="@drawable/stroke_rectangle"
+          android:padding="15dp"
+          android:id="@+id/role_to_apply_for"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-        />
+          android:background="@drawable/stroke_rectangle" />
 
 
       <TextView
-          android:textColor="@color/app_red"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:padding="10dp"
-          android:text="@string/learn_about_donkomi" />
+          android:text="@string/learn_about_donkomi"
+          android:textColor="@color/app_red" />
 
-
+      <include layout="@layout/raw_loader" />
 
 
     </LinearLayout>
@@ -74,30 +81,29 @@
   </ScrollView>
 
   <LinearLayout
-      android:layout_alignParentBottom="true"
-      android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-    >
+      android:layout_alignParentBottom="true"
+      android:orientation="vertical">
+
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_solid_rectangle"
         android:backgroundTint="@color/app_blue"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:background="@drawable/rounded_solid_rectangle"
         android:text="Read The Donkomi Policies"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-      />
-    <Button
+        android:background="@drawable/rounded_solid_rectangle"
+        android:backgroundTint="@color/app_green"
+        android:text="Submit Application"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:background="@drawable/rounded_solid_rectangle"
-        android:text="Submit Application"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/app_green"
-        app:backgroundTint="@color/app_green"
-        />
+        app:backgroundTint="@color/app_green" />
 
 
   </LinearLayout>

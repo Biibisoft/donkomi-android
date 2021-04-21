@@ -11,6 +11,9 @@ public class DonkomiURLS {
   public static final String REGISTER_USER = HOST + "api/donkomi/account/user/register/";
 
   public static final String UPDATE_USER = HOST+"api/donkomi/account/user/update/";
+  public static final String  GET_ALL_ROLES = HOST + "api/donkomi/roles/get.all/";
+  public static final String SEND_APPLICATION = HOST+ "api/donkomi/apply-for/role";
+  public static final String DELETE_MY_APPLICATION = HOST +"api/donkomi/delete/application";
 
 
 

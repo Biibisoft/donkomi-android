@@ -47,7 +47,7 @@ public class LoginPage extends AppCompatActivity {
   private GoogleSignInClient mGoogleSignInClient;
   private FirebaseUser fireUser;
   LoginViewModel loginHandler;
-  TextView loadingText;
+  TextView loadingText, signOutTestBtn;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +85,8 @@ public class LoginPage extends AppCompatActivity {
 
   public void initialize() {
     initializeLoader();
+    signOutTestBtn = findViewById(R.id.sign_out_test_btn);
+    signOutTestBtn.setOnClickListener(testSignOut);
     useGoogleBtn = findViewById(R.id.use_google_btn);
     useGoogleBtn.setOnClickListener(launchGoogleSignIn);
     email = findViewById(R.id.email);
@@ -101,6 +103,13 @@ public class LoginPage extends AppCompatActivity {
     });
 
   }
+
+  private final View.OnClickListener testSignOut = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      loginHandler.fireAuthService.signOut();
+    }
+  };
 
   private final View.OnClickListener launchGoogleSignIn = new View.OnClickListener() {
     @Override

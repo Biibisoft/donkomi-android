@@ -8,9 +8,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 
 public class InternetExplorer {
   public static final String POST = "POST";
@@ -20,12 +24,19 @@ public class InternetExplorer {
   private String method = InternetExplorer.POST;
   private Context context;
   private Boolean expectsArray  = true;
+  Gson gson = new Gson();
+  private Class<?> expectedDataType;
+
 
   public InternetExplorer(Context context) {
     this.context = context;
     this.handler = Volley.newRequestQueue(context);
   }
 
+
+  public void setExpectedDataType(Class<?> expectedDataType) {
+    this.expectedDataType = expectedDataType;
+  }
 
   public Boolean isExpectingArray() {
     return expectsArray;
@@ -80,8 +91,14 @@ public class InternetExplorer {
         try {
           if (responseHandler.hasError()) explorer.error(responseHandler.getErrorMessage());
           else{
-            if(isExpectingArray()) explorer.getDataArray(responseHandler.getData());
-            else explorer.getData(responseHandler.getDataObject());
+            if(isExpectingArray()) {
+              if (expectedDataType != null) explorer.getDataArray(transformToExpected(responseHandler.getData()));
+              else explorer.getDataArray(responseHandler.getData());
+            }
+            else {
+              if(expectedDataType != null) explorer.getData(transformToExpected(responseHandler.getDataObject()));
+              explorer.getData(responseHandler.getDataObject());
+            }
           }
 
         } catch (JSONException e) {
@@ -102,9 +119,15 @@ public class InternetExplorer {
     }
   }
 
-
   public String endSlash(String url) {
     return url + "/";
+  }
+
+  public Object transformToExpected(JSONArray data){
+    return gson.fromJson(data.toString(), (Type) expectedDataType);
+  }
+  public Object transformToExpected(JSONObject data){
+    return gson.fromJson(data.toString(), (Type) expectedDataType);
   }
 }
 
@@ -117,9 +140,17 @@ interface Result {
 interface ResultWithData {
   void isOkay(JSONObject response) throws JSONException;
 
+  /**
+   * Used when backend is presenting a json object
+   * @param data A JSON Object of any kind of data type
+   */
   void getData(Object data);
 
-  void getDataArray(Object[] data);
+  /**
+   * Used when backend is presenting an array
+   * @param data JSONArray of any kind of data type
+   */
+  void getDataArray(Object data);
 
   void error(String error);
 }

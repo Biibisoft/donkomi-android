@@ -101,7 +101,7 @@ public class LoginViewModel extends AndroidViewModel {
       }
 
       @Override
-      public void getDataArray(Object[] data) {
+      public void getDataArray(Object data) {
 
       }
 

@@ -34,8 +34,8 @@ public class ResponseHandler {
     return (String) error.get("message");
   }
 
-  public JSONArray[] getData() throws JSONException {
-    return (JSONArray[]) response.get("data");
+  public JSONArray getData() throws JSONException {
+    return (JSONArray) response.get("data");
   }
   public JSONObject getDataObject() throws JSONException {
     return (JSONObject) response.get("data");

@@ -3,8 +3,11 @@ package com.pongo.biibisoft.donkomi_android;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Role implements Parcelable {
   private String name = Konstants.STANDARD;
+  @SerializedName("level")
   private int accessLevel = 1;
 
   protected Role(Parcel in) {
@@ -53,9 +56,6 @@ public class Role implements Parcelable {
 
   @Override
   public String toString() {
-    return "Role{" +
-        "name='" + name + '\'' +
-        ", accessLevel=" + accessLevel +
-        '}';
+    return this.name;
   }
 }

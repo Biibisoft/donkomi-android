@@ -70,7 +70,7 @@ public class MyFirebaseGoogleRegistrationHelper {
             // Sign in success, update UI with the signed-in user's information
             if (task.isSuccessful()) callback.isOkay();
               // If sign in fails, display a message to the user.
-            else callback.error("Oops, registration with google failed, please try again!");
+            else task.getException().getLocalizedMessage(); callback.error("Oops, authentication with google failed, please try again!");
           }
         });
   }
@@ -83,6 +83,7 @@ public class MyFirebaseGoogleRegistrationHelper {
         if (task.isSuccessful()) callback.isOkay();
         else
           callback.error("Sorry, something happened, could not create your account. Please try again!");
+
       }
     });
 
@@ -104,6 +105,10 @@ public class MyFirebaseGoogleRegistrationHelper {
         Log.d("FIREBASE_REG_HELPER", "onFailure: " + e.getMessage());
       }
     });
+  }
+
+  public void signOut(){
+    mAuth.signOut();
   }
 
 
