@@ -42,10 +42,7 @@ public class LoginPage extends AppCompatActivity {
   Button finishBtn, useGoogleBtn;
   MagicBoxes dialogCreator;
   EditText email, password;
-  FirebaseAuth mAuth;
   Dialog loadingDialog;
-  private GoogleSignInClient mGoogleSignInClient;
-  private FirebaseUser fireUser;
   LoginViewModel loginHandler;
   TextView loadingText, signOutTestBtn;
 
@@ -137,7 +134,7 @@ public class LoginPage extends AppCompatActivity {
   private Boolean detailsAreValid() {
     String _email = MyHelper.getTextFrom(email);
     String _password = MyHelper.getTextFrom(password);
-    if (_email == null || _email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(_email).matches()) {
+    if (_email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(_email).matches()) {
       email.requestFocus();
       email.setError("Please provide a valid email!");
       return false;

@@ -76,6 +76,7 @@ public class RegisterPage extends AppCompatActivity {
     registrationHandler.getToastMsg().observe(this, new Observer<String>() {
       @Override
       public void onChanged(String s) {
+        if (s == null ) {Toast.makeText(_this, "Unfortunately we do not know what happened!", Toast.LENGTH_SHORT).show(); return;}
         if (!s.isEmpty()) Toast.makeText(_this, s, Toast.LENGTH_SHORT).show();
       }
     });
@@ -166,6 +167,12 @@ public class RegisterPage extends AppCompatActivity {
       }
     });
 
+  }
+
+  @Override
+  protected void onDestroy() {
+    registrationHandler.setLoaderValue(false);
+    super.onDestroy();
   }
 
   private void initializeLoader() {
