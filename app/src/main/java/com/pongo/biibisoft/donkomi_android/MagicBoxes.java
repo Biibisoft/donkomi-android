@@ -23,6 +23,14 @@ public class MagicBoxes extends AppCompatDialogFragment {
     this.context = context;
   }
 
+  public Dialog setUpDonkomiLoader(Context context, String text){
+    View loadingView = LayoutInflater.from(context).inflate(R.layout.simple_loading_dialog, null, false);
+    TextView loadingText = loadingView.findViewById(R.id.loader_text);
+    loadingText.setText(R.string.authenticating);
+    Dialog loadingDialog = constructLoadingCustomDialog(loadingView);
+    loadingDialog.setCanceledOnTouchOutside(false);
+    return loadingDialog;
+  }
   public Dialog constructASimpleDialog(String title, String msg, final MagicBoxCallables magicInterface) {
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle(title)

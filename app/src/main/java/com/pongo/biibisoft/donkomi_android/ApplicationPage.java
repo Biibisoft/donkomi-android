@@ -7,7 +7,9 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -37,6 +39,9 @@ public class ApplicationPage extends AppCompatActivity {
   RelativeLayout rawLoaderBox;
   public static final String TAG = "ALL_APPLICATION_PAGE";
   Role[] roles;
+  Role selectedRole;
+
+  Button applyBtn;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,9 @@ public class ApplicationPage extends AppCompatActivity {
   }
 
   public void initialize() {
-    rawLoaderBox = findViewById(R.id.raw_loader_box);
+    rawLoaderBox = findViewById(R.id.raw_loader_box); //progress circle
+    applyBtn = findViewById(R.id.submit_app);
+    applyBtn.setOnClickListener(apply);
     dialogCreator = new MagicBoxes(this);
     explorer = new InternetExplorer(this);
     loader = dialogCreator.constructLoadingDialog("Sending...");
@@ -65,14 +72,25 @@ public class ApplicationPage extends AppCompatActivity {
     pageName = findViewById(R.id.page_name);
     pageName.setText(R.string.donkomi_application);
     dropdown = findViewById(R.id.role_to_apply_for);
-//    ArrayAdapter<String> earningOptions = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Konstants.EARNING_OPTIONS);
-//    dropdown.setAdapter(earningOptions);
     if (authUser != null) {
       firstName.setText(authUser.getFirstName());
       lastName.setText(authUser.getLastName());
     }
     loadRolesAndFill();
   }
+
+
+  private final AdapterView.OnItemSelectedListener selectRoleItemListener = new AdapterView.OnItemSelectedListener() {
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+      selectedRole = roles[position];
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+  };
 
   public void loadRolesAndFill() {
     explorer.setMethod(InternetExplorer.GET);
@@ -93,6 +111,7 @@ public class ApplicationPage extends AppCompatActivity {
         roles = (Role[]) data;
         ArrayAdapter<Role> roleAdapter = new ArrayAdapter<Role>(ApplicationPage.this, android.R.layout.simple_list_item_1, roles);
         dropdown.setAdapter(roleAdapter);
+        dropdown.setOnItemSelectedListener(selectRoleItemListener);
         rawLoaderBox.setVisibility(View.GONE);
 
       }
@@ -100,7 +119,7 @@ public class ApplicationPage extends AppCompatActivity {
       @Override
       public void error(String error) {
         rawLoaderBox.setVisibility(View.GONE);
-        Toast.makeText(ApplicationPage.this, error , Toast.LENGTH_LONG).show();
+        Toast.makeText(ApplicationPage.this, error, Toast.LENGTH_LONG).show();
 
       }
     });
@@ -108,10 +127,35 @@ public class ApplicationPage extends AppCompatActivity {
   }
 
 
+  private final View.OnClickListener apply = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      rawLoaderBox.setVisibility(View.VISIBLE);
+      sendApplication();
+    }
+  };
 
   public void sendApplication() {
     try {
       explorer.setData(makeRequestData());
+      explorer.setMethod(InternetExplorer.POST);
+      explorer.run(explorer.endSlash(DonkomiURLS.SEND_APPLICATION), new Result() {
+        @Override
+        public void isOkay(JSONObject response) throws JSONException {
+          ResponseHandler handler = new ResponseHandler(response);
+          if (handler.hasError())
+            Toast.makeText(ApplicationPage.this, "Error here : " + handler.getErrorMessage(), Toast.LENGTH_SHORT).show();
+          else
+            Toast.makeText(ApplicationPage.this, "Application was submitted", Toast.LENGTH_LONG).show();
+          rawLoaderBox.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void error(String error) {
+          Toast.makeText(ApplicationPage.this, "Error : " + error, Toast.LENGTH_SHORT).show();
+          rawLoaderBox.setVisibility(View.GONE);
+        }
+      });
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -120,7 +164,8 @@ public class ApplicationPage extends AppCompatActivity {
   public JSONObject makeRequestData() throws JSONException {
     JSONObject json = new JSONObject();
     json.put("user_id", authUser.getPlatformID());
-    json.put("role_level", 2);
+    if (selectedRole != null) json.put("role_level", selectedRole.getAccessLevel());
+    Log.d(TAG, "makeRequestData: "+ json.toString());
     return json;
   }
 }

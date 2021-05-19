@@ -17,7 +17,6 @@ public class ClientAllPagesContainerViewModel extends AndroidViewModel {
   public static final String TAG = "CLIENT_ALL_PAGES";
   MutableLiveData<DonkomiUser> authenticatedUser = new MutableLiveData<>(new DonkomiUser());
   MutableLiveData<DonkomiUser> editedUser = new MutableLiveData<DonkomiUser>(new DonkomiUser());
-  MagicBoxes dialogCreator = new MagicBoxes(getApplication().getApplicationContext());
   MutableLiveData<String> currentPage = new MutableLiveData<>(Konstants.EDIT_PROFILE_FORM);
   MutableLiveData<String> message = new MutableLiveData<>("");
   InternetExplorer explorer = new InternetExplorer(getApplication().getApplicationContext());

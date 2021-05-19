@@ -56,10 +56,9 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:padding="10dp"
-          android:text="I would like to be a " />
+          android:text="@string/i_would_like_to_be_a" />
 
       <Spinner
-          android:padding="15dp"
           android:id="@+id/role_to_apply_for"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -96,6 +95,7 @@
         android:textColor="@color/white" />
 
     <Button
+        android:id="@+id/submit_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_solid_rectangle"

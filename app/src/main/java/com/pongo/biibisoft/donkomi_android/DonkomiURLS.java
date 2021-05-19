@@ -16,6 +16,13 @@ public class DonkomiURLS {
   public static final String DELETE_MY_APPLICATION = HOST +"api/donkomi/delete/application";
 
 
+  public static final String CREATE_VENDOR =  HOST +"api/donkomi/vendor/create";
+  public static final String DELETE_VENDOR =  HOST +"api/donkomi/vendor/delete";
+  public static final String UPDATE_VENDOR =  HOST +"api/donkomi/update/vendor";
+  public static final String CREATE_STOCK =  HOST +"api/donkomi/stock/create";
+  public static final String DELETE_STOCK =  HOST +"api/donkomi/stock/delete";
+  public static final String UPDATE_STOCK =  HOST +"api/donkomi/update/stock";
+
 
 
 }
