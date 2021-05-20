@@ -1,12 +1,19 @@
 package com.pongo.biibisoft.donkomi_android;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,20 +22,29 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.picasso.Picasso;
+
 public class AllFormsContainerPage extends AppCompatActivity {
 
   String FORM_FOR = Konstants.NEW_STOCK;
   TextView pageName;
-  ImageView backBtn, rightIcon, selectedImage;
+  ImageView backBtn, rightIcon, vendorImage;
   RelativeLayout vendorForm, stockForm, routineForm;
   AllFormsContainerViewModel pageHandler;
   EditText vendorName, vendorDesc;
+  Button createVendorBtn;
+  ImageUploadHelper imageHelper;
+  byte[] selectedImage;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_all_forms_container_page);
     pageHandler = new ViewModelProvider(this).get(AllFormsContainerViewModel.class);
-    pageHandler.setLoadingDialog(pageHandler.dialogCreator.setUpDonkomiLoader(this,"Loading"));
+    MagicBoxes dialogCreator = new MagicBoxes(this);
+    pageHandler.setDialogCreator(dialogCreator);
+    pageHandler.setLoadingDialog(pageHandler.dialogCreator.setUpDonkomiLoader( "Loading..."));
     setObservers();
     initialize();
 
@@ -46,14 +62,25 @@ public class AllFormsContainerPage extends AppCompatActivity {
     pageHandler.getLoader().observe(this, new Observer<Boolean>() {
       @Override
       public void onChanged(Boolean show) {
-        if ( show) pageHandler.loadingDialog.show();
-        else  pageHandler.loadingDialog.dismiss();
+        if (show) pageHandler.loadingDialog.show();
+        else pageHandler.loadingDialog.dismiss();
+      }
+    });
+
+    pageHandler.getSelectedImage().observe(this, new Observer<byte[]>() {
+      @Override
+      public void onChanged(byte[] bytes) {
+        Bitmap img = ImageUploadHelper.changeBytesToBitmap(bytes);
+        vendorImage.setImageBitmap(img);
+
       }
     });
 
   }
 
   public void initialize() {
+    imageHelper = new ImageUploadHelper(this);
+    pageHandler.setImageHelper(imageHelper);
     String _for = getIntent().getStringExtra(Konstants.FORM_FOR);
     FORM_FOR = _for != null ? _for : Konstants.NEW_ROUTINE;
     backBtn = findViewById(R.id.back_icon);
@@ -74,9 +101,51 @@ public class AllFormsContainerPage extends AppCompatActivity {
 
   }
 
-  public void setupVendorForm(){
+  private final View.OnClickListener createNewVendor = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      pageHandler.setLoaderValue(true);
+    }
+  };
+
+  private final View.OnClickListener chooseImage = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      imageHelper.openFileChooserWithCropper(AllFormsContainerPage.this,4,3);
+    }
+  };
+
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    imageHelper.collectCroppedImage(requestCode, resultCode, data, new ImageUploadHelper.CroppingImageCallback() {
+      @Override
+      public void getCroppedImage(Uri uri) {
+        imageHelper.compressImageToBytes(uri, new ImageUploadHelper.CompressedImageToBytesCallback() {
+          @Override
+          public void getCompressedImage(byte[] compressedImage) {
+            selectedImage = compressedImage;
+            pageHandler.setSelectedImage(compressedImage);
+
+          }
+        });
+      }
+
+      @Override
+      public void getCroppingError(Exception e) {
+        pageHandler.setToastMsg(e.getMessage());
+      }
+    });
+  }
+
+  public void setupVendorForm() {
     vendorName = findViewById(R.id.vendor_name);
     vendorDesc = findViewById(R.id.vendor_description);
+    createVendorBtn = findViewById(R.id.create_new_vendor_btn);
+    createVendorBtn.setOnClickListener(createNewVendor);
+    vendorImage = findViewById(R.id.vendor_image);
+    vendorImage.setOnClickListener(chooseImage);
   }
 
   public void setupStocksForm() {

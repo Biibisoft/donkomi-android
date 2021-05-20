@@ -11,7 +11,7 @@ public class CommonViewModelItems extends AndroidViewModel {
   MutableLiveData<Boolean> loader = new MutableLiveData<>(false);
   MutableLiveData<String> toastMsg = new MutableLiveData<>("");
   InternetExplorer explorer = new InternetExplorer(getApplication().getApplicationContext());
-  MagicBoxes dialogCreator = new MagicBoxes(getApplication().getApplicationContext());
+  MagicBoxes dialogCreator;
   Dialog loadingDialog;
 
   public CommonViewModelItems(@NonNull Application application) {
@@ -49,6 +49,9 @@ public class CommonViewModelItems extends AndroidViewModel {
   public void setLoader(MutableLiveData<Boolean> loader) {
     this.loader = loader;
   }
+  public void setLoaderValue(Boolean value){
+    this.loader.setValue(value);
+  }
 
   public MutableLiveData<String> getToastMsg() {
     return toastMsg;
@@ -56,5 +59,9 @@ public class CommonViewModelItems extends AndroidViewModel {
 
   public void setToastMsg(MutableLiveData<String> toastMsg) {
     this.toastMsg = toastMsg;
+  }
+
+  public void setToastMsg(String toastMsg) {
+    this.toastMsg.setValue(toastMsg);
   }
 }

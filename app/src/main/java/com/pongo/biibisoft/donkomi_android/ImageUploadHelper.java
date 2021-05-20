@@ -30,7 +30,7 @@ import java.io.ByteArrayOutputStream;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * In case you forget to brind in some libraries for this helper, links are down below
+ * In case you forget to bring in some libraries for this helper, links are down below
  * https://github.com/ArthurHub/Android-Image-Cropper
  */
 public class ImageUploadHelper {
@@ -46,7 +46,7 @@ public class ImageUploadHelper {
     return mime.getExtensionFromMimeType(cr.getType(uri));
   }
 
-  public void uploadImageToFirebase(StorageReference firebaseStorageRef, Uri imageUri, String tinyDesc, String uniqueString, byte[] imageInBytes, final CollectUploadedImageURI imageCallback) {
+  public void uploadImageToFirebase(StorageReference firebaseStorageRef, String tinyDesc, String uniqueString, byte[] imageInBytes, final CollectUploadedImageURI imageCallback) {
 //    String ext = getFileExtension(imageUri);
     String filename = uniqueString + tinyDesc + System.currentTimeMillis()  ;
     final StorageReference fileReference = firebaseStorageRef.child(filename);
