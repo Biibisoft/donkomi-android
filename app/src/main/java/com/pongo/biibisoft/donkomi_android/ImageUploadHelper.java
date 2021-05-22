@@ -48,7 +48,7 @@ public class ImageUploadHelper {
 
   public void uploadImageToFirebase(StorageReference firebaseStorageRef, String tinyDesc, String uniqueString, byte[] imageInBytes, final CollectUploadedImageURI imageCallback) {
 //    String ext = getFileExtension(imageUri);
-    String filename = uniqueString + tinyDesc + System.currentTimeMillis()  ;
+    String filename = uniqueString +"-"+ tinyDesc +"-"+ System.currentTimeMillis()  ;
     final StorageReference fileReference = firebaseStorageRef.child(filename);
     fileReference.putBytes(imageInBytes)
         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

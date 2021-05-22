@@ -2,11 +2,11 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
   <RelativeLayout
-      android:visibility="gone"
       android:id="@+id/create_new_vendor_form"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_below="@+id/title_bar">
+      android:layout_below="@+id/title_bar"
+      android:visibility="gone">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -38,12 +38,33 @@
             android:scaleType="centerCrop"
             android:src="@drawable/mcdonalds_building" />
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tap to change image"
-            android:textColor="@color/grey_shade_2"
-            android:textSize="12sp" />
+            android:layout_height="wrap_content">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentLeft="true"
+              android:text="Tap to change image"
+              android:textColor="@color/grey_shade_2"
+              android:textSize="12sp" />
+
+          <TextView
+              android:layout_marginRight="20dp"
+              android:clickable="true"
+              android:visibility="gone"
+              android:id="@+id/remove_image"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:background="?attr/selectableItemBackgroundBorderless"
+              android:text="Remove Image"
+              android:textColor="@color/app_red"
+              android:textSize="12sp"
+              android:focusable="true" />
+        </RelativeLayout>
+
 
         <EditText
             android:id="@+id/vendor_name"

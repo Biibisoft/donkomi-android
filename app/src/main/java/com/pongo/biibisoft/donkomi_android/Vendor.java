@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Vendor  implements Parcelable {
+  public static final String VENDOR_BUCKET = "VENDORS";
   private String name;
   private String picture;
   private String description;

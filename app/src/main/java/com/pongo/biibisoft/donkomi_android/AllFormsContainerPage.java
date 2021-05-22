@@ -28,7 +28,7 @@ import com.squareup.picasso.Picasso;
 public class AllFormsContainerPage extends AppCompatActivity {
 
   String FORM_FOR = Konstants.NEW_STOCK;
-  TextView pageName;
+  TextView pageName, removeImageBtn;
   ImageView backBtn, rightIcon, vendorImage;
   RelativeLayout vendorForm, stockForm, routineForm;
   AllFormsContainerViewModel pageHandler;
@@ -44,7 +44,7 @@ public class AllFormsContainerPage extends AppCompatActivity {
     pageHandler = new ViewModelProvider(this).get(AllFormsContainerViewModel.class);
     MagicBoxes dialogCreator = new MagicBoxes(this);
     pageHandler.setDialogCreator(dialogCreator);
-    pageHandler.setLoadingDialog(pageHandler.dialogCreator.setUpDonkomiLoader( "Loading..."));
+    pageHandler.setLoadingDialog(pageHandler.dialogCreator.setUpDonkomiLoader("Loading..."));
     setObservers();
     initialize();
 
@@ -70,9 +70,11 @@ public class AllFormsContainerPage extends AppCompatActivity {
     pageHandler.getSelectedImage().observe(this, new Observer<byte[]>() {
       @Override
       public void onChanged(byte[] bytes) {
-        Bitmap img = ImageUploadHelper.changeBytesToBitmap(bytes);
-        vendorImage.setImageBitmap(img);
-
+        if (bytes != null) {
+          Bitmap img = ImageUploadHelper.changeBytesToBitmap(bytes);
+          removeImageBtn.setVisibility(View.VISIBLE);
+          vendorImage.setImageBitmap(img);
+        } else removeImageBtn.setVisibility(View.GONE);
       }
     });
 
@@ -84,6 +86,15 @@ public class AllFormsContainerPage extends AppCompatActivity {
     String _for = getIntent().getStringExtra(Konstants.FORM_FOR);
     FORM_FOR = _for != null ? _for : Konstants.NEW_ROUTINE;
     backBtn = findViewById(R.id.back_icon);
+    removeImageBtn = findViewById(R.id.remove_image);
+    removeImageBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        selectedImage = null;
+        pageHandler.removeSelectedImage();
+        vendorImage.setImageResource(R.drawable.mcdonalds_building);
+      }
+    });
     backBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -105,13 +116,14 @@ public class AllFormsContainerPage extends AppCompatActivity {
     @Override
     public void onClick(View v) {
       pageHandler.setLoaderValue(true);
+      pageHandler.createNewVendor(MyHelper.getTextFrom(vendorName), MyHelper.getTextFrom(vendorDesc));
     }
   };
 
   private final View.OnClickListener chooseImage = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-      imageHelper.openFileChooserWithCropper(AllFormsContainerPage.this,4,3);
+      imageHelper.openFileChooserWithCropper(AllFormsContainerPage.this, 4, 3);
     }
   };
 
