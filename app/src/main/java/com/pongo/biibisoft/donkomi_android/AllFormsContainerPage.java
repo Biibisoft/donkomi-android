@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 public class AllFormsContainerPage extends AppCompatActivity {
 
+  private static final String TAG = "ALL_FORMS_CONTAINER";
   String FORM_FOR = Konstants.NEW_STOCK;
   TextView pageName, removeImageBtn;
   ImageView backBtn, rightIcon, vendorImage;
@@ -54,8 +56,10 @@ public class AllFormsContainerPage extends AppCompatActivity {
     pageHandler.getToastMsg().observe(this, new Observer<String>() {
       @Override
       public void onChanged(String msg) {
-        if (msg != null && !msg.isEmpty())
+        if (msg != null && !msg.isEmpty()) {
           Toast.makeText(AllFormsContainerPage.this, msg, Toast.LENGTH_SHORT).show();
+          Log.d(TAG, "onChanged:--> " + msg);
+        }
       }
     });
 

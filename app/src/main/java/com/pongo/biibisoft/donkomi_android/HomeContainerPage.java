@@ -33,11 +33,13 @@ public class HomeContainerPage extends AppCompatActivity {
   Context thisActivity;
   HomePageViewModel homeHandler;
   ClientFragmentsViewModel tabHandler;
+  DonkomiUser authenticatedUser;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home_container_page);
+//    authenticatedUser = getIntent().getParcelableExtra(Konstants.USER);
     thisActivity = this;
     homeHandler = new ViewModelProvider(this).get(HomePageViewModel.class);
     tabHandler = new ViewModelProvider(this).get(ClientFragmentsViewModel.class);
