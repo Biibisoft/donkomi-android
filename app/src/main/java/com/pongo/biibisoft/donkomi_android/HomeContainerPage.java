@@ -1,20 +1,27 @@
 package com.pongo.biibisoft.donkomi_android;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import static com.pongo.biibisoft.donkomi_android.ClientHomeFragment.TAG;
 
 public class HomeContainerPage extends AppCompatActivity {
 
@@ -24,13 +31,19 @@ public class HomeContainerPage extends AppCompatActivity {
   BottomNavigationView navigation;
   Fragment currentFragment;
   Context thisActivity;
-
+  HomePageViewModel homeHandler;
+  ClientFragmentsViewModel tabHandler;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home_container_page);
     thisActivity = this;
+    homeHandler = new ViewModelProvider(this).get(HomePageViewModel.class);
+    tabHandler = new ViewModelProvider(this).get(ClientFragmentsViewModel.class);
+//    tabHandler.setParentViewModel(homeHandler);
+    tabHandler.handleTravellingContent(getIntent());
+    homeHandler.handleTravellingContent(getIntent());
     initialize();
   }
 
@@ -44,19 +57,19 @@ public class HomeContainerPage extends AppCompatActivity {
     backBtn = findViewById(R.id.back_icon);
     backBtn.setVisibility(View.GONE);
     pageName = findViewById(R.id.page_name);
-    pageName.setText("Donkomi");
+    pageName.setText(R.string.Donkomi);
 
 
   }
 
-  private View.OnClickListener goToCartPage = new View.OnClickListener() {
+  private final View.OnClickListener goToCartPage = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       Intent page = new Intent(thisActivity, CompleteOrderPage.class);
       startActivity(page);
     }
   };
-  private BottomNavigationView.OnNavigationItemSelectedListener navItemSelected =
+  private final BottomNavigationView.OnNavigationItemSelectedListener navItemSelected =
       new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -68,11 +81,13 @@ public class HomeContainerPage extends AppCompatActivity {
             currentFragment = new ClientShopsPageFragment();
           } else if (menuID == R.id.settings_menu_item) {
             currentFragment = new SettingsFragmentPage();
+            ((SettingsFragmentPage) currentFragment).setContext(thisActivity);
+            ((SettingsFragmentPage) currentFragment).setPageHandler(tabHandler);
+
           } else if (menuID == R.id.client_side_guru_management_menu_item) {
             Intent page = new Intent(thisActivity, GuruLandingPage.class);
             startActivity(page);
           }
-
           if (currentFragment != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
             return true;
@@ -80,5 +95,15 @@ public class HomeContainerPage extends AppCompatActivity {
           return false;
         }
       };
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    Log.d(TAG, "onActivityResult: ALL_ here here settings");
+    if (resultCode == Konstants.PASS_USER_REQ_CODE) {
+      DonkomiUser user = data.getParcelableExtra(Konstants.USER);
+      homeHandler.setAuthUser(user); // so that the main handler gets the updated version of the user
+    }
+  }
 }
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+
+  <ProgressBar
+      android:id="@+id/loading_spinner"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_alignParentLeft="true"
+      android:layout_centerVertical="true"
+      android:layout_marginLeft="10dp"
+      android:layout_marginTop="20dp"
+      android:layout_marginBottom="7dp"
+      android:indeterminateDrawable="@drawable/progress_circle"
+      android:outlineSpotShadowColor="@color/app_red" />
+
+  <TextView
+      android:layout_marginLeft="10dp"
+      android:id="@+id/loader_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_centerVertical="true"
+      android:layout_toEndOf="@id/loading_spinner"
+      android:text="@string/loading"
+      android:textColor="@color/app_blue"
+      android:textSize="18sp" />
+
+
+</RelativeLayout>

@@ -43,7 +43,6 @@
             android:text="Shops to order from"
             android:textColor="@color/grey_shade_3"
             android:textSize="13sp" />
-
         <TextView
 
             android:layout_width="wrap_content"
