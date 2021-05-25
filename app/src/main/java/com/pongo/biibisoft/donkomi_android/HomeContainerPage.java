@@ -102,6 +102,7 @@ public class HomeContainerPage extends AppCompatActivity {
     Log.d(TAG, "onActivityResult: ALL_ here here settings");
     if (resultCode == Konstants.PASS_USER_REQ_CODE) {
       DonkomiUser user = data.getParcelableExtra(Konstants.USER);
+      DonkomiUser.setInstance(user);
       homeHandler.setAuthUser(user); // so that the main handler gets the updated version of the user
     }
   }

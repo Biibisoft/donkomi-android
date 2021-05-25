@@ -45,6 +45,7 @@ public class SplashScreen extends AppCompatActivity {
         @Override
         public void getData(Object data) {
           DonkomiUser user = (DonkomiUser) data;
+          DonkomiUser.setInstance(user);
           Intent home = new Intent(SplashScreen.this, HomeContainerPage.class);
           home.putExtra(Konstants.USER, user);
           startActivity(home);

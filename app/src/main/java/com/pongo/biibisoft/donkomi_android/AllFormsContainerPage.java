@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 public class AllFormsContainerPage extends AppCompatActivity {
 
+  private static final String TAG ="ALL_FORMS_CONTAINER_PAGE" ;
   String FORM_FOR = Konstants.NEW_STOCK;
   TextView pageName, removeImageBtn;
   ImageView backBtn, rightIcon, vendorImage;
@@ -36,6 +38,7 @@ public class AllFormsContainerPage extends AppCompatActivity {
   Button createVendorBtn;
   ImageUploadHelper imageHelper;
   byte[] selectedImage;
+  DonkomiUser authenticatedUser  = DonkomiUser.getInstance();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +118,10 @@ public class AllFormsContainerPage extends AppCompatActivity {
   private final View.OnClickListener createNewVendor = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-      pageHandler.setLoaderValue(true);
-      pageHandler.createNewVendor(MyHelper.getTextFrom(vendorName), MyHelper.getTextFrom(vendorDesc));
+//      pageHandler.setLoaderValue(true);
+//      pageHandler.createNewVendor(MyHelper.getTextFrom(vendorName), MyHelper.getTextFrom(vendorDesc));
+
+      Log.d(TAG, "onClick: "+authenticatedUser.toString());
     }
   };
 

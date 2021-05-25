@@ -2,6 +2,7 @@ package com.pongo.biibisoft.donkomi_android;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -11,6 +12,25 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class DonkomiUser implements Parcelable, DonkomiUserManager {
+  private static DonkomiUser instance = null;
+
+  public static DonkomiUser getInstance() {
+    if (instance == null) instance = new DonkomiUser();
+    return instance;
+  }
+
+  public static void setInstance(DonkomiUser user) {
+    Log.d("ALL_FOR_DISPLAY", "setInstance: " + user.toString());
+    instance = new DonkomiUser(user);
+  }
+
+  public static DonkomiUser getInstance(String email, String firstName, String lastName, String platformID) {
+    if (instance == null) {
+      instance = new DonkomiUser(email, firstName, lastName, platformID);
+    }
+    return instance;
+  }
+
   @SerializedName("user_id")
   private String platformID; // UID that is given by firebase
   private String firstName;
@@ -25,14 +45,14 @@ public class DonkomiUser implements Parcelable, DonkomiUserManager {
   private ArrayList<Role> roles;
   private String phone = "23432342";
 
-  public DonkomiUser(String email, String firstName, String lastName, String platformID) {
+  private DonkomiUser(String email, String firstName, String lastName, String platformID) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.platformID = platformID;
   }
 
-  public DonkomiUser(DonkomiUser user) {
+  private DonkomiUser(DonkomiUser user) {
     this.platformID = user.getPlatformID();
     this.firstName = user.getFirstName();
     this.lastName = user.getLastName();
@@ -48,7 +68,7 @@ public class DonkomiUser implements Parcelable, DonkomiUserManager {
   }
 
 
-  public DonkomiUser() {
+  private DonkomiUser() {
   }
 
   public ArrayList<Role> getRoles() {
@@ -266,15 +286,16 @@ public class DonkomiUser implements Parcelable, DonkomiUserManager {
     for (String fieldName : fields) {
       String one = (String) getValueWithFieldName(fieldName, user);
       String two = (String) getValueWithFieldName(fieldName, otherPerson);
-      if (one == null && two == null) {} // both values are null so they are still the same
+      if (one == null && two == null) {
+      } // both values are null so they are still the same
       else if (one != null && two != null) { // none of the values is null, go on and check equality
         if (!one.equals(two)) {
           res.setStatus(false);
-          res.addData(fieldName,two);
+          res.addData(fieldName, two);
         }
       } else {// one of the values is null so its they are not the same
         res.setStatus(false);
-        res.addData(fieldName,two);
+        res.addData(fieldName, two);
       }
     }
     return res;

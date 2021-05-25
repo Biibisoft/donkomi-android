@@ -252,10 +252,10 @@ public class RegisterPage extends AppCompatActivity {
   // Create a donkomi object from the details given by the user
   public DonkomiUser createCombinedUserObject(FirebaseUser fireUser, boolean isGoogle) {
     if (!isGoogle) {
-      userObj = new DonkomiUser(MyHelper.getTextFrom(email), MyHelper.getTextFrom(firstName), MyHelper.getTextFrom(lastName), fireUser.getUid());
+      userObj =  DonkomiUser.getInstance(MyHelper.getTextFrom(email), MyHelper.getTextFrom(firstName), MyHelper.getTextFrom(lastName), fireUser.getUid());
       userObj.setPhone(MyHelper.getTextFrom(phone));
     } else {
-      userObj = new DonkomiUser(fireUser.getEmail(), fireUser.getDisplayName(), null, fireUser.getUid());
+      userObj = DonkomiUser.getInstance(fireUser.getEmail(), fireUser.getDisplayName(), null, fireUser.getUid());
       userObj.setPhone(fireUser.getPhoneNumber() !=null ? fireUser.getPhoneNumber() : "123456789");
     }
     userObj.setOrganization(selectedOrg);

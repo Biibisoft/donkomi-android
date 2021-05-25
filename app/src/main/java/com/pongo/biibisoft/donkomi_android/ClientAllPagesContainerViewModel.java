@@ -15,8 +15,8 @@ import org.json.JSONObject;
 // The view model for ClientAllPagesContainer.java
 public class ClientAllPagesContainerViewModel extends AndroidViewModel {
   public static final String TAG = "CLIENT_ALL_PAGES";
-  MutableLiveData<DonkomiUser> authenticatedUser = new MutableLiveData<>(new DonkomiUser());
-  MutableLiveData<DonkomiUser> editedUser = new MutableLiveData<DonkomiUser>(new DonkomiUser());
+  MutableLiveData<DonkomiUser> authenticatedUser = new MutableLiveData<>(DonkomiUser.getInstance());
+  MutableLiveData<DonkomiUser> editedUser = new MutableLiveData<DonkomiUser>(DonkomiUser.getInstance());
   MutableLiveData<String> currentPage = new MutableLiveData<>(Konstants.EDIT_PROFILE_FORM);
   MutableLiveData<String> message = new MutableLiveData<>("");
   InternetExplorer explorer = new InternetExplorer(getApplication().getApplicationContext());
@@ -42,7 +42,7 @@ public class ClientAllPagesContainerViewModel extends AndroidViewModel {
 
   public void handleTravellingContent(Intent data) {
     authenticatedUser.setValue(data.getParcelableExtra(Konstants.USER));
-    editedUser.setValue(new DonkomiUser((DonkomiUser) data.getParcelableExtra(Konstants.USER)));
+//    editedUser.setValue(new DonkomiUser((DonkomiUser) data.getParcelableExtra(Konstants.USER)));
   }
 
   public DonkomiUser getAuthUser() {
