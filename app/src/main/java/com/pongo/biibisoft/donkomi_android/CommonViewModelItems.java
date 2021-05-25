@@ -13,6 +13,16 @@ public class CommonViewModelItems extends AndroidViewModel {
   InternetExplorer explorer = new InternetExplorer(getApplication().getApplicationContext());
   MagicBoxes dialogCreator;
   Dialog loadingDialog;
+  DonkomiUser authUser = AuthenticatedUser.getInstance(getApplication().getApplicationContext());
+
+
+  public DonkomiUser getAuthUser() {
+    return authUser;
+  }
+
+  public void setAuthUser(DonkomiUser authUser) {
+    this.authUser = authUser;
+  }
 
   public CommonViewModelItems(@NonNull Application application) {
     super(application);

@@ -15,10 +15,10 @@ import org.json.JSONObject;
 
 public class SplashScreen extends AppCompatActivity {
 
-
   FirebaseAuth mAuth = FirebaseAuth.getInstance();
   ImageView logo;
   InternetExplorer explorer;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class SplashScreen extends AppCompatActivity {
         @Override
         public void getData(Object data) {
           DonkomiUser user = (DonkomiUser) data;
+          AuthenticatedUser.setInstance(user, getApplicationContext());
           Intent home = new Intent(SplashScreen.this, HomeContainerPage.class);
           home.putExtra(Konstants.USER, user);
           startActivity(home);

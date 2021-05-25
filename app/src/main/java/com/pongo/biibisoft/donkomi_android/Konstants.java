@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Konstants {
 
+
+  public static final String DONKOMI_STORAGE = "DONKOMI_STORAGE";
   public static final String ALU = "African Leadership University";
   public static final String MAURITIUS = "MAURITIUS";
   public static final String ANDROID = "ANDROID";
