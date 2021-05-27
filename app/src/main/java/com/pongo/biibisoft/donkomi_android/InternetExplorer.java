@@ -27,13 +27,30 @@ public class InternetExplorer {
   private Boolean expectsArray  = true;
   Gson gson = new Gson();
   private Class<?> expectedDataType;
+  private DonkomiUser authUser;
 
+  public DonkomiUser getAuthUser() {
+    return authUser;
+  }
+
+  public void authenticate(DonkomiUser authUser) {
+    this.authUser = authUser;
+  }
 
   public InternetExplorer(Context context) {
     this.context = context;
     this.handler = Volley.newRequestQueue(context);
   }
 
+  /**
+   *
+   * @param dataToSend JSONObject to send to the request
+   * @param expectsArrayOrNot Is the expected response an array or an object?
+   */
+  public void setRequestData(JSONObject dataToSend, Boolean expectsArrayOrNot){
+    this.data = dataToSend;
+    this.expectsArray = expectsArrayOrNot;
+  }
 
   public void setExpectedDataType(Class<?> expectedDataType) {
     this.expectedDataType = expectedDataType;
@@ -51,6 +68,16 @@ public class InternetExplorer {
     this.data = data;
   }
 
+  public JSONObject getData(){
+    if(this.authUser == null) return this.data;
+    try {
+      this.data.put(DonkomiUser.SERIALIZED_NAME,this.authUser.getPlatformID());
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    return this.data;
+  }
+
   public void setMethod(String method) {
     this.method = method;
   }
@@ -61,7 +88,7 @@ public class InternetExplorer {
   }
 
   public void run(String URL, Result explorer) {
-    JsonObjectRequest req = new JsonObjectRequest(this.getMethod(), URL, this.data, new Response.Listener<JSONObject>() {
+    JsonObjectRequest req = new JsonObjectRequest(this.getMethod(), URL, this.getData(), new Response.Listener<JSONObject>() {
       @Override
       public void onResponse(JSONObject response) {
         try {
@@ -85,7 +112,7 @@ public class InternetExplorer {
   }
 
   public void runAndFindData(String URL, ResultWithData explorer) {
-    JsonObjectRequest req = new JsonObjectRequest(this.getMethod(), URL, this.data, new Response.Listener<JSONObject>() {
+    JsonObjectRequest req = new JsonObjectRequest(this.getMethod(), URL, this.getData(), new Response.Listener<JSONObject>() {
       @Override
       public void onResponse(JSONObject response) {
         ResponseHandler responseHandler = new ResponseHandler(response);

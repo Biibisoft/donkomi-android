@@ -17,4 +17,8 @@ public class AuthenticatedUser {
   public static void setInstance(DonkomiUser user, Context context){
     MyHelper.saveToSharedPreferences(context, user, Konstants.USER);
   }
+
+  public static void clearAuthentication(Context context){
+    MyHelper.removeFromSharedPreference(context, Konstants.USER);
+  }
 }

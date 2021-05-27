@@ -119,13 +119,13 @@ public class AllFormsContainerPage extends AppCompatActivity {
   private final View.OnClickListener createNewVendor = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-//      pageHandler.setLoaderValue(true);
-//      pageHandler.createNewVendor(MyHelper.getTextFrom(vendorName), MyHelper.getTextFrom(vendorDesc));
-      if(pageHandler.authUser != null){
-        Log.d(TAG, "onCreate: "+pageHandler.authUser.toString());
-      }else{
-        Log.d(TAG, "onCreate: It didnt save ma guy!");
-      }
+      pageHandler.setLoaderValue(true);
+      pageHandler.createNewVendor(MyHelper.getTextFrom(vendorName), MyHelper.getTextFrom(vendorDesc));
+//      if(pageHandler.authUser != null){
+//        Log.d(TAG, "onCreate: "+pageHandler.authUser.toString());
+//      }else{
+//        Log.d(TAG, "onCreate: It didnt save ma guy!");
+//      }
     }
   };
 

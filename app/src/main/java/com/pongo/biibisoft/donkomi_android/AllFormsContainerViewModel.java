@@ -20,6 +20,7 @@ public class AllFormsContainerViewModel extends CommonViewModelItems {
   ImageUploadHelper imageHelper;
   FirebaseStorage storage = FirebaseStorage.getInstance();
   StorageReference bucket = storage.getReference();
+  AllFormsContainerViewModel thisViewModel = this;
 
   public ImageUploadHelper getImageHelper() {
     return imageHelper;
@@ -71,7 +72,8 @@ public class AllFormsContainerViewModel extends CommonViewModelItems {
         String url = uri.toString();
         Vendor vendor = new Vendor(name, description, url);
         try {
-          exp.setData(vendor.makeRequestData());
+          exp.authenticate(thisViewModel.authUser);
+          exp.setRequestData(vendor.makeRequestData(),false);
           exp.runAndFindData(DonkomiURLS.CREATE_VENDOR, new ResultWithData() {
             @Override
             public void isOkay(JSONObject response) throws JSONException {

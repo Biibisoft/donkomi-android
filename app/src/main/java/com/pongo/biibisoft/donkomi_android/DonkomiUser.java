@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class DonkomiUser implements Parcelable, DonkomiUserManager {
+  public static final String SERIALIZED_NAME = "user_id";
   @SerializedName("user_id")
   private String platformID; // UID that is given by firebase
   private String firstName;
