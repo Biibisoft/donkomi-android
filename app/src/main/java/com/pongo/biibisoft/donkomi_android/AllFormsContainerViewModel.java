@@ -2,6 +2,7 @@ package com.pongo.biibisoft.donkomi_android;
 
 import android.app.Application;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,8 @@ import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.pongo.biibisoft.donkomi_android.ClientHomeFragment.TAG;
 
 public class AllFormsContainerViewModel extends CommonViewModelItems {
 
@@ -36,6 +39,21 @@ public class AllFormsContainerViewModel extends CommonViewModelItems {
 
   public MutableLiveData<byte[]> getSelectedImage() {
     return selectedImage;
+  }
+
+  public MutableLiveData<TaskCompletion> isComplete = new MutableLiveData<>(new TaskCompletion());
+
+
+  public MutableLiveData<TaskCompletion> getCompletionState() {
+    return isComplete;
+  }
+
+  public void setCompletionState(MutableLiveData<TaskCompletion> isComplete) {
+    this.isComplete = isComplete;
+  }
+
+  public void setCompletionState(TaskCompletion task) {
+    this.isComplete.setValue(task);
   }
 
   public byte[] getRealSelectedImage() {
@@ -73,7 +91,7 @@ public class AllFormsContainerViewModel extends CommonViewModelItems {
         Vendor vendor = new Vendor(name, description, url);
         try {
           exp.authenticate(thisViewModel.authUser);
-          exp.setRequestData(vendor.makeRequestData(),false);
+          exp.setRequestData(vendor.makeRequestData(), false);
           exp.runAndFindData(DonkomiURLS.CREATE_VENDOR, new ResultWithData() {
             @Override
             public void isOkay(JSONObject response) throws JSONException {
@@ -82,7 +100,8 @@ public class AllFormsContainerViewModel extends CommonViewModelItems {
 
             @Override
             public void getData(Object data) {
-
+              setCompletionState(new TaskCompletion(Vendor.VENDOR_TASK, true));
+              Log.d(TAG, "getData: WE GOT HERE BRO");
             }
 
             @Override

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 public class Vendor  implements Parcelable {
   public static final String VENDOR_BUCKET = "VENDORS";
+  public static final String VENDOR_TASK = "VENDOR_TASK";
   private String name;
   private String picture;
   private String description;
@@ -28,7 +29,7 @@ public class Vendor  implements Parcelable {
     JSONObject obj = new JSONObject();
     obj.put("name",name);
     obj.put("description", description);
-    obj.put("image", picture);
+    obj.put("picture", picture);
     return obj;
   };
   public void setPicture(String picture) {
@@ -73,6 +74,15 @@ public class Vendor  implements Parcelable {
     this.picture = in.readString();
   }
 
+  @Override
+  public String toString() {
+    return "Vendor{" +
+        "name='" + name + '\'' +
+        ", picture='" + picture + '\'' +
+        ", description='" + description + '\'' +
+        '}';
+  }
+
   public static final Creator<Vendor> CREATOR = new Creator<Vendor>() {
     @Override
     public Vendor createFromParcel(Parcel source) {
@@ -85,3 +95,5 @@ public class Vendor  implements Parcelable {
     }
   };
 }
+
+

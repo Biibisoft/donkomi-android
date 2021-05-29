@@ -78,10 +78,26 @@ public class AllFormsContainerPage extends AppCompatActivity {
           Bitmap img = ImageUploadHelper.changeBytesToBitmap(bytes);
           removeImageBtn.setVisibility(View.VISIBLE);
           vendorImage.setImageBitmap(img);
-        } else removeImageBtn.setVisibility(View.GONE);
+        } else {
+          removeImageBtn.setVisibility(View.GONE);
+          vendorImage.setImageResource(R.drawable.mcdonalds_building);
+        }
       }
     });
 
+    pageHandler.getCompletionState().observe(this, new Observer<TaskCompletion>() {
+      @Override
+      public void onChanged(TaskCompletion taskCompletion) {
+        if ( taskCompletion.getTaskName().equals(Vendor.VENDOR_TASK) && taskCompletion.isComplete()) clearFields();
+      }
+    });
+
+  }
+
+  private void clearFields() {
+    vendorName.getText().clear();
+    vendorDesc.getText().clear();
+    pageHandler.removeSelectedImage();
   }
 
   public void initialize() {
@@ -121,11 +137,6 @@ public class AllFormsContainerPage extends AppCompatActivity {
     public void onClick(View v) {
       pageHandler.setLoaderValue(true);
       pageHandler.createNewVendor(MyHelper.getTextFrom(vendorName), MyHelper.getTextFrom(vendorDesc));
-//      if(pageHandler.authUser != null){
-//        Log.d(TAG, "onCreate: "+pageHandler.authUser.toString());
-//      }else{
-//        Log.d(TAG, "onCreate: It didnt save ma guy!");
-//      }
     }
   };
 
