@@ -25,6 +25,7 @@
             android:textColor="@color/app_blue" />
 
         <ImageView
+            android:id="@+id/stock_image"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginTop="5dp"
@@ -37,38 +38,46 @@
             android:scaleType="centerCrop"
             android:src="@drawable/mcdonalds_building" />
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tap to change image"
-            android:textColor="@color/grey_shade_2"
-            android:textSize="12sp" />
+            android:layout_height="wrap_content">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentLeft="true"
+              android:text="Tap to change image"
+              android:textColor="@color/grey_shade_2"
+              android:textSize="12sp" />
+
+          <TextView
+              android:layout_marginRight="20dp"
+              android:clickable="true"
+              android:visibility="gone"
+              android:id="@+id/remove_image"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:background="?attr/selectableItemBackgroundBorderless"
+              android:text="Remove Image"
+              android:textColor="@color/app_red"
+              android:textSize="12sp"
+              android:focusable="true" />
+        </RelativeLayout>
 
         <EditText
+            android:id="@+id/stock_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/stroke_rectangle"
             android:drawableTint="@color/app_red"
-            android:hint="Vendor Name ( Eg. McDonalds )"
+            android:hint="Stock name ( Eg. McDonalds )"
             android:padding="15dp"
             android:textColorHint="@color/app_blue"
             android:textSize="14sp" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/stroke_rectangle"
-            android:drawableTint="@color/app_red"
-            android:gravity="top|left"
-            android:hint="Brief description of what this vendor sells"
-            android:inputType="textMultiLine"
-            android:lines="8"
-            android:minLines="6"
-            android:padding="15dp"
-            android:textColorHint="@color/app_blue"
-            android:textSize="14sp" />
+
 
         <TextView
             android:layout_width="match_parent"
@@ -87,6 +96,8 @@
             android:background="@drawable/stroke_rectangle" />
 
         <EditText
+            android:inputType="numberDecimal"
+            android:id="@+id/stock_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -96,12 +107,28 @@
             android:padding="15dp"
             android:textColorHint="@color/app_blue"
             android:textSize="14sp" />
+        <EditText
+            android:id="@+id/stock_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/stroke_rectangle"
+            android:drawableTint="@color/app_red"
+            android:gravity="top|left"
+            android:hint="Describe this item... (Optional)"
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:minLines="6"
+            android:padding="15dp"
+            android:textColorHint="@color/app_blue"
+            android:textSize="14sp" />
 
 
       </LinearLayout>
     </ScrollView>
 
     <Button
+        android:id="@+id/create_new_stock_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

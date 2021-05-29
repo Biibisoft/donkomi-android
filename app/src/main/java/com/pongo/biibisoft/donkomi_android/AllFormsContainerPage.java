@@ -30,13 +30,14 @@ public class AllFormsContainerPage extends AppCompatActivity {
 
   private static final String TAG = "ALL_FORMS_CONTAINER";
   String FORM_FOR = Konstants.NEW_STOCK;
-  TextView pageName, removeImageBtn;
-  ImageView backBtn, rightIcon, vendorImage;
+  TextView pageName, removeImageBtn, removeStockImage;
+  ImageView backBtn, rightIcon, vendorImage, stockImage;
   RelativeLayout vendorForm, stockForm, routineForm;
   AllFormsContainerViewModel pageHandler;
-  EditText vendorName, vendorDesc;
-  Button createVendorBtn;
+  EditText vendorName, vendorDesc, stockName, stockDesc, stockPrice;
+  Button createVendorBtn, createStockBtn;
   ImageUploadHelper imageHelper;
+
   byte[] selectedImage;
 
   @Override
@@ -75,12 +76,15 @@ public class AllFormsContainerPage extends AppCompatActivity {
       @Override
       public void onChanged(byte[] bytes) {
         if (bytes != null) {
-          Bitmap img = ImageUploadHelper.changeBytesToBitmap(bytes);
-          removeImageBtn.setVisibility(View.VISIBLE);
-          vendorImage.setImageBitmap(img);
+          if (FORM_FOR.equals(Konstants.NEW_VENDOR))
+            removeOrSetImage(vendorImage, removeImageBtn, bytes, true);
+          else if (FORM_FOR.equals(Konstants.NEW_STOCK))
+            removeOrSetImage(stockImage, removeImageBtn, bytes, true);
         } else {
-          removeImageBtn.setVisibility(View.GONE);
-          vendorImage.setImageResource(R.drawable.mcdonalds_building);
+          if (FORM_FOR.equals(Konstants.NEW_VENDOR))
+            removeOrSetImage(vendorImage, removeImageBtn, bytes, false);
+          else if (FORM_FOR.equals(Konstants.NEW_STOCK))
+            removeOrSetImage(vendorImage, removeImageBtn, bytes, false);
         }
       }
     });
@@ -88,10 +92,22 @@ public class AllFormsContainerPage extends AppCompatActivity {
     pageHandler.getCompletionState().observe(this, new Observer<TaskCompletion>() {
       @Override
       public void onChanged(TaskCompletion taskCompletion) {
-        if ( taskCompletion.getTaskName().equals(Vendor.VENDOR_TASK) && taskCompletion.isComplete()) clearFields();
+        if (taskCompletion.getTaskName().equals(Vendor.VENDOR_TASK) && taskCompletion.isComplete())
+          clearFields();
       }
     });
 
+  }
+
+  private void removeOrSetImage(ImageView imageView, TextView removeBtn, byte[] image, Boolean setImage) {
+    if (setImage) {
+      Bitmap img = ImageUploadHelper.changeBytesToBitmap(image);
+      removeBtn.setVisibility(View.VISIBLE);
+      imageView.setImageBitmap(img);
+    } else {
+      removeBtn.setVisibility(View.GONE);
+      imageView.setImageResource(R.drawable.mcdonalds_building);
+    }
   }
 
   private void clearFields() {
@@ -105,14 +121,14 @@ public class AllFormsContainerPage extends AppCompatActivity {
     pageHandler.setImageHelper(imageHelper);
     String _for = getIntent().getStringExtra(Konstants.FORM_FOR);
     FORM_FOR = _for != null ? _for : Konstants.NEW_ROUTINE;
+    pageHandler.setCurrentPage(FORM_FOR);
     backBtn = findViewById(R.id.back_icon);
-    removeImageBtn = findViewById(R.id.remove_image);
+    removeImageBtn = findViewById(R.id.remove_image); //used by all forms
     removeImageBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         selectedImage = null;
         pageHandler.removeSelectedImage();
-        vendorImage.setImageResource(R.drawable.mcdonalds_building);
       }
     });
     backBtn.setOnClickListener(new View.OnClickListener() {
@@ -185,6 +201,20 @@ public class AllFormsContainerPage extends AppCompatActivity {
     ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Konstants.DUMMY_VENDORS);
     ownersOfStockDropdown.setAdapter(adapter);
     pageName.setText("Create New Stock");
+    stockName = findViewById(R.id.stock_name);
+    stockPrice = findViewById(R.id.stock_price);
+    stockDesc = findViewById(R.id.stock_description);
+    createStockBtn = findViewById(R.id.create_new_stock_btn);
+    stockImage = findViewById(R.id.stock_image);
+    stockImage.setOnClickListener(chooseImage);
+    removeImageBtn = findViewById(R.id.remove_image);
+
+    createStockBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+      }
+    });
   }
 
   public void setupRoutineForm() {

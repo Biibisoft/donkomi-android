@@ -44,12 +44,22 @@ public class AllFormsContainerViewModel extends CommonViewModelItems {
   public MutableLiveData<TaskCompletion> isComplete = new MutableLiveData<>(new TaskCompletion());
 
 
+  public String currentPage = "";
+
   public MutableLiveData<TaskCompletion> getCompletionState() {
     return isComplete;
   }
 
   public void setCompletionState(MutableLiveData<TaskCompletion> isComplete) {
     this.isComplete = isComplete;
+  }
+
+  public String getCurrentPage() {
+    return currentPage;
+  }
+
+  public void setCurrentPage(String currentPage) {
+    this.currentPage = currentPage;
   }
 
   public void setCompletionState(TaskCompletion task) {

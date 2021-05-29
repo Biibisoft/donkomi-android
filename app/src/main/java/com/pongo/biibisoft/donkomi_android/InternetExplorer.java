@@ -17,6 +17,8 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 
+import static com.pongo.biibisoft.donkomi_android.ClientHomeFragment.TAG;
+
 public class InternetExplorer {
   public static final String POST = "POST";
   public static final String GET = "GET";
@@ -24,7 +26,7 @@ public class InternetExplorer {
   private JSONObject data = null;
   private String method = InternetExplorer.POST;
   private Context context;
-  private Boolean expectsArray  = true;
+  private Boolean expectsArray = true;
   Gson gson = new Gson();
   private Class<?> expectedDataType;
   private DonkomiUser authUser;
@@ -43,11 +45,10 @@ public class InternetExplorer {
   }
 
   /**
-   *
-   * @param dataToSend JSONObject to send to the request
+   * @param dataToSend        JSONObject to send to the request
    * @param expectsArrayOrNot Is the expected response an array or an object?
    */
-  public void setRequestData(JSONObject dataToSend, Boolean expectsArrayOrNot){
+  public void setRequestData(JSONObject dataToSend, Boolean expectsArrayOrNot) {
     this.data = dataToSend;
     this.expectsArray = expectsArrayOrNot;
   }
@@ -68,10 +69,10 @@ public class InternetExplorer {
     this.data = data;
   }
 
-  public JSONObject getData(){
-    if(this.authUser == null) return this.data;
+  public JSONObject getData() {
+    if (this.authUser == null) return this.data;
     try {
-      this.data.put(DonkomiUser.SERIALIZED_NAME,this.authUser.getPlatformID());
+      this.data.put(DonkomiUser.SERIALIZED_NAME, this.authUser.getPlatformID());
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -118,14 +119,15 @@ public class InternetExplorer {
         ResponseHandler responseHandler = new ResponseHandler(response);
         try {
           if (responseHandler.hasError()) explorer.error(responseHandler.getErrorMessage());
-          else{
-            if(isExpectingArray()) {
-              if (expectedDataType != null) explorer.getDataArray(transformToExpected(responseHandler.getData()));
+          else {
+            if (isExpectingArray()) {
+              if (expectedDataType != null)
+                explorer.getDataArray(transformToExpected(responseHandler.getData()));
               else explorer.getDataArray(responseHandler.getData());
-            }
-            else {
-              if(expectedDataType != null) explorer.getData(transformToExpected(responseHandler.getDataObject()));
-              explorer.getData(responseHandler.getDataObject());
+            } else {
+              if (expectedDataType != null)
+                explorer.getData(transformToExpected(responseHandler.getDataObject()));
+              else explorer.getData(responseHandler.getDataObject());
             }
           }
 
@@ -151,10 +153,11 @@ public class InternetExplorer {
     return url + "/";
   }
 
-  public Object transformToExpected(JSONArray data){
+  public Object transformToExpected(JSONArray data) {
     return gson.fromJson(data.toString(), (Type) expectedDataType);
   }
-  public Object transformToExpected(JSONObject data){
+
+  public Object transformToExpected(JSONObject data) {
     return gson.fromJson(data.toString(), (Type) expectedDataType);
   }
 }
@@ -170,12 +173,14 @@ interface ResultWithData {
 
   /**
    * Used when backend is presenting a json object
+   *
    * @param data A JSON Object of any kind of data type
    */
   void getData(Object data);
 
   /**
    * Used when backend is presenting an array
+   *
    * @param data JSONArray of any kind of data type
    */
   void getDataArray(Object data);
