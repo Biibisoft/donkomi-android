@@ -54,7 +54,7 @@
               android:layout_marginRight="20dp"
               android:clickable="true"
               android:visibility="gone"
-              android:id="@+id/remove_image"
+              android:id="@+id/remove_stock_image"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentRight="true"
@@ -93,6 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:padding="15dp"
             android:background="@drawable/stroke_rectangle" />
 
         <EditText

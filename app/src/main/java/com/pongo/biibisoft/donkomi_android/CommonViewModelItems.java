@@ -16,6 +16,10 @@ public class CommonViewModelItems extends AndroidViewModel {
   DonkomiUser authUser = AuthenticatedUser.getInstance(getApplication().getApplicationContext());
 
 
+
+  public void init(){
+    explorer.authenticate(this.authUser);
+  }
   public DonkomiUser getAuthUser() {
     return authUser;
   }
@@ -26,6 +30,7 @@ public class CommonViewModelItems extends AndroidViewModel {
 
   public CommonViewModelItems(@NonNull Application application) {
     super(application);
+    this.init();
   }
 
   public Dialog getLoadingDialog() {

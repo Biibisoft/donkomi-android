@@ -24,9 +24,23 @@ public class AllFormsContainerViewModel extends CommonViewModelItems {
   FirebaseStorage storage = FirebaseStorage.getInstance();
   StorageReference bucket = storage.getReference();
   AllFormsContainerViewModel thisViewModel = this;
+  MutableLiveData<Vendor> selectedVendor = new MutableLiveData<>();
 
   public ImageUploadHelper getImageHelper() {
     return imageHelper;
+  }
+
+  public MutableLiveData<Vendor> getSelectedVendor() {
+    return selectedVendor;
+  }
+
+  public Vendor getSelectedVendorValue() {
+    return selectedVendor.getValue();
+  }
+
+
+  public void setSelectedVendor(Vendor selectedVendor) {
+    this.selectedVendor.setValue(selectedVendor);
   }
 
   public void setImageHelper(ImageUploadHelper imageHelper) {
@@ -94,7 +108,7 @@ public class AllFormsContainerViewModel extends CommonViewModelItems {
       return;
     }
     InternetExplorer exp = this.explorer;
-    imageHelper.uploadImageToFirebase(bucket.child(Vendor.VENDOR_BUCKET), name, "user_platform_id", getRealSelectedImage(), new ImageUploadHelper.CollectUploadedImageURI() {
+    imageHelper.uploadImageToFirebase(bucket.child(Vendor.VENDOR_BUCKET), name, this.authUser.getPlatformID(), getRealSelectedImage(), new ImageUploadHelper.CollectUploadedImageURI() {
       @Override
       public void getURI(Uri uri) {
         String url = uri.toString();
@@ -135,4 +149,60 @@ public class AllFormsContainerViewModel extends CommonViewModelItems {
 
   }
 
+  public void createNewStock(String name, String price, String description) {
+    if (MyHelper.isEmpty(name) || MyHelper.isEmpty(price) || MyHelper.isEmpty(description)) {
+      setToastMsg("Please make sure all fields are filled...");
+      setLoaderValue(false);
+      return;
+    }
+    if (getRealSelectedImage() == null) {
+      setToastMsg("Please select an image...");
+      setLoaderValue(false);
+      return;
+    }
+
+    InternetExplorer exp = this.explorer;
+    setLoaderValue(true);
+    imageHelper.uploadImageToFirebase(bucket.child(Stock.STOCK_BUCKET), name, this.authUser.getPlatformID(), getRealSelectedImage(), new ImageUploadHelper.CollectUploadedImageURI() {
+      @Override
+      public void getURI(Uri uri) {
+        Stock stock = new Stock(name, price, description, uri.toString());
+        try {
+          exp.setRequestData(stock.makeRequestData(), false);
+          exp.runAndFindData(DonkomiURLS.CREATE_STOCK, new ResultWithData() {
+            @Override
+            public void isOkay(JSONObject response) throws JSONException {
+
+            }
+
+            @Override
+            public void getData(Object data) {
+              setLoaderValue(false);
+              setCompletionState(new TaskCompletion(Stock.STOCK_TASK, true));
+              Log.d(TAG, "getData: WE GOT HERE BRO");
+            }
+
+            @Override
+            public void getDataArray(Object data) {
+
+            }
+
+            @Override
+            public void error(String error) {
+              setLoaderValue(false);
+              setToastMsg(error);
+            }
+          });
+        } catch (JSONException e) {
+          setLoaderValue(false);
+          e.printStackTrace();
+          setToastMsg(e.getMessage());
+        }
+      }
+    });
+
+
+
+
+  }
 }

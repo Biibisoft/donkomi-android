@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -79,12 +80,12 @@ public class AllFormsContainerPage extends AppCompatActivity {
           if (FORM_FOR.equals(Konstants.NEW_VENDOR))
             removeOrSetImage(vendorImage, removeImageBtn, bytes, true);
           else if (FORM_FOR.equals(Konstants.NEW_STOCK))
-            removeOrSetImage(stockImage, removeImageBtn, bytes, true);
+            removeOrSetImage(stockImage, removeStockImage, bytes, true);
         } else {
           if (FORM_FOR.equals(Konstants.NEW_VENDOR))
-            removeOrSetImage(vendorImage, removeImageBtn, bytes, false);
+            removeOrSetImage(vendorImage, removeImageBtn, null, false);
           else if (FORM_FOR.equals(Konstants.NEW_STOCK))
-            removeOrSetImage(vendorImage, removeImageBtn, bytes, false);
+            removeOrSetImage(stockImage, removeStockImage, null, false);
         }
       }
     });
@@ -93,7 +94,9 @@ public class AllFormsContainerPage extends AppCompatActivity {
       @Override
       public void onChanged(TaskCompletion taskCompletion) {
         if (taskCompletion.getTaskName().equals(Vendor.VENDOR_TASK) && taskCompletion.isComplete())
-          clearFields();
+          clearFields(Vendor.VENDOR_TASK);
+        else if (taskCompletion.getTaskName().equals(Stock.STOCK_TASK) && taskCompletion.isComplete())
+          clearFields(Stock.STOCK_TASK);
       }
     });
 
@@ -110,10 +113,17 @@ public class AllFormsContainerPage extends AppCompatActivity {
     }
   }
 
-  private void clearFields() {
-    vendorName.getText().clear();
-    vendorDesc.getText().clear();
-    pageHandler.removeSelectedImage();
+  private void clearFields(String taskName) {
+    if (taskName.equals(Vendor.VENDOR_TASK)) {
+      vendorName.getText().clear();
+      vendorDesc.getText().clear();
+      pageHandler.removeSelectedImage();
+    } else if (taskName.equals(Stock.STOCK_TASK)) {
+      stockName.getText().clear();
+      stockDesc.getText().clear();
+      stockPrice.getText().clear();
+      pageHandler.removeSelectedImage();
+    }
   }
 
   public void initialize() {
@@ -123,14 +133,6 @@ public class AllFormsContainerPage extends AppCompatActivity {
     FORM_FOR = _for != null ? _for : Konstants.NEW_ROUTINE;
     pageHandler.setCurrentPage(FORM_FOR);
     backBtn = findViewById(R.id.back_icon);
-    removeImageBtn = findViewById(R.id.remove_image); //used by all forms
-    removeImageBtn.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        selectedImage = null;
-        pageHandler.removeSelectedImage();
-      }
-    });
     backBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -141,11 +143,7 @@ public class AllFormsContainerPage extends AppCompatActivity {
     vendorForm = findViewById(R.id.create_new_vendor_form);
     routineForm = findViewById(R.id.create_new_routine_form);
     stockForm = findViewById(R.id.create_new_stock_form);
-    setupVendorForm();
-    setupStocksForm();
-    setupRoutineForm();
     generateForm(FORM_FOR);
-
   }
 
   private final View.OnClickListener createNewVendor = new View.OnClickListener() {
@@ -194,25 +192,54 @@ public class AllFormsContainerPage extends AppCompatActivity {
     createVendorBtn.setOnClickListener(createNewVendor);
     vendorImage = findViewById(R.id.vendor_image);
     vendorImage.setOnClickListener(chooseImage);
+    removeImageBtn = findViewById(R.id.remove_image); //used by all forms
+    removeImageBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        selectedImage = null;
+        pageHandler.removeSelectedImage();
+      }
+    });
   }
+
+  private final AdapterView.OnItemSelectedListener selectOwnerFromDropdown = new AdapterView.OnItemSelectedListener() {
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+  };
 
   public void setupStocksForm() {
     Spinner ownersOfStockDropdown = findViewById(R.id.owner_of_stock_dropdown);
-    ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Konstants.DUMMY_VENDORS);
-    ownersOfStockDropdown.setAdapter(adapter);
-    pageName.setText("Create New Stock");
+
+//    ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Konstants.DUMMY_VENDORS);
+//    ownersOfStockDropdown.setAdapter(adapter);
+    MyHelper.initializeSpinner(Konstants.DUMMY_VENDORS, ownersOfStockDropdown, this);
+    ownersOfStockDropdown.setOnItemSelectedListener(selectOwnerFromDropdown);
+    pageName.setText(R.string.new_stock_text);
     stockName = findViewById(R.id.stock_name);
     stockPrice = findViewById(R.id.stock_price);
     stockDesc = findViewById(R.id.stock_description);
     createStockBtn = findViewById(R.id.create_new_stock_btn);
     stockImage = findViewById(R.id.stock_image);
     stockImage.setOnClickListener(chooseImage);
-    removeImageBtn = findViewById(R.id.remove_image);
-
+    removeStockImage = findViewById(R.id.remove_stock_image);
+    removeStockImage.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        selectedImage = null;
+        pageHandler.removeSelectedImage();
+      }
+    });
     createStockBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
+        pageHandler.createNewStock(MyHelper.getTextFrom(stockName), MyHelper.getTextFrom(stockPrice), MyHelper.getTextFrom(stockDesc));
       }
     });
   }
@@ -228,13 +255,16 @@ public class AllFormsContainerPage extends AppCompatActivity {
   public void generateForm(String forWho) {
     switch (forWho) {
       case Konstants.NEW_ROUTINE:
+        setupRoutineForm();
         routineForm.setVisibility(View.VISIBLE);
         break;
 
       case Konstants.NEW_VENDOR:
+        setupVendorForm();
         vendorForm.setVisibility(View.VISIBLE);
         break;
       case Konstants.NEW_STOCK:
+        setupStocksForm();
         stockForm.setVisibility(View.VISIBLE);
 
         break;

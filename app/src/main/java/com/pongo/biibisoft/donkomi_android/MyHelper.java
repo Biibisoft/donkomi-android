@@ -13,7 +13,15 @@ import java.util.ArrayList;
 
 public class MyHelper {
 
+  public static Boolean isEmpty(String string){
+    return string == null || string.isEmpty();
+  }
   public static void initializeSpinner(ArrayList<String> array, Spinner spinner, Context context){
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,array);
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    spinner.setAdapter(adapter);
+  }
+  public static void initializeSpinner(String[] array, Spinner spinner, Context context){
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,array);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
