@@ -23,7 +23,7 @@ public class InternetExplorer {
   public static final String POST = "POST";
   public static final String GET = "GET";
   private final RequestQueue handler;
-  private JSONObject data = null;
+  private JSONObject data = new JSONObject();
   private String method = InternetExplorer.POST;
   private Context context;
   private Boolean expectsArray = true;

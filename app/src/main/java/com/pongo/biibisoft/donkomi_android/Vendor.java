@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class Vendor  implements Parcelable {
   public static final String VENDOR_BUCKET = "VENDORS";
   public static final String VENDOR_TASK = "VENDOR_TASK";
@@ -94,6 +96,9 @@ public class Vendor  implements Parcelable {
       return new Vendor[size];
     }
   };
+
+
+
 }
 
 

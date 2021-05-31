@@ -3,6 +3,7 @@ package com.pongo.biibisoft.donkomi_android;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,16 +18,21 @@ public class GuruLandingPage extends AppCompatActivity {
 
   ImageView backBtn;
   TextView pageName;
+  GuruLandingPageViewModel pageHandler;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_guru_landing_page);
+    pageHandler = new ViewModelProvider(this).get(GuruLandingPageViewModel.class);
+
     initialize();
   }
 
   public void initialize() {
+    pageHandler.getAllGuruVendors();
     pageName = findViewById(R.id.page_name);
-    pageName.setText("Delivery Guru");
+    pageName.setText(R.string.Delivery_guru);
     backBtn = findViewById(R.id.back_icon);
     backBtn.setOnClickListener(goBack);
     BottomNavigationView bottomNav = findViewById(R.id.guru_bottom_nav);
