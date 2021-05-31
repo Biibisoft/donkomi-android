@@ -15,6 +15,8 @@ import com.google.firebase.storage.StorageReference;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import static com.pongo.biibisoft.donkomi_android.ClientHomeFragment.TAG;
 
 public class AllFormsContainerViewModel extends CommonViewModelItems {
@@ -25,7 +27,7 @@ public class AllFormsContainerViewModel extends CommonViewModelItems {
   StorageReference bucket = storage.getReference();
   AllFormsContainerViewModel thisViewModel = this;
   MutableLiveData<Vendor> selectedVendor = new MutableLiveData<>();
-
+  MutableLiveData<ArrayList<Vendor>> vendors = new MutableLiveData<>();
   public ImageUploadHelper getImageHelper() {
     return imageHelper;
   }
@@ -38,6 +40,15 @@ public class AllFormsContainerViewModel extends CommonViewModelItems {
     return selectedVendor.getValue();
   }
 
+
+  public MutableLiveData<ArrayList<Vendor>> getVendors() {
+    return vendors;
+  }
+
+  public void setVendors(ArrayList<Vendor> vendors){
+
+    this.vendors.setValue(vendors);
+  }
 
   public void setSelectedVendor(Vendor selectedVendor) {
     this.selectedVendor.setValue(selectedVendor);

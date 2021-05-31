@@ -2,6 +2,7 @@
 package com.pongo.biibisoft.donkomi_android;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +14,30 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 import static android.view.View.GONE;
 
 public class GuruManagementFragment extends Fragment {
 
 
+  private static final String TAG = "GURU_MANAGEMENT_FRAG";
   OneTabPage currentTab, vendorsTab, stocksTab, routinesTab;
   View vue;
   RelativeLayout vendorBtn, stockBtn, routineBtn;
+  GuruLandingPageViewModel pageHandler;
+  ArrayList<Vendor> vendors  = new ArrayList<>();
+  GuruManagementFragment _this = this;
 
+
+  public GuruManagementFragment(){}
+  public GuruManagementFragment (GuruLandingPageViewModel pageHandler){
+    this.pageHandler = pageHandler;
+  }
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -33,6 +46,25 @@ public class GuruManagementFragment extends Fragment {
     return v;
   }
 
+  public GuruLandingPageViewModel getPageHandler() {
+    return pageHandler;
+  }
+
+  public void setPageHandler(GuruLandingPageViewModel pageHandler) {
+    this.pageHandler = pageHandler;
+  }
+
+  public void setObservers(){
+
+    if (this.pageHandler == null) return;
+    this.pageHandler.getVendors().observe(getViewLifecycleOwner(), new Observer<ArrayList<Vendor>>() {
+      @Override
+      public void onChanged(ArrayList<Vendor> vendors) {
+        Log.d(TAG, "onChanged: I am inside the fragment bro"+vendors.toString());
+        _this.vendors = vendors;
+      }
+    });
+  }
 
   public void goToPage(OneTabPage newPage) {
     if (currentTab != null) {
@@ -45,6 +77,7 @@ public class GuruManagementFragment extends Fragment {
   }
 
   public void initialize(View v) {
+    this.setObservers();
     vendorBtn = v.findViewById(R.id.create_new_vendor_btn);
     stockBtn = v.findViewById(R.id.create_new_stock_btn);
     routineBtn = v.findViewById(R.id.create_new_routine_btn);
@@ -63,6 +96,7 @@ public class GuruManagementFragment extends Fragment {
       public void onClick(View v) {
         Intent page = new Intent(getContext(), AllFormsContainerPage.class);
         page.putExtra(Konstants.FORM_FOR, Konstants.NEW_STOCK);
+        page.putExtra(Konstants.VENDORS, _this.vendors);
         startActivity(page);
       }
     });

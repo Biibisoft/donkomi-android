@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,11 +14,26 @@ import java.util.ArrayList;
 import static com.pongo.biibisoft.donkomi_android.ClientHomeFragment.TAG;
 
 public class GuruLandingPageViewModel extends CommonViewModelItems {
-  ArrayList<Vendor> vendors = new ArrayList<>();
+  MutableLiveData<ArrayList<Vendor>> vendors = new MutableLiveData<>();
   public GuruLandingPageViewModel(@NonNull Application application) {
     super(application);
   }
 
+  public MutableLiveData<ArrayList<Vendor>> getVendors() {
+    return vendors;
+  }
+
+  public ArrayList<Vendor> getRealVendors(){
+    return this.vendors.getValue();
+  }
+
+  public void setVendors(MutableLiveData<ArrayList<Vendor>> vendors) {
+    this.vendors = vendors;
+  }
+
+  public void setVendors(ArrayList<Vendor> vendors){
+    this.vendors.setValue(vendors);
+  }
 
   public void getAllGuruVendors() {
     GuruLandingPageViewModel thisClass = this;
@@ -36,8 +52,8 @@ public class GuruLandingPageViewModel extends CommonViewModelItems {
       @Override
       public void getDataArray(Object data) {
         ArrayList<Vendor> vendors = (ArrayList<Vendor>) data;
-        thisClass.vendors = vendors;
-        Log.d(TAG, "getDataArray: "+ vendors.toString());
+        thisClass.setVendors(vendors);
+//        Log.d(TAG, "getDataArray: "+ vendors.toString());
       }
 
       @Override

@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Vendor  implements Parcelable {
+public class Vendor implements Parcelable {
   public static final String VENDOR_BUCKET = "VENDORS";
   public static final String VENDOR_TASK = "VENDOR_TASK";
   private String name;
@@ -29,11 +29,14 @@ public class Vendor  implements Parcelable {
 
   public JSONObject makeRequestData() throws JSONException {
     JSONObject obj = new JSONObject();
-    obj.put("name",name);
+    obj.put("name", name);
     obj.put("description", description);
     obj.put("picture", picture);
     return obj;
-  };
+  }
+
+  ;
+
   public void setPicture(String picture) {
     this.picture = picture;
   }
@@ -63,11 +66,12 @@ public class Vendor  implements Parcelable {
   }
 
 
-  public Vendor(String name, String description, String picture){
+  public Vendor(String name, String description, String picture) {
     this.name = name;
     this.description = description;
     this.picture = picture;
   }
+
   public Vendor() {
   }
 
@@ -97,7 +101,25 @@ public class Vendor  implements Parcelable {
     }
   };
 
+  public static ArrayList<String> toStringArray(ArrayList<Vendor> vendors) {
+    ArrayList<String> items = new ArrayList<>();
+    if (vendors == null) return items;
+    for (int i = 0; i < vendors.size(); i++) {
+      Vendor vendor = (Vendor) vendors.get(i);
+      items.add(vendor.getName());
+    }
+    return items;
+  }
 
+
+  public static Vendor findVendor(ArrayList<Vendor> vendors, String name) {
+    for (int i = 0; i < vendors.size(); i++) {
+      Vendor vendor = vendors.get(i);
+      if (vendor.getName() != null && vendor.getName().equals(name)) return vendor;
+    }
+
+    return null;
+  }
 
 }
 

@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.android.volley.toolbox.NetworkImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class AllFormsContainerPage extends AppCompatActivity {
 
   private static final String TAG = "ALL_FORMS_CONTAINER";
@@ -38,6 +40,8 @@ public class AllFormsContainerPage extends AppCompatActivity {
   EditText vendorName, vendorDesc, stockName, stockDesc, stockPrice;
   Button createVendorBtn, createStockBtn;
   ImageUploadHelper imageHelper;
+  AllFormsContainerPage _this = this;
+  Spinner ownersOfStockDropdown;
 
   byte[] selectedImage;
 
@@ -97,6 +101,15 @@ public class AllFormsContainerPage extends AppCompatActivity {
           clearFields(Vendor.VENDOR_TASK);
         else if (taskCompletion.getTaskName().equals(Stock.STOCK_TASK) && taskCompletion.isComplete())
           clearFields(Stock.STOCK_TASK);
+      }
+    });
+
+
+    pageHandler.getVendors().observe(this, new Observer<ArrayList<Vendor>>() {
+      @Override
+      public void onChanged(ArrayList<Vendor> vendors) {
+        Log.d(TAG, "onChanged: "+vendors.toString());
+        MyHelper.initializeSpinner(Vendor.toStringArray(vendors), _this.ownersOfStockDropdown, _this);
       }
     });
 
@@ -215,11 +228,13 @@ public class AllFormsContainerPage extends AppCompatActivity {
   };
 
   public void setupStocksForm() {
-    Spinner ownersOfStockDropdown = findViewById(R.id.owner_of_stock_dropdown);
+    ownersOfStockDropdown = findViewById(R.id.owner_of_stock_dropdown);
+    ArrayList<Vendor> vendors = getIntent().getParcelableArrayListExtra(Konstants.VENDORS);
+    if ( vendors != null) Log.d(TAG, "setupStocksForm: In the stocks from bro"+ vendors.toString());
+    else Log.d(TAG, "setupStocksForm:In stocks setup! Vendors is null bro!");
+    pageHandler.setVendors(vendors);
 
-//    ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Konstants.DUMMY_VENDORS);
-//    ownersOfStockDropdown.setAdapter(adapter);
-    MyHelper.initializeSpinner(Konstants.DUMMY_VENDORS, ownersOfStockDropdown, this);
+//    MyHelper.initializeSpinner(Konstants.DUMMY_VENDORS, ownersOfStockDropdown, this);
     ownersOfStockDropdown.setOnItemSelectedListener(selectOwnerFromDropdown);
     pageName.setText(R.string.new_stock_text);
     stockName = findViewById(R.id.stock_name);

@@ -59,7 +59,8 @@ public class GuruLandingPage extends AppCompatActivity {
         page = new GuruOrdersFragment();
       }
       if (item.getItemId() == R.id.management_menu_item) {
-        page = new GuruManagementFragment();
+        page = new GuruManagementFragment(pageHandler);
+
       }
       if (item.getItemId() == R.id.guru_side_client_menu_item) {
         finish();
